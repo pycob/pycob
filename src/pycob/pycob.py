@@ -6,6 +6,10 @@ class Builder:
     self.html.append("<h1>" + text + "</h1>")
     return self
 
+  def add_text(self, text):
+    self.html.append("<p>" + text + "</p>")
+    return self
+
   def _repr_html_(self):
       if len(self.html) == 0:
         return "Empty Builder. Use add_ methods to add components to render. See <a href='https://pycob.com' target='_blank'>documentation</a>"
