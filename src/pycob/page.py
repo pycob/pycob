@@ -16,6 +16,14 @@ class Page:
   def _repr_html_(self):
       return '\n'.join(map(lambda x: x._repr_html_(), self.components))
 
+  def add_component(self, component: Component):
+    self.components.append(component)
+    return self
+
+  def add(self, component: Component):
+    self.components.append(component)
+    return self
+
 ## Begin Generated Code
 
   def add_html(self, value: str):    
@@ -56,6 +64,7 @@ class Page:
   def add_section(self, id: str, name: str, level: int = 1, icon: str = ''):    
     self.components.append(SectionComponent(id, name, level, icon))
     return self
+
 
 _tailwind_header_to_sidebar = '''
 <!doctype html>
