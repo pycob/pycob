@@ -16,12 +16,20 @@ class Page:
   def _repr_html_(self):
       return '\n'.join(map(lambda x: x._repr_html_(), self.components))
 
+  def add(self, component: Component):
+    self.components.append(component)
+    return self
+
+  ## Add to code generation
+
   def add_component(self, component: Component):
     self.components.append(component)
     return self
 
-  def add(self, component: Component):
-    self.components.append(component)
+  def add_pandas_table(self, df):
+    # TODO: Move the logic out to a separate function that operates on components
+    # https://stackoverflow.com/a/48363085/3179416
+    self.components.append(HtmlComponent(df.to_html()))
     return self
 
 ## Begin Generated Code
