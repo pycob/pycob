@@ -17,7 +17,7 @@ class App:
 
     def add_page(self, route: str, page_function):
         endpoint_name = _strip_slashes(route)
-        self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(page_function))
+        self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(page_function), methods=["GET", "POST"])
 
     # @flask_app.route('/', defaults={'path': ''})
     # @flask_app.route('/<path:path>')

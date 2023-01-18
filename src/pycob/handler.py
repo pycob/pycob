@@ -27,6 +27,6 @@ class Handler(object):
         if flask.request.accept_mimetypes['application/json']:
             json_response = page._to_json()
             print(json_response)
-            return json_response, '200 OK'
+            return json_response, '200 OK', {'Content-Type': 'application/json'}
 
         return page._to_html()
