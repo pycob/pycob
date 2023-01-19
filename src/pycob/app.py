@@ -13,11 +13,12 @@ class App:
         self.flask_app = flask.Flask(__name__)
         self.name = name
         self.nav = app_nav
-        self.pages = {"/": demo_page}
+        self.pages = {}
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://pycob.com/favicon.ico")
 
-    def add_page(self, route: str, page_function):
+    def add_page(self, route: str, page_name: str, page_function):
         endpoint_name = _strip_slashes(route)
+        self.pages[endpoint_name] = page_name
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(self, page_function), methods=["GET", "POST"])
 
     def run(self, port=8080):

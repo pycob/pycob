@@ -2,6 +2,7 @@
 from flask import Flask, Response
 import flask
 from .request import Request
+from .component import NavbarComponent
 
 class Handler(object):
     def __init__(self, pycob_app, action):
@@ -17,8 +18,15 @@ class Handler(object):
             print(json_response)
             return json_response, '200 OK', {'Content-Type': 'application/json'}
 
-        return _tailwind_header_to_sidebar + page._to_html() + _tailwind_footer
+        return _tailwind_header_to_sidebar + get_navbar_html(self.pycob_app) + page._to_html() + _tailwind_footer
 
+def get_navbar_html(pycob_app):
+    navbar = NavbarComponent(pycob_app.name, "https://pycob.com/img/pycob_transparent.png")
+
+    for page in pycob_app.pages:
+        navbar.add_link(pycob_app.pages[page], "/" + page)
+
+    return navbar.to_html()
 
 _tailwind_header_to_sidebar = '''
 <!doctype html>
@@ -59,9 +67,10 @@ _tailwind_header_to_sidebar = '''
         </style>
         </head>
         <body>
-            <header class="text-white body-font"><div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"><a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">🌽 PyCob</span></a><nav class="md:ml-auto flex flex-wrap items-center text-base justify-center"><a class="mr-5 hover:text-gray-900">First Link</a><a class="mr-5 hover:text-gray-900">Second Link</a><a class="mr-5 hover:text-gray-900">Third Link</a><a class="mr-5 hover:text-gray-900">Fourth Link</a></nav><button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button></div></header>
-            <div class="flex">
 '''
+#            <header class="text-white body-font"><div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"><a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">🌽 PyCob</span></a><nav class="md:ml-auto flex flex-wrap items-center text-base justify-center"><a class="mr-5 hover:text-gray-900">First Link</a><a class="mr-5 hover:text-gray-900">Second Link</a><a class="mr-5 hover:text-gray-900">Third Link</a><a class="mr-5 hover:text-gray-900">Fourth Link</a></nav><button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button></div></header>
+#            <div class="flex">
+
 
 _tailwind_footer = '''
                 </div>

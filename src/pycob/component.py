@@ -30,6 +30,22 @@ class TextComponent(Component):
   def to_html(self):
     return f'''<p>''' + self.value + '''</p>'''
 
+class LinkComponent(Component):
+  def __init__(self, text: str, url: str):    
+    self.text = text
+    self.url = url
+
+  def to_html(self):
+    return f'''<a class="mr-5 hover:text-gray-900" href="''' + self.url + '''">''' + self.text + '''</a>'''
+
+class ImageComponent(Component):
+  def __init__(self, url: str, alt: str):    
+    self.url = url
+    self.alt = alt
+
+  def to_html(self):
+    return f'''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
+
 class HeaderComponent(Component):
   def __init__(self, text: str, size: int):
     self.text = text
@@ -152,3 +168,24 @@ class FormsubmitComponent(Component):
     return f'''<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">''' + self.label + '''</button>'''
 
 
+class NavbarComponent(Component):
+  def __init__(self, title: str, logo: str = '', components: list = None):    
+    self.logo = logo
+    self.title = title
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return f'''<header class="text-white body-font">
+    <div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+        <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
+        <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+            ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + '''
+        </nav>
+        <button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+    </div>
+</header>'''
+
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self

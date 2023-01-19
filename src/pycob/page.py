@@ -6,7 +6,7 @@ class Page:
     self.components = []
 
   def _to_html(self):
-    return self.__get_sidebar() + _tailwind_sidebar_end + '\n'.join(map(lambda x: x.to_html(), self.components))
+    return '''<div class="flex">''' + self.__get_sidebar() + _tailwind_sidebar_end + '\n'.join(map(lambda x: x.to_html(), self.components))
 
   def _to_json(self):
     return json.dumps(self, default=lambda o: o.__dict__, 
@@ -137,6 +137,13 @@ class Page:
     self.components.append(TextComponent(value))
     return self
 
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self
+
+  def add_image(self, url: str, alt: str):    
+    self.components.append(ImageComponent(url, alt))
+    return self
 
   def add_header(self, text: str, size: int):    
     self.components.append(HeaderComponent(text, size))
@@ -171,6 +178,9 @@ class Page:
     self.__add_pandastable(dataframe)
     return self
 
+  def add_navbar(self, title: str, logo: str = '', components: list = None):    
+    self.components.append(NavbarComponent(title, logo, components))
+    return self
 
 _tailwind_sidebar_end = '''
                 <div class="container px-5 py-24 mx-auto max-w-fit">
