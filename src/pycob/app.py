@@ -2,6 +2,7 @@ import flask
 from .page import Page
 from .request import Request
 from .handler import Handler
+import inspect
 
 demo_page = Page('Demo Page')
 demo_page.add_header('Demo Page', "2")
@@ -22,7 +23,16 @@ class App:
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(self, page_function), methods=["GET", "POST"])
 
     def run(self, port=8080):
-        self.flask_app.run(debug=True, host='0.0.0.0', port=port)
+        caller = inspect.currentframe().f_back
+        called_from_module = caller.f_globals['__name__']
+        print("Called from module ", called_from_module)
+        if called_from_module == "__main__":
+            self.flask_app.run(debug=True, host='0.0.0.0', port=port)
+            return None
+        else:
+            print(__name__)
+            print("App is being run by a production server. Returning a runnable server object.")
+            return self.flask_app
 
 
 def _strip_slashes_from_pages_dict(pages_dict: dict) -> dict:
