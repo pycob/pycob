@@ -18,7 +18,19 @@ class Handler(object):
             print(json_response)
             return json_response, '200 OK', {'Content-Type': 'application/json'}
 
-        return _tailwind_header_to_sidebar + get_navbar_html(self.pycob_app) + page._to_html() + _tailwind_footer
+        html = ""
+
+        html += _tailwind_header_to_sidebar
+
+        if page.auto_navbar:
+            html += get_navbar_html(self.pycob_app)
+
+        html += page._to_html()
+
+        if page.auto_footer:
+            html += _tailwind_footer
+
+        return html
 
 def get_navbar_html(pycob_app):
     navbar = NavbarComponent(pycob_app.name, "https://pycob.com/img/pycob_transparent.png")

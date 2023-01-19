@@ -1,8 +1,10 @@
 from .component import *
 
 class Page:
-  def __init__(self, name: str):
+  def __init__(self, name: str, auto_navbar: bool = True, auto_footer: bool = True):
     self.name = name
+    self.auto_navbar = auto_navbar
+    self.auto_footer = auto_footer
     self.components = []
 
   def _to_html(self):
@@ -170,8 +172,8 @@ class Page:
     return self
 
 
-  def add_section(self, id: str, name: str, level: int = 1, icon: str = ''):    
-    self.components.append(SectionComponent(id, name, level, icon))
+  def add_section(self, id: str, name: str, level: int = 1):    
+    self.components.append(SectionComponent(id, name, level))
     return self
 
   def add_pandastable(self, dataframe: str):

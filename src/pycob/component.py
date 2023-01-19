@@ -121,11 +121,10 @@ class DividerComponent(Component):
     return f'''<hr class="my-5 border-gray-300 w-full">'''
 
 class SectionComponent(Component):
-  def __init__(self, id: str, name: str, level: int = 1, icon: str = ''):
+  def __init__(self, id: str, name: str, level: int = 1):    
     self.id = id
     self.name = name
     self.level = level
-    self.icon = icon
 
   def to_html(self):
     return f'''<span id=''' + self.id + '''></span>'''
@@ -180,7 +179,8 @@ class NavbarComponent(Component):
     <div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + '''
+            '
+'.join(map(lambda x: x.to_html(), self.components))
         </nav>
         <button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
     </div>
