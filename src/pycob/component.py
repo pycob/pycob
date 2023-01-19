@@ -116,13 +116,9 @@ class SectionComponent(Component):
 
 class FormComponent(Component):
   def __init__(self, action: str, components: list = None, method: str = 'GET'):
-    print("NEW FORMCOMPONENT")
-
     self.action = action
     self.components = components or []
     self.method = method
-
-    print("Components Length: " + str(len(self.components)) + " " + str(self.components))
 
   def to_html(self):
     return f'''<form action="''' + self.action + '''" method="''' + self.method + '''">''' + ''.join(map(lambda x: x.to_html(), self.components)) + '''</form>'''

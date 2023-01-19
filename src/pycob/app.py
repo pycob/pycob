@@ -18,16 +18,7 @@ class App:
 
     def add_page(self, route: str, page_function):
         endpoint_name = _strip_slashes(route)
-        self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(page_function), methods=["GET", "POST"])
-
-    # @flask_app.route('/', defaults={'path': ''})
-    # @flask_app.route('/<path:path>')
-    # def index(path):        
-    #     print("Page Path = ", path)
-    #     print("Request = ", flask.request)
-    #     page = self.__lookup_page(path)
-    #     print("Page = ", page)
-    #     return 'Web App with Python Flask!'
+        self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(self, page_function), methods=["GET", "POST"])
 
     def run(self, port=8080):
         self.flask_app.run(debug=True, host='0.0.0.0', port=port)
