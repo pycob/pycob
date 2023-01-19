@@ -177,10 +177,9 @@ class NavbarComponent(Component):
   def to_html(self):
     return f'''<header class="text-white body-font">
     <div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
+        <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            '
-'.join(map(lambda x: x.to_html(), self.components))
+            ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
         </nav>
         <button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
     </div>
@@ -189,3 +188,62 @@ class NavbarComponent(Component):
   def add_link(self, text: str, url: str):    
     self.components.append(LinkComponent(text, url))
     return self
+
+class FooterComponent(Component):
+  def __init__(self, title: str, subtitle: str = '', logo: str = '', components: list = None):    
+    self.title = title
+    self.subtitle = subtitle
+    self.logo = logo
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return f'''<footer class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+        <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
+            <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-xl">''' + self.title + '''</span></a>
+            <p class="mt-2 text-sm text-gray-500">''' + self.subtitle + '''</p>
+        </div>
+        <div class="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
+            ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+        </div>
+    </div>
+</footer>'''
+
+  def add_component(self, component: Component):
+    self.components.append(component)
+    return self
+
+  def add_footercategory(self, title: str, links: list = None):    
+    self.components.append(FootercategoryComponent(title, links))
+    return self
+
+class FootercategoryComponent(Component):
+  def __init__(self, title: str, components: list = None):    
+    self.title = title
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return f'''<div class="lg:w-1/4 md:w-1/2 w-full px-4">
+    <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3 uppercase">''' + self.title + '''</h2>
+    <nav class="list-none mb-10">
+        ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+    </nav>
+</div>'''
+
+  def add_component(self, component: Component):
+    self.components.append(component)
+    return self
+
+  def add_footerlink(self, title: str, url: str):    
+    self.components.append(FooterlinkComponent(title, url))
+    return self
+
+class FooterlinkComponent(Component):
+  def __init__(self, title: str, url: str):    
+    self.title = title
+    self.url = url
+
+  def to_html(self):
+    return f'''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''

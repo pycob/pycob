@@ -184,6 +184,10 @@ class Page:
     self.components.append(NavbarComponent(title, logo, components))
     return self
 
+  def add_footer(self, title: str, subtitle: str = '', logo: str = '', components: list = None):    
+    self.components.append(FooterComponent(title, subtitle, logo, components))
+    return self
+
 _tailwind_sidebar_end = '''
                 <div class="container px-5 py-24 mx-auto max-w-fit">
 '''
