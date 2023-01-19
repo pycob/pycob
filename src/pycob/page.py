@@ -3,11 +3,10 @@ from .component import *
 class Page:
   def __init__(self, name: str):
     self.name = name
-    self.html = []
     self.components = []
 
   def _to_html(self):
-    return _tailwind_header_to_sidebar + _tailwind_sidebar_end + '\n'.join(map(lambda x: x.to_html(), self.components)) + _tailwind_footer
+    return _tailwind_header_to_sidebar + self.__get_sidebar() + _tailwind_sidebar_end + '\n'.join(map(lambda x: x.to_html(), self.components)) + _tailwind_footer
 
   def _to_json(self):
     return json.dumps(self, default=lambda o: o.__dict__, 
@@ -19,6 +18,57 @@ class Page:
   def add(self, component: Component):
     self.components.append(component)
     return self
+
+  def __get_sidebar(self) -> str:
+    # Get all Section components from self.components
+    sections = list(filter(lambda x: isinstance(x, SectionComponent), self.components))
+
+    print("Sections: " + str(sections))
+
+    if len(sections) == 0:
+      return ""
+
+    sidebar = '''
+    <aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0 dark:bg-gray-900 dark:text-gray-100">
+    	<nav class="space-y-8 text-sm">
+    '''
+
+    last_level = 0
+
+    for section in sections:
+      if last_level != 1 and section.level == 1:
+        sidebar += '''
+        		<div class="space-y-2">
+              <a class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400" href="#''' + section.id + '''">'''+ section.name +'''</a>
+              <div class="flex flex-col space-y-1">
+        '''
+      elif last_level == 1 and section.level == 1:
+        sidebar += '''
+              </div>
+            </div>
+            <div class="space-y-2">
+              <a class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400" href="#''' + section.id + '''">'''+ section.name +'''</a>
+              <div class="flex flex-col space-y-1">
+        '''
+      elif last_level == 1 and section.level != 1:
+        sidebar += '''
+              </div>
+            </div>
+            <a rel="noopener noreferrer" href="#''' + section.id + '''">'''+ section.name +'''</a>
+        '''
+      elif last_level != 1 and section.level != 1:
+        sidebar += '''
+              <a rel="noopener noreferrer" href="#''' + section.id + '''">'''+ section.name +'''</a>
+        '''
+      else:
+        sidebar += '''<a rel="noopener noreferrer" href="#''' + section.id + '''">'''+ section.name +'''</a>'''
+
+    sidebar += '''
+          </nav>
+        </aside>
+    '''
+
+    return sidebar
 
   def __add_pandastable(self, df):
     # Pandas dataframe to html
@@ -51,7 +101,7 @@ class Page:
         if i % 2 == 0:
           html += '''<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">'''
         else:
-          html += '''<tr class="bg-gray-50 border-b dark:bg-gray-900 dark:border-gray-700">'''
+          html += '''<tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">'''
 
         for column in df.columns:
             html += '''<td class="px-6 py-4">''' + str(row[column]) + "</td>"
@@ -162,11 +212,9 @@ _tailwind_header_to_sidebar = '''
         <body>
             <header class="text-white body-font"><div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"><a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">🌽 PyCob</span></a><nav class="md:ml-auto flex flex-wrap items-center text-base justify-center"><a class="mr-5 hover:text-gray-900">First Link</a><a class="mr-5 hover:text-gray-900">Second Link</a><a class="mr-5 hover:text-gray-900">Third Link</a><a class="mr-5 hover:text-gray-900">Fourth Link</a></nav><button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button></div></header>
             <div class="flex">
-                <aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0">
 '''
 
 _tailwind_sidebar_end = '''
-                </aside>            
                 <div class="container px-5 py-24 mx-auto max-w-fit">
 '''
 
