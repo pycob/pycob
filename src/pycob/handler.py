@@ -45,7 +45,7 @@ def get_navbar_html(pycob_app):
     return navbar.to_html()
 
 def get_footer_html(pycob_app):
-    footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://cdn.pycob.com/img/pycob_hex.png")
+    footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://cdn.pycob.com/pycob_hex.png")
 
     footercategory = FootercategoryComponent("Category 1")
 
