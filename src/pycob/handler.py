@@ -25,7 +25,7 @@ class Handler(object):
         if page.auto_navbar:
             html += get_navbar_html(self.pycob_app)
 
-        html += page._to_html()
+        html += page.to_html()
 
         html += _tailwind_content_end
 
