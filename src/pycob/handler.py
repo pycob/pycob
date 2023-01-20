@@ -65,13 +65,23 @@ _tailwind_header_to_sidebar = '''
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
             tailwind.config = {
-            theme: {
-                extend: {
-                colors: {
-                    clifford: '#da373d',
-                }
-                }
+                theme: {
+                    extend: {
+                        colors: {
+                            clifford: '#da373d',
+                        }
+                    }
+                },
+                darkMode: 'class'
             }
+        </script>
+        <script>
+            function toggleDarkMode() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark')
+                } else {
+                    document.documentElement.classList.add('dark')
+                }
             }
         </script>
         <style>
@@ -94,7 +104,7 @@ _tailwind_header_to_sidebar = '''
         }
         </style>
         </head>
-        <body class="flex flex-col h-screen">
+        <body class="flex flex-col h-screen dark:bg-gray-900 ">
 '''
 #            <header class="text-white body-font"><div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"><a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">🌽 PyCob</span></a><nav class="md:ml-auto flex flex-wrap items-center text-base justify-center"><a class="mr-5 hover:text-gray-900">First Link</a><a class="mr-5 hover:text-gray-900">Second Link</a><a class="mr-5 hover:text-gray-900">Third Link</a><a class="mr-5 hover:text-gray-900">Fourth Link</a></nav><button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button></div></header>
 #            <div class="flex">
@@ -105,7 +115,7 @@ _tailwind_content_end = '''
             </div>
 '''
 
-_tailwind_body_end = '''
+_tailwind_body_end = '''            
         </body>
         </html>
     '''
