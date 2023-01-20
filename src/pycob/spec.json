@@ -777,4 +777,28 @@
   ],
   "description" : "Renders a link in the sidebar",
   "name" : "Sidebar Link"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Code to be rendered"
+    }
+  ],
+  "elementType" : "codeeditor",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "value",
+        "argumentValue" : "Here's some code"
+      }
+    ]
+  ],
+  "description" : "Renders a code editor",
+  "name" : "Code Editor"
 }]

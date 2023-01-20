@@ -9,7 +9,7 @@ class AlertComponent(Component):
     self.color = color
 
   def to_html(self):
-    return f'''<div class="text-center py-4 lg:px-4">
+    return '''<div class="text-center py-4 lg:px-4">
 <div class="p-2 bg-''' + self.color + '''-800 items-center text-''' + self.color + '''-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
     <span class="flex rounded-full bg-''' + self.color + '''-500 uppercase px-2 py-1 text-xs font-bold mr-3">''' + self.badge + '''</span>
     <span class="font-semibold mr-2 text-left flex-auto">''' + self.text + '''</span>            
@@ -22,7 +22,7 @@ class CodeComponent(Component):
     self.header = header
 
   def to_html(self):
-    return f'''<div class="mx-auto my-10 max-w-3xl">
+    return '''<div class="mx-auto my-10 max-w-3xl">
     <div class="flex h-11 w-full items-center justify-start space-x-1.5 rounded-t-lg bg-gray-900 px-3">
         <span class="h-3 w-3 rounded-full bg-red-400"></span>
         <span class="h-3 w-3 rounded-full bg-yellow-400"></span>
@@ -35,12 +35,49 @@ class CodeComponent(Component):
     </div>
 </div>'''
 
+class CodeeditorComponent(Component):
+  def __init__(self, value: str):    
+    self.value = value
+
+  def to_html(self):
+    return '''<style type="text/css" media="screen">
+#editorContainer {
+    width: calc( 100vw - 40px );
+    height: 500px;
+    max-height: calc( 80vh - 60px );
+    position: relative;
+    background-color: red;
+}
+#editor { 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+</style>
+
+<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+  <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+      Run Code
+  </span>
+</button>
+<div id="editorContainer">
+    <div id="editor">''' + self.value + '''</div> 
+</div>
+<script src="https://cdn.jsdelivr.net/gh/ajaxorg/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/python");
+</script>'''
+
 class DividerComponent(Component):
   def __init__(self):    
     pass
 
   def to_html(self):
-    return f'''<hr class="my-5 border-gray-300 w-full">'''
+    return '''<hr class="my-5 border-gray-300 w-full">'''
 
 class FooterComponent(Component):
   def __init__(self, title: str, subtitle: str = '', logo: str = '', components: list = None):    
@@ -51,7 +88,7 @@ class FooterComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<footer class="text-gray-600 body-font">
+    return '''<footer class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
             <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-xl">''' + self.title + '''</span></a>
@@ -82,7 +119,7 @@ class FootercategoryComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<div class="lg:w-1/4 md:w-1/2 w-full px-4">
+    return '''<div class="lg:w-1/4 md:w-1/2 w-full px-4">
     <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3 uppercase">''' + self.title + '''</h2>
     <nav class="list-none mb-10">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
@@ -107,7 +144,7 @@ class FooterlinkComponent(Component):
     self.url = url
 
   def to_html(self):
-    return f'''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
+    return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class FormComponent(Component):
   def __init__(self, action: str, components: list = None, method: str = 'GET'):    
@@ -117,7 +154,7 @@ class FormComponent(Component):
     self.method = method
 
   def to_html(self):
-    return f'''<form action="''' + self.action + '''" method="''' + self.method + '''">
+    return '''<form action="''' + self.action + '''" method="''' + self.method + '''">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </form>'''
 
@@ -143,7 +180,7 @@ class FormsubmitComponent(Component):
     self.label = label
 
   def to_html(self):
-    return f'''<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">''' + self.label + '''</button>'''
+    return '''<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
   def __init__(self, label: str, name: str, value: str):    
@@ -152,7 +189,7 @@ class FormtextComponent(Component):
     self.value = value
 
   def to_html(self):
-    return f'''<div class="relative mb-4">
+    return '''<div class="relative mb-4">
     <label for="''' + self.name + '''" class="leading-7 text-sm text-gray-600">''' + self.label + '''</label>
     <input name="''' + self.name + '''" type="text" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="''' + self.name + '''" value="''' + self.value + '''">
 </div>'''
@@ -163,7 +200,7 @@ class HeaderComponent(Component):
     self.size = size
 
   def to_html(self):
-    return f'''<p class="title-font sm:text-''' + str(self.size) + '''xl text-xl font-medium text-gray-900 mb-3">''' + self.text + '''</p>'''
+    return '''<p class="title-font sm:text-''' + str(self.size) + '''xl text-xl font-medium text-gray-900 mb-3">''' + self.text + '''</p>'''
 
 class HeroComponent(Component):
   def __init__(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo'):    
@@ -173,7 +210,7 @@ class HeroComponent(Component):
     self.color = color
 
   def to_html(self):
-    return f'''<section class="bg-white">
+    return '''<section class="bg-white">
     <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div class="mr-auto place-self-center lg:col-span-7">
             <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl">''' + self.title + '''</h1>
@@ -196,7 +233,7 @@ class HtmlComponent(Component):
     self.value = value
 
   def to_html(self):
-    return f'''''' + self.value + ''''''
+    return '''''' + self.value + ''''''
 
 class ImageComponent(Component):
   def __init__(self, url: str, alt: str):    
@@ -204,7 +241,7 @@ class ImageComponent(Component):
     self.alt = alt
 
   def to_html(self):
-    return f'''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
+    return '''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
   def __init__(self, text: str, url: str, classes: str = ''):    
@@ -213,7 +250,7 @@ class LinkComponent(Component):
     self.classes = classes
 
   def to_html(self):
-    return f'''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
+    return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
 
 class NavbarComponent(Component):
   def __init__(self, title: str, logo: str = '', components: list = None):    
@@ -223,7 +260,7 @@ class NavbarComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<header class="text-white body-font">
+    return '''<header class="text-white body-font">
     <div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
@@ -257,7 +294,7 @@ class Page(Component):
     self.auto_footer = auto_footer
 
   def to_html(self):
-    return f'''<div class="container px-5 py-24 mx-auto max-w-fit">
+    return '''<div class="container px-5 py-24 mx-auto max-w-fit">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </div>'''
 
@@ -344,6 +381,11 @@ class Page(Component):
     return self
     
 
+  def add_codeeditor(self, value: str):    
+    self.components.append(CodeeditorComponent(value))
+    return self
+    
+
 class SectionComponent(Component):
   def __init__(self, id: str, name: str, level: int = 1):    
     self.id = id
@@ -351,7 +393,7 @@ class SectionComponent(Component):
     self.level = level
 
   def to_html(self):
-    return f'''<span id=''' + self.id + '''></span>'''
+    return '''<span id=''' + self.id + '''></span>'''
 
 class SidebarComponent(Component):
   def __init__(self, components: list = None):    
@@ -359,7 +401,7 @@ class SidebarComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0">
+    return '''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -384,7 +426,7 @@ class SidebarcategoryComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<div class="mb-8">
+    return '''<div class="mb-8">
     <h2 class="text-lg font-medium text-gray-900 tracking-wider uppercase mb-3">''' + self.title + '''</h2>
     <ul class="ml-5 list-none">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
@@ -409,12 +451,12 @@ class SidebarlinkComponent(Component):
     self.url = url
 
   def to_html(self):
-    return f'''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
+    return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class TextComponent(Component):
   def __init__(self, value: str):    
     self.value = value
 
   def to_html(self):
-    return f'''<p>''' + self.value + '''</p>'''
+    return '''<p>''' + self.value + '''</p>'''
 
