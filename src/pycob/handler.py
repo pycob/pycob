@@ -2,7 +2,7 @@
 from flask import Flask, Response
 import flask
 from .request import Request
-from .component import NavbarComponent, FooterComponent, FootercategoryComponent, FooterlinkComponent
+from .generated import *
 
 class Handler(object):
     def __init__(self, pycob_app, action):
@@ -24,6 +24,11 @@ class Handler(object):
 
         if page.auto_navbar:
             html += get_navbar_html(self.pycob_app)
+
+        # Add a sidebar here
+        sidebar = _get_sidebar(page.components)
+        if len(sidebar.components):
+            page.components.insert(0, sidebar)
 
         html += page.to_html()
 
@@ -55,6 +60,24 @@ def get_footer_html(pycob_app):
     footer.add_component(footercategory)
 
     return footer.to_html()
+
+def _get_sidebar(components) -> SidebarComponent:
+    sidebar = SidebarComponent()
+
+    sections = list(filter(lambda x: isinstance(x, SectionComponent), components))
+
+    current_category = None
+
+    for section in sections:
+        if section.level == 1:
+            if current_category != None:
+                sidebar.add_component(current_category)
+
+            current_category = SidebarcategoryComponent(section.name)
+        else:
+            current_category.add_sidebarlink(section.name, "#" + section.id)
+    
+    return sidebar
 
 _tailwind_header_to_sidebar = '''
 <!doctype html>
