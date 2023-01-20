@@ -704,4 +704,71 @@
   ],
   "description" : "Renders a link in the footer",
   "name" : "Footer Link"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of Component of the sidebar"
+    }
+  ],
+  "elementType" : "sidebar",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a sidebar",
+  "name" : "Sidebar"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the category"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of Sidebar Link in the category"
+    }
+  ],
+  "elementType" : "sidebarcategory",
+  "attachableTo" : [
+    "sidebar"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a category in the sidebar",
+  "name" : "Sidebar Category"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the link"
+    },
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL of the link"
+    }
+  ],
+  "elementType" : "sidebarlink",
+  "attachableTo" : [
+    "sidebarcategory"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a link in the sidebar",
+  "name" : "Sidebar Link"
 }]
