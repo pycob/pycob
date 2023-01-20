@@ -1,0 +1,707 @@
+[{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "The title of the page"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "The components to be rendered on the page"
+    },
+    {
+      "defaultValue" : "True",
+      "name" : "auto_navbar",
+      "type" : "Optional Boolean",
+      "description" : "Whether or not to automatically generate a navbar"
+    },
+    {
+      "defaultValue" : "True",
+      "name" : "auto_footer",
+      "type" : "Optional Boolean",
+      "description" : "Whether or not to automatically generate a footer"
+    }
+  ],
+  "elementType" : "page",
+  "attachableTo" : [
+
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "title",
+        "argumentValue" : "My Page"
+      }
+    ]
+  ],
+  "description" : "A page is the top level component of a website. It contains the navbar, the main content, and the footer.",
+  "name" : "Page"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Raw HTML code to be rendered"
+    }
+  ],
+  "elementType" : "html",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "value",
+        "argumentValue" : "<b>here's some html<\/b>"
+      }
+    ]
+  ],
+  "description" : "Renders raw HTML",
+  "name" : "HTML"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    }
+  ],
+  "elementType" : "text",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "value",
+        "argumentValue" : "Here's some text"
+      }
+    ]
+  ],
+  "description" : "Renders a paragraph of text",
+  "name" : "Text"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "text",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    },
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL to link to"
+    }
+  ],
+  "elementType" : "link",
+  "attachableTo" : [
+    "page",
+    "navbar"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a link"
+      },
+      {
+        "argumentName" : "url",
+        "argumentValue" : "https:\/\/www.pycob.com"
+      }
+    ]
+  ],
+  "description" : "Renders a link",
+  "name" : "Link"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL of the image"
+    },
+    {
+      "defaultValue" : "Image",
+      "name" : "alt",
+      "type" : "String",
+      "description" : "Alt text for the image"
+    }
+  ],
+  "elementType" : "image",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "url",
+        "argumentValue" : "https:\/\/pycob.com\/img\/pycob_hex.png"
+      },
+      {
+        "argumentName" : "alt",
+        "argumentValue" : "Pycob logo"
+      }
+    ]
+  ],
+  "description" : "Renders an image",
+  "name" : "Image"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "text",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    },
+    {
+      "defaultValue" : "1",
+      "name" : "size",
+      "type" : "Optional Integer",
+      "description" : "Size of the header. Choose 1-6"
+    }
+  ],
+  "elementType" : "header",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a big header"
+      }
+    ],
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a small header"
+      },
+      {
+        "argumentName" : "size",
+        "argumentValue" : 4
+      }
+    ]
+  ],
+  "description" : "Renders a header",
+  "name" : "Header"
+},
+{
+  "category" : "Layout",
+  "arguments" : [
+    {
+      "name" : "text",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    },
+    {
+      "name" : "badge",
+      "type" : "Optional String",
+      "description" : "Text to be rendered inside the badge"
+    },
+    {
+      "defaultValue" : "indigo",
+      "name" : "color",
+      "type" : "Optional String",
+      "description" : "Color of the. Choose 'indigo', 'orange', or 'red'"
+    }
+  ],
+  "elementType" : "alert",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a success alert"
+      }
+    ],
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a warning alert"
+      },
+      {
+        "argumentName" : "badge",
+        "argumentValue" : "Warning"
+      },
+      {
+        "argumentName" : "color",
+        "argumentValue" : "orange"
+      }
+    ],
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's an error alert"
+      },
+      {
+        "argumentName" : "badge",
+        "argumentValue" : "Delete?"
+      },
+      {
+        "argumentName" : "color",
+        "argumentValue" : "red"
+      }
+    ]
+  ],
+  "description" : "Renders an alert",
+  "name" : "Alert"
+},
+{
+  "category" : "Layout",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title to be rendered"
+    },
+    {
+      "name" : "subtitle",
+      "type" : "Optional String",
+      "description" : "Subtitle to be rendered"
+    },
+    {
+      "name" : "image",
+      "type" : "Optional String",
+      "description" : "Image to be rendered"
+    },
+    {
+      "defaultValue" : "indigo",
+      "name" : "color",
+      "type" : "Optional String",
+      "description" : "Color of the. Choose 'indigo', 'orange', or 'red'"
+    }
+  ],
+  "elementType" : "hero",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "title",
+        "argumentValue" : "Here's a hero"
+      },
+      {
+        "argumentName" : "subtitle",
+        "argumentValue" : "Here's a subtitle"
+      },
+      {
+        "argumentName" : "image",
+        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+      }
+    ],
+    [
+      {
+        "argumentName" : "title",
+        "argumentValue" : "Here's a hero"
+      },
+      {
+        "argumentName" : "subtitle",
+        "argumentValue" : "Here's a subtitle"
+      },
+      {
+        "argumentName" : "image",
+        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+      },
+      {
+        "argumentName" : "color",
+        "argumentValue" : "yellow"
+      }
+    ],
+    [
+      {
+        "argumentName" : "title",
+        "argumentValue" : "Here's a hero"
+      },
+      {
+        "argumentName" : "subtitle",
+        "argumentValue" : "Here's a subtitle"
+      },
+      {
+        "argumentName" : "image",
+        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+      },
+      {
+        "argumentName" : "color",
+        "argumentValue" : "red"
+      }
+    ]
+  ],
+  "description" : "Renders a hero",
+  "name" : "Hero"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Code to be rendered"
+    },
+    {
+      "name" : "header",
+      "type" : "Optional String",
+      "description" : "Header to be rendered above the code block"
+    }
+  ],
+  "elementType" : "code",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "value",
+        "argumentValue" : "Here's some code"
+      }
+    ],
+    [
+      {
+        "argumentName" : "value",
+        "argumentValue" : "Here's some code with a header"
+      },
+      {
+        "argumentName" : "header",
+        "argumentValue" : "With Header"
+      }
+    ]
+  ],
+  "description" : "Renders a block of code",
+  "name" : "Code"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+
+  ],
+  "elementType" : "divider",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+
+    ]
+  ],
+  "description" : "Renders a divider",
+  "name" : "Divider"
+},
+{
+  "category" : "Layout",
+  "arguments" : [
+    {
+      "name" : "id",
+      "type" : "String",
+      "description" : "ID for the section. This is what will appear in the link as \/page#id"
+    },
+    {
+      "name" : "name",
+      "type" : "String",
+      "description" : "Name of the section. This is what will appear in the navigation bar"
+    },
+    {
+      "defaultValue" : "1",
+      "name" : "level",
+      "type" : "Optional Integer",
+      "description" : "Level of the section. This is the indendation that will appear in the navigation bar"
+    }
+  ],
+  "elementType" : "section",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "id",
+        "argumentValue" : "section1"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "Sample Section 1"
+      }
+    ],
+    [
+      {
+        "argumentName" : "id",
+        "argumentValue" : "section2"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "Sample Section 2"
+      },
+      {
+        "argumentName" : "level",
+        "argumentValue" : 2
+      }
+    ]
+  ],
+  "description" : "Creates an invisible element that can be used to link to in the sidebar",
+  "name" : "Section"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "name" : "action",
+      "type" : "String",
+      "description" : "Action for the form. This is the page that the form will submit to"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of Component of the form"
+    },
+    {
+      "defaultValue" : "GET",
+      "name" : "method",
+      "type" : "Optional String",
+      "description" : "Method for the form (i.e. GET, POST)"
+    }
+  ],
+  "elementType" : "form",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a form",
+  "name" : "Form"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "name" : "label",
+      "type" : "String",
+      "description" : "Label for the form text"
+    },
+    {
+      "name" : "name",
+      "type" : "String",
+      "description" : "Name for the form text"
+    },
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Value for the form text"
+    }
+  ],
+  "elementType" : "formtext",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Name"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "name"
+      },
+      {
+        "argumentName" : "value",
+        "argumentValue" : "John Doe"
+      }
+    ],
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Email"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "email"
+      },
+      {
+        "argumentName" : "value",
+        "argumentValue" : "test@test.com"
+      }
+    ]
+  ],
+  "description" : "Renders a form",
+  "name" : "Form Text"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "defaultValue" : "Submit",
+      "name" : "label",
+      "type" : "Optional String",
+      "description" : "Label for the form submit button"
+    }
+  ],
+  "elementType" : "formsubmit",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Submit"
+      }
+    ],
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Save"
+      }
+    ]
+  ],
+  "description" : "Renders a form submit button",
+  "name" : "Form Submit"
+},
+{
+  "category" : "Advanced",
+  "arguments" : [
+    {
+      "name" : "dataframe",
+      "type" : "String",
+      "description" : "Dataframe to render"
+    }
+  ],
+  "elementType" : "pandastable",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "dataframe",
+        "argumentValue" : "df"
+      }
+    ]
+  ],
+  "description" : "Renders a pandas table",
+  "name" : "Pandas Table"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the navbar"
+    },
+    {
+      "name" : "logo",
+      "type" : "Optional String",
+      "description" : "URL for the logo of the navbar"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of links for the navbar"
+    }
+  ],
+  "elementType" : "navbar",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a navbar",
+  "name" : "Navbar"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the footer"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "subtitle",
+      "type" : "Optional String",
+      "description" : "Subtitle of the footer"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "logo",
+      "type" : "Optional String",
+      "description" : "URL for the logo of the footer"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of category components for the footer"
+    }
+  ],
+  "elementType" : "footer",
+  "attachableTo" : [
+    "page"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a footer",
+  "name" : "Footer"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the category"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of Footer Link in the category"
+    }
+  ],
+  "elementType" : "footercategory",
+  "attachableTo" : [
+    "footer"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a category in the footer",
+  "name" : "Footer Category"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "title",
+      "type" : "String",
+      "description" : "Title of the link"
+    },
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL of the link"
+    }
+  ],
+  "elementType" : "footerlink",
+  "attachableTo" : [
+    "footercategory"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a link in the footer",
+  "name" : "Footer Link"
+}]
