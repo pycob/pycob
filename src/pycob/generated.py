@@ -207,12 +207,13 @@ class ImageComponent(Component):
     return f'''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
-  def __init__(self, text: str, url: str):    
+  def __init__(self, text: str, url: str, classes: str = ''):    
     self.text = text
     self.url = url
+    self.classes = classes
 
   def to_html(self):
-    return f'''<a href="''' + self.url + '''">''' + self.text + '''</a>'''
+    return f'''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
 
 class NavbarComponent(Component):
   def __init__(self, title: str, logo: str = '', components: list = None):    
@@ -242,8 +243,8 @@ class NavbarComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
-  def add_link(self, text: str, url: str):    
-    self.components.append(LinkComponent(text, url))
+  def add_link(self, text: str, url: str, classes: str = ''):    
+    self.components.append(LinkComponent(text, url, classes))
     return self
     
 
@@ -277,8 +278,8 @@ class Page(Component):
     return self
     
 
-  def add_link(self, text: str, url: str):    
-    self.components.append(LinkComponent(text, url))
+  def add_link(self, text: str, url: str, classes: str = ''):    
+    self.components.append(LinkComponent(text, url, classes))
     return self
     
 

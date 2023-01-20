@@ -47,7 +47,7 @@ def get_navbar_html(pycob_app):
     navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_transparent.png")
 
     for page in pycob_app.pages:
-        navbar.add_link(pycob_app.pages[page], "/" + page)
+        navbar.add_link(pycob_app.pages[page], "/" + page, "mr-5 hover:text-gray-900")
 
     return navbar.to_html()
 
