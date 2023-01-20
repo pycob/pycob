@@ -1,4 +1,3 @@
-from .component import HtmlComponent
 
 def advanced_add_pandastable(self, df):
     # Pandas dataframe to html

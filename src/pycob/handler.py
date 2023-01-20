@@ -72,13 +72,16 @@ def _get_sidebar(components) -> SidebarComponent:
 
     for section in sections:
         if section.level == 1:
-            if current_category != None:
+            if current_category is not None:
                 sidebar.add_component(current_category)
 
             current_category = SidebarcategoryComponent(section.name)
         else:
             current_category.add_sidebarlink(section.name, "#" + section.id)
     
+    if current_category is not None:
+        sidebar.add_component(current_category)
+
     return sidebar
 
 _tailwind_header_to_sidebar = '''
