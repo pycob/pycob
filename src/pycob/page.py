@@ -25,8 +25,6 @@ class Page:
     # Get all Section components from self.components
     sections = list(filter(lambda x: isinstance(x, SectionComponent), self.components))
 
-    print("Sections: " + str(sections))
-
     if len(sections) == 0:
       return ""
 
@@ -147,7 +145,7 @@ class Page:
     self.components.append(ImageComponent(url, alt))
     return self
 
-  def add_header(self, text: str, size: int):    
+  def add_header(self, text: str, size: int = 1):    
     self.components.append(HeaderComponent(text, size))
     return self
 

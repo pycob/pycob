@@ -37,7 +37,7 @@ class Handler(object):
         return html
 
 def get_navbar_html(pycob_app):
-    navbar = NavbarComponent(pycob_app.name, "https://pycob.com/img/pycob_transparent.png")
+    navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_transparent.png")
 
     for page in pycob_app.pages:
         navbar.add_link(pycob_app.pages[page], "/" + page)
@@ -45,7 +45,7 @@ def get_navbar_html(pycob_app):
     return navbar.to_html()
 
 def get_footer_html(pycob_app):
-    footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://pycob.com/img/pycob_hex.png")
+    footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://cdn.pycob.com/img/pycob_hex.png")
 
     footercategory = FootercategoryComponent("Category 1")
 

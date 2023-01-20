@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pycob"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Zain Hoda", email="zain@pycob.com" },
 ]
@@ -22,5 +22,5 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://pycob.com/"
+"Homepage" = "https://www.pycob.com/"
 "Bug Tracker" = "https://github.com/pycob/pycob/issues"

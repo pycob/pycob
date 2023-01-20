@@ -47,12 +47,12 @@ class ImageComponent(Component):
     return f'''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class HeaderComponent(Component):
-  def __init__(self, text: str, size: int):
+  def __init__(self, text: str, size: int = 1):    
     self.text = text
     self.size = size
 
   def to_html(self):
-    return f'''<p class="title-font sm:text-''' + self.size + '''xl text-xl font-medium text-gray-900 mb-3">''' + self.text + '''</p>'''
+    return f'''<p class="title-font sm:text-''' + str(self.size) + '''xl text-xl font-medium text-gray-900 mb-3">''' + self.text + '''</p>'''
 
 class AlertComponent(Component):
   def __init__(self, text: str, badge: str = '', color: str = 'indigo'):

@@ -15,7 +15,7 @@ class App:
         self.name = name
         self.nav = app_nav
         self.pages = {}
-        self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://pycob.com/favicon.ico")
+        self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
 
     def add_page(self, route: str, page_name: str, page_function):
         endpoint_name = _strip_slashes(route)
