@@ -27,12 +27,14 @@ class Handler(object):
 
         # Add a sidebar here
         sidebar = _get_sidebar(page.components)
-        if len(sidebar.components):
-            page.components.insert(0, sidebar)
+        if len(sidebar.components) > 0:
+            html += '''<div class="flex">'''
+            html += sidebar.to_html()
 
         html += page.to_html()
 
-        html += _tailwind_content_end
+        if len(sidebar.components) > 0:
+            html += "</div>"
 
         if page.auto_footer:
             html += get_footer_html(self.pycob_app)
@@ -133,10 +135,6 @@ _tailwind_header_to_sidebar = '''
 #            <div class="flex">
 
 
-_tailwind_content_end = '''
-                </div>
-            </div>
-'''
 
 _tailwind_body_end = '''            
         </body>

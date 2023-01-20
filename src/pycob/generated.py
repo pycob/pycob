@@ -358,7 +358,7 @@ class SidebarComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return f'''<aside class="">
+    return f'''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -385,7 +385,7 @@ class SidebarcategoryComponent(Component):
   def to_html(self):
     return f'''<div class="mb-8">
     <h2 class="text-lg font-medium text-gray-900 tracking-wider uppercase mb-3">''' + self.title + '''</h2>
-    <ul class="list-none">
+    <ul class="ml-5 list-none">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </ul>
 </div>'''
