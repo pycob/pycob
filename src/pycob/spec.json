@@ -785,6 +785,12 @@
       "name" : "value",
       "type" : "String",
       "description" : "Code to be rendered"
+    },
+    {
+      "defaultValue" : "python",
+      "name" : "language",
+      "type" : "Optional String",
+      "description" : "Language mode for syntax highlighting"
     }
   ],
   "elementType" : "codeeditor",

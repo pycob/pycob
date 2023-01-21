@@ -119,6 +119,14 @@ _tailwind_header_to_sidebar = '''
             animation: gradient 15s ease infinite;
         }
 
+        .gradient-text {
+            color: transparent;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: gradient 2s ease infinite;
+        }
+
         @keyframes gradient {
             0% {
                 background-position: 0% 50%;

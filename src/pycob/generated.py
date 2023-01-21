@@ -36,8 +36,9 @@ class CodeComponent(Component):
 </div>'''
 
 class CodeeditorComponent(Component):
-  def __init__(self, value: str):    
+  def __init__(self, value: str, language: str = 'python'):    
     self.value = value
+    self.language = language
 
   def to_html(self):
     return '''<style type="text/css" media="screen">
@@ -57,11 +58,6 @@ class CodeeditorComponent(Component):
 }
 </style>
 
-<button class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-  <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-      Run Code
-  </span>
-</button>
 <div id="editorContainer">
     <div id="editor">''' + self.value + '''</div> 
 </div>
@@ -69,7 +65,13 @@ class CodeeditorComponent(Component):
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
-    editor.session.setMode("ace/mode/python");
+    editor.session.setMode("ace/mode/''' + self.language + '''");
+
+    const savedCode = localStorage.getItem('code');
+
+    if (savedCode) {
+        editor.setValue(savedCode);
+    }
 </script>'''
 
 class DividerComponent(Component):
@@ -381,8 +383,8 @@ class Page(Component):
     return self
     
 
-  def add_codeeditor(self, value: str):    
-    self.components.append(CodeeditorComponent(value))
+  def add_codeeditor(self, value: str, language: str = 'python'):    
+    self.components.append(CodeeditorComponent(value, language))
     return self
     
 
