@@ -43,8 +43,13 @@ class CardComponent(Component):
     return self
     
 
-  def add_link(self, text: str, url: str, classes: str = ''):    
-    self.components.append(LinkComponent(text, url, classes))
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self
+    
+
+  def add_plainlink(self, text: str, url: str, classes: str = ''):    
+    self.components.append(PlainlinkComponent(text, url, classes))
     return self
     
 
@@ -246,6 +251,11 @@ class FormComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self
+    
+
   def add_image(self, url: str, alt: str):    
     self.components.append(ImageComponent(url, alt))
     return self
@@ -330,13 +340,17 @@ class ImageComponent(Component):
     return '''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
-  def __init__(self, text: str, url: str, classes: str = ''):    
+  def __init__(self, text: str, url: str):    
     self.text = text
     self.url = url
-    self.classes = classes
 
   def to_html(self):
-    return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
+    return '''<p class="text-gray-500 dark:text-gray-400">
+    <a href="''' + self.url + '''" class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline">
+    ''' + self.text + '''
+    <svg aria-hidden="true" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+    </a>
+</p>'''
 
 class NavbarComponent(Component):
   def __init__(self, title: str, logo: str = '', components: list = None):    
@@ -348,7 +362,7 @@ class NavbarComponent(Component):
   def to_html(self):
     return '''<header class="text-white body-font">
     <div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-        <a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
+        <a href="/" class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-4xl">''' + self.title + '''</span></a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
           <button onclick="toggleDarkMode()" type="button" class="mx-3 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500">
             Dark Mode
@@ -366,8 +380,13 @@ class NavbarComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
-  def add_link(self, text: str, url: str, classes: str = ''):    
-    self.components.append(LinkComponent(text, url, classes))
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self
+    
+
+  def add_plainlink(self, text: str, url: str, classes: str = ''):    
+    self.components.append(PlainlinkComponent(text, url, classes))
     return self
     
 
@@ -401,8 +420,13 @@ class Page(Component):
     return self
     
 
-  def add_link(self, text: str, url: str, classes: str = ''):    
-    self.components.append(LinkComponent(text, url, classes))
+  def add_link(self, text: str, url: str):    
+    self.components.append(LinkComponent(text, url))
+    return self
+    
+
+  def add_plainlink(self, text: str, url: str, classes: str = ''):    
+    self.components.append(PlainlinkComponent(text, url, classes))
     return self
     
 
@@ -482,6 +506,15 @@ class Page(Component):
     advanced_add_emgithub(self, url)
     return self
     
+
+class PlainlinkComponent(Component):
+  def __init__(self, text: str, url: str, classes: str = ''):    
+    self.text = text
+    self.url = url
+    self.classes = classes
+
+  def to_html(self):
+    return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
 
 class SectionComponent(Component):
   def __init__(self, id: str, name: str, level: int = 1):    

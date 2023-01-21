@@ -101,6 +101,42 @@
       "name" : "url",
       "type" : "String",
       "description" : "URL to link to"
+    }
+  ],
+  "elementType" : "link",
+  "attachableTo" : [
+    "page",
+    "navbar",
+    "card",
+    "form"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "text",
+        "argumentValue" : "Here's a link"
+      },
+      {
+        "argumentName" : "url",
+        "argumentValue" : "https:\/\/www.pycob.com"
+      }
+    ]
+  ],
+  "description" : "Renders a link",
+  "name" : "Link"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "text",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    },
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL to link to"
     },
     {
       "defaultValue" : "",

@@ -17,9 +17,9 @@ class App:
         self.pages = {}
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
 
-    def add_page(self, route: str, page_name: str, page_function):
+    def add_page(self, route: str, page_name: str, page_function, show_in_navbar=True, footer_category="All Pages"):
         endpoint_name = _strip_slashes(route)
-        self.pages[endpoint_name] = page_name
+        self.pages[endpoint_name] = {"page_name": page_name, "show_in_navbar": show_in_navbar, "footer_category": footer_category}
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(self, page_function), methods=["GET", "POST"])
 
     def run(self, port=8080, force_dev_mode=False):

@@ -46,20 +46,26 @@ class Handler(object):
 def get_navbar_html(pycob_app):
     navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_transparent.png")
 
-    for page in pycob_app.pages:
-        navbar.add_link(pycob_app.pages[page], "/" + page, "mr-5 hover:text-gray-900")
+    for page_path, page_dict in pycob_app.pages.items():
+        if page_dict['show_in_navbar']:
+            navbar.add_plainlink(page_dict['page_name'], "/" + page_path, "mr-5 hover:text-gray-900")
 
     return navbar.to_html()
 
 def get_footer_html(pycob_app):
     footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://cdn.pycob.com/pycob_hex.png")
 
-    footercategory = FootercategoryComponent("Category 1")
+    categorized = {}
 
-    for page in pycob_app.pages:
-        footercategory.add_footerlink(pycob_app.pages[page], "/" + page)
-    
-    footer.add_component(footercategory)
+    for page_path, page_dict in pycob_app.pages.items():
+        if page_dict['footer_category'] in categorized:
+            categorized[page_dict['footer_category']].append( FooterlinkComponent(page_dict['page_name'], "/" + page_path) )
+        else:
+            categorized[page_dict['footer_category']] = [ FooterlinkComponent(page_dict['page_name'], "/" + page_path) ]
+
+    for category_name, footerlinks in categorized.items():
+        footercategory = FootercategoryComponent(category_name, components=footerlinks)
+        footer.add_component(footercategory)
 
     return footer.to_html()
 
