@@ -1,3 +1,4 @@
+from urllib.parse import quote
 
 def advanced_add_pandastable(self, df):
     # Pandas dataframe to html
@@ -33,7 +34,7 @@ def advanced_add_pandastable(self, df):
             html += '''<tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">'''
 
         for column in df.columns:
-            html += '''<td class="px-6 py-4">''' + str(row[column]) + "</td>"
+            html += '''<td class="px-6 py-4">''' + format_input(row[column]) + "</td>"
         html += "</tr>"
         i += 1
 
@@ -47,3 +48,54 @@ def advanced_add_pandastable(self, df):
 
     self.components.append(HtmlComponent(html))
     return self
+
+
+"""
+A function that formats input into a human-readable string:
+Input: An arbitrary type that could be string, integer, floating point, a numpy object, a pandas datetime, or something else
+Output: String
+
+Dates should be formatted using ISO-8601. Numbers below 10 should include 2 decimal places. Numbers between 10 and 100 should have 1 decimal place. Numbers between 100 and 1000 should have 0 decimal places. Numbers between 1000 and 1000000 should have 0 decimal places and be formatted with a comma for the thousands separator. Numbers between 1000000 and 1000000000 should be formatted as X.Y million. Numbers above 1000000000 should be formatted as X.Y billion
+"""
+
+
+def format_input(input):
+    print("Input Type = ", type(input))
+    is_int = "int" in type(input).__name__
+    is_float = "float" in type(input).__name__
+
+    if isinstance(input, str):
+        return input
+    elif is_float or is_int:
+        if input < 10:
+            if is_float:
+                return '{:.2f}'.format(input)
+            else:
+                return str(input)
+        elif input < 100:
+            if is_float:
+                return '{:.1f}'.format(input)
+            else:
+                return str(input)
+        elif input < 1000:
+            return '{:.0f}'.format(input)
+        elif input < 1000000:
+            return '{:,.0f}'.format(input)
+        elif input < 1000000000:
+            return '{:.1f} million'.format(input / 1000000)
+        else:
+            return '{:.1f} billion'.format(input / 1000000000)
+    elif callable(getattr(input, "isoformat", None)):
+        return input.isoformat()
+    else:
+        return str(input)
+
+
+def advanced_add_emgithub(self, url):
+    quoted_url = quote(url)
+
+    emgithub = '''
+    <script src="https://emgithub.com/embed-v2.js?target=''' + quoted_url +  '''&style=vs2015&type=code&showBorder=on&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on&fetchFromJsDelivr=on"></script>
+    '''
+
+    self.components.append(HtmlComponent(emgithub))

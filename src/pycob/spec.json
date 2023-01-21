@@ -844,4 +844,29 @@
   ],
   "description" : "Renders a code editor",
   "name" : "Code Editor"
+},
+{
+  "category" : "Advanced",
+  "arguments" : [
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL of the GitHub file to be rendered"
+    }
+  ],
+  "elementType" : "emgithub",
+  "attachableTo" : [
+    "page",
+    "card"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "url",
+        "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/src\/pycob\/spec.json"
+      }
+    ]
+  ],
+  "description" : "Renders a block of code from a github URL",
+  "name" : "Github Embed"
 }]
