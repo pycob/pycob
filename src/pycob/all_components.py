@@ -15,6 +15,80 @@ class AlertComponent(Component):
 </div>
 </div>'''
 
+class CardComponent(Component):
+  def __init__(self, components: list = None, classes: str = ''):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+    self.classes = classes
+
+  def to_html(self):
+    return '''<div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ''' + self.classes + '''">
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</div>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_html(self, value: str):    
+    self.components.append(HtmlComponent(value))
+    return self
+    
+
+  def add_text(self, value: str):    
+    self.components.append(TextComponent(value))
+    return self
+    
+
+  def add_link(self, text: str, url: str, classes: str = ''):    
+    self.components.append(LinkComponent(text, url, classes))
+    return self
+    
+
+  def add_image(self, url: str, alt: str):    
+    self.components.append(ImageComponent(url, alt))
+    return self
+    
+
+  def add_header(self, text: str, size: int = 1):    
+    self.components.append(HeaderComponent(text, size))
+    return self
+    
+
+  def add_card(self, components: list = None, classes: str = ''):    
+    self.components.append(CardComponent(components, classes))
+    return self
+    
+
+  def add_alert(self, text: str, badge: str = '', color: str = 'indigo'):    
+    self.components.append(AlertComponent(text, badge, color))
+    return self
+    
+
+  def add_hero(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo'):    
+    self.components.append(HeroComponent(title, subtitle, image, color))
+    return self
+    
+
+  def add_divider(self):    
+    self.components.append(DividerComponent())
+    return self
+    
+
+  def add_form(self, action: str, components: list = None, method: str = 'GET'):    
+    self.components.append(FormComponent(action, components, method))
+    return self
+    
+
+
+  def add_pandastable(self, dataframe: str):
+    advanced_add_pandastable(self, dataframe)
+    return self
+    
+
 class CodeComponent(Component):
   def __init__(self, value: str, header: str = ''):    
     self.value = value
@@ -166,6 +240,11 @@ class FormComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
+  def add_image(self, url: str, alt: str):    
+    self.components.append(ImageComponent(url, alt))
+    return self
+    
+
   def add_formtext(self, label: str, name: str, value: str):    
     self.components.append(FormtextComponent(label, name, value))
     return self
@@ -328,6 +407,11 @@ class Page(Component):
 
   def add_header(self, text: str, size: int = 1):    
     self.components.append(HeaderComponent(text, size))
+    return self
+    
+
+  def add_card(self, components: list = None, classes: str = ''):    
+    self.components.append(CardComponent(components, classes))
     return self
     
 
