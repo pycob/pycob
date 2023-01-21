@@ -22,11 +22,11 @@ class App:
         self.pages[endpoint_name] = page_name
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, Handler(self, page_function), methods=["GET", "POST"])
 
-    def run(self, port=8080):
+    def run(self, port=8080, force_dev_mode=False):
         caller = inspect.currentframe().f_back
         called_from_module = caller.f_globals['__name__']
         print("Called from module ", called_from_module)
-        if called_from_module == "__main__":
+        if called_from_module == "__main__" or force_dev_mode:
             self.flask_app.run(debug=True, host='0.0.0.0', port=port)
             return None
         else:
