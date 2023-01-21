@@ -1,5 +1,5 @@
 import flask
-from .generated import Page
+from .all_components import Page
 from .request import Request
 from .handler import Handler
 import inspect

@@ -2,7 +2,7 @@
 from flask import Flask, Response
 import flask
 from .request import Request
-from .generated import *
+from .all_components import *
 
 class Handler(object):
     def __init__(self, pycob_app, action):
@@ -20,7 +20,7 @@ class Handler(object):
 
         html = ""
 
-        html += _tailwind_header_to_sidebar
+        html += _tailwind_header_to_sidebar(page.title)
 
         if page.auto_navbar:
             html += get_navbar_html(self.pycob_app)
@@ -84,66 +84,66 @@ def _get_sidebar(components) -> SidebarComponent:
 
     return sidebar
 
-_tailwind_header_to_sidebar = '''
-<!doctype html>
-        <html>
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            clifford: '#da373d',
-                        }
+def _tailwind_header_to_sidebar(title: str) -> str:
+    html = '''
+    <!doctype html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>''' + title + '''</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
                     }
-                },
-                darkMode: 'class'
-            }
-        </script>
-        <script>
-            function toggleDarkMode() {
-                if (document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.remove('dark')
-                } else {
-                    document.documentElement.classList.add('dark')
                 }
-            }
-        </script>
-        <style>
-        .gradient-background {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            },
+            darkMode: 'class'
         }
+    </script>
+    <script>
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark')
+            } else {
+                document.documentElement.classList.add('dark')
+            }
+        }
+    </script>
+    <style>
+    .gradient-background {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+    }
 
-        .gradient-text {
-            color: transparent;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-clip: text;
-            -webkit-background-clip: text;
-            animation: gradient 2s ease infinite;
-        }
+    .gradient-text {
+        color: transparent;
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-clip: text;
+        -webkit-background-clip: text;
+        animation: gradient 2s ease infinite;
+    }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
         }
-        </style>
-        </head>
-        <body class="flex flex-col h-screen dark:bg-gray-900 ">
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    </style>
+    </head>
+    <body class="flex flex-col h-screen dark:bg-gray-900 ">
 '''
-#            <header class="text-white body-font"><div class="gradient-background mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"><a class="flex title-font font-bold items-center text-gray-100 mb-4 md:mb-0"><span class="ml-3 text-4xl">🌽 PyCob</span></a><nav class="md:ml-auto flex flex-wrap items-center text-base justify-center"><a class="mr-5 hover:text-gray-900">First Link</a><a class="mr-5 hover:text-gray-900">Second Link</a><a class="mr-5 hover:text-gray-900">Third Link</a><a class="mr-5 hover:text-gray-900">Fourth Link</a></nav><button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button></div></header>
-#            <div class="flex">
+    return html
 
 
 
