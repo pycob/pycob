@@ -685,7 +685,12 @@ def format_input(input):
         else:
             return '{:.1f} billion'.format(input / 1000000000)
     elif callable(getattr(input, "isoformat", None)):
-        return input.isoformat()
+        iso = input.isoformat()
+
+        if "T00:00:00" in iso:
+            return iso[0:10]
+
+        return iso
     else:
         return str(input)
 
