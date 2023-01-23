@@ -16,4 +16,4 @@ class Request:
         # if unsanitized is None or unsanitized == '':
         #     unsanitized = self.flask_request.json.__getattribute__(key)
 
-        return unsanitized.replace('<', '&lt;').replace('>', '&gt;').replace("'", "''").replace(";", "")
+        return unsanitized.replace('<', '&lt;').replace('>', '&gt;') #.replace("'", "''").replace(";", "")

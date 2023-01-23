@@ -18,7 +18,7 @@ classifiers = [
 ]
 keywords = ["pycob", "web", "framework", "python", "crud"]
 dependencies = [
-    "flask", "sqlalchemy"
+    "flask", "sqlalchemy", "requests"
 ]
 
 [project.urls]

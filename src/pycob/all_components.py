@@ -261,8 +261,8 @@ class FormComponent(Component):
     return self
     
 
-  def add_formtext(self, label: str, name: str, value: str):    
-    self.components.append(FormtextComponent(label, name, value))
+  def add_formtext(self, label: str, name: str, placeholder: str):    
+    self.components.append(FormtextComponent(label, name, placeholder))
     return self
     
 
@@ -279,15 +279,15 @@ class FormsubmitComponent(Component):
     return '''<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
-  def __init__(self, label: str, name: str, value: str):    
+  def __init__(self, label: str, name: str, placeholder: str):    
     self.label = label
     self.name = name
-    self.value = value
+    self.placeholder = placeholder
 
   def to_html(self):
     return '''<div class="relative mb-4">
     <label for="''' + self.name + '''" class="leading-7 text-sm text-gray-600">''' + self.label + '''</label>
-    <input name="''' + self.name + '''" type="text" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="''' + self.name + '''" value="''' + self.value + '''">
+    <input name="''' + self.name + '''" type="text" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="''' + self.name + '''" placeholder="''' + self.placeholder + '''">
 </div>'''
 
 class HeaderComponent(Component):

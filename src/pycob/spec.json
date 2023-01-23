@@ -573,9 +573,9 @@
       "description" : "Name for the form text"
     },
     {
-      "name" : "value",
+      "name" : "placeholder",
       "type" : "String",
-      "description" : "Value for the form text"
+      "description" : "Placeholder"
     }
   ],
   "elementType" : "formtext",
@@ -593,7 +593,7 @@
         "argumentValue" : "name"
       },
       {
-        "argumentName" : "value",
+        "argumentName" : "placeholder",
         "argumentValue" : "John Doe"
       }
     ],
@@ -607,7 +607,7 @@
         "argumentValue" : "email"
       },
       {
-        "argumentName" : "value",
+        "argumentName" : "placeholder",
         "argumentValue" : "test@test.com"
       }
     ]

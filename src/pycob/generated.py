@@ -152,6 +152,7 @@ class FormComponent(Component):
     self.action = action
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
+    print("Form components on init = ", self.components)
     self.method = method
 
   def to_html(self):
@@ -167,6 +168,7 @@ class FormComponent(Component):
     self.components.append(component)
     return self
   def add_formtext(self, label: str, name: str, value: str):    
+    print("Form components on add_formtext = ", self.components)
     self.components.append(FormtextComponent(label, name, value))
     return self
     
