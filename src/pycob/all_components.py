@@ -81,6 +81,11 @@ class CardComponent(Component):
     return self
     
 
+  def add_code(self, value: str, header: str = ''):    
+    self.components.append(CodeComponent(value, header))
+    return self
+    
+
   def add_divider(self):    
     self.components.append(DividerComponent())
     return self
@@ -91,8 +96,8 @@ class CardComponent(Component):
     return self
     
 
-  def add_table(self, table):    
-    self.components.append(TableComponent(table))
+  def add_rawtable(self, components: list = None):    
+    self.components.append(RawtableComponent(components))
     return self
     
 
@@ -121,7 +126,7 @@ class CodeComponent(Component):
         <span class="h-3 w-3 rounded-full bg-green-400"></span>
         <code class="pl-5 text-lime-500">''' + self.header + '''</code>
     </div>
-    <div class="w-full border-t-0 bg-gray-700 pb-5">
+    <div class="w-full border-t-0 bg-gray-700 pb-5 rounded-b-lg">
         <code class="text-gray-500">&gt&gt&gt</code>
         <code class="text-white">''' + self.value + '''</code>
     </div>
@@ -269,6 +274,11 @@ class FormComponent(Component):
     return self
     
 
+  def add_code(self, value: str, header: str = ''):    
+    self.components.append(CodeComponent(value, header))
+    return self
+    
+
   def add_formtext(self, label: str, name: str, placeholder: str):    
     self.components.append(FormtextComponent(label, name, placeholder))
     return self
@@ -286,6 +296,11 @@ class FormComponent(Component):
 
   def add_formsubmit(self, label: str = 'Submit'):    
     self.components.append(FormsubmitComponent(label))
+    return self
+    
+
+  def add_rawtable(self, components: list = None):    
+    self.components.append(RawtableComponent(components))
     return self
     
 
@@ -510,8 +525,8 @@ class Page(Component):
     return self
     
 
-  def add_table(self, table):    
-    self.components.append(TableComponent(table))
+  def add_rawtable(self, components: list = None):    
+    self.components.append(RawtableComponent(components))
     return self
     
 
@@ -555,6 +570,40 @@ class PlainlinkComponent(Component):
 
   def to_html(self):
     return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
+
+class RawtableComponent(Component):
+  def __init__(self, components: list = None):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return '''<div class="relative overflow-x-auto shadow-md mb-5 sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+    </table>
+</div>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_tablehead(self, components: list = None):    
+    self.components.append(TableheadComponent(components))
+    return self
+    
+
+  def add_tablerow(self, components: list = None):    
+    self.components.append(TablerowComponent(components))
+    return self
+    
+
+  def add_tablebody(self, components: list = None):    
+    self.components.append(TablebodyComponent(components))
+    return self
+    
 
 class SectionComponent(Component):
   def __init__(self, id: str, name: str, level: int = 1):    
@@ -623,12 +672,133 @@ class SidebarlinkComponent(Component):
   def to_html(self):
     return '''<li><a href="''' + self.url + '''" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
-class TableComponent(Component):
-  def __init__(self, table):    
-    self.table = table
+class TablebodyComponent(Component):
+  def __init__(self, components: list = None):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
 
   def to_html(self):
-    return '''TODO: Table'''
+    return '''<tbody>
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</tbody>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_tablerow(self, components: list = None):    
+    self.components.append(TablerowComponent(components))
+    return self
+    
+
+class TablecellComponent(Component):
+  def __init__(self, value: str):    
+    self.value = value
+
+  def to_html(self):
+    return '''<td class="px-6 py-4 whitespace-nowrap">
+    ''' + self.value + '''
+</td>'''
+
+class TablecellheaderComponent(Component):
+  def __init__(self, value: str):    
+    self.value = value
+
+  def to_html(self):
+    return '''<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+    ''' + self.value + '''
+</th>'''
+
+class TablecolComponent(Component):
+  def __init__(self, components: list = None):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return '''<td class="px-6 py-4 whitespace-nowrap">
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</td>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+class TableheadComponent(Component):
+  def __init__(self, components: list = None):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return '''<thead class="bg-gray-50 dark:bg-gray-800">
+    <tr>
+        ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+    </tr>
+</thead>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_tablerow(self, components: list = None):    
+    self.components.append(TablerowComponent(components))
+    return self
+    
+
+  def add_tablecol(self, components: list = None):    
+    self.components.append(TablecolComponent(components))
+    return self
+    
+
+  def add_tablecell(self, value: str):    
+    self.components.append(TablecellComponent(value))
+    return self
+    
+
+  def add_tablecellheader(self, value: str):    
+    self.components.append(TablecellheaderComponent(value))
+    return self
+    
+
+class TablerowComponent(Component):
+  def __init__(self, components: list = None):    
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+
+  def to_html(self):
+    return '''<tr class="border-t border-gray-200 dark:border-gray-700">
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</tr>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_tablecol(self, components: list = None):    
+    self.components.append(TablecolComponent(components))
+    return self
+    
+
+  def add_tablecell(self, value: str):    
+    self.components.append(TablecellComponent(value))
+    return self
+    
+
+  def add_tablecellheader(self, value: str):    
+    self.components.append(TablecellheaderComponent(value))
+    return self
+    
 
 class TextComponent(Component):
   def __init__(self, value: str):    

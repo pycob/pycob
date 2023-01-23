@@ -468,7 +468,9 @@
   ],
   "elementType" : "code",
   "attachableTo" : [
-    "page"
+    "page",
+    "form",
+    "card"
   ],
   "exampleCode" : [
     {
@@ -793,24 +795,144 @@
   "name" : "Form Submit"
 },
 {
-  "category" : "Basic HTML",
+  "category" : "Table",
   "arguments" : [
     {
-      "name" : "table",
-      "type" : "Untyped",
-      "description" : "Dataframe to render"
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to render in the table"
     }
   ],
-  "elementType" : "table",
+  "elementType" : "rawtable",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "form"
   ],
   "exampleCode" : [
 
   ],
-  "description" : "Renders a table",
-  "name" : "Table"
+  "description" : "Renders a table manually by constructing the table header, body, content, etc.. This is useful if you want to customize the table more than what the other table functions allow. Most of the time you'll use the other table functions instead of this one.",
+  "name" : "Raw HTML Table"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to render in the table head"
+    }
+  ],
+  "elementType" : "tablehead",
+  "attachableTo" : [
+    "rawtable"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table head",
+  "name" : "Table Head"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to render in the table row"
+    }
+  ],
+  "elementType" : "tablerow",
+  "attachableTo" : [
+    "rawtable",
+    "tablehead",
+    "tablebody"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table row",
+  "name" : "Table Row"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to render in the table column"
+    }
+  ],
+  "elementType" : "tablecol",
+  "attachableTo" : [
+    "tablehead",
+    "tablerow"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table column",
+  "name" : "Table Column"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to render in the table body"
+    }
+  ],
+  "elementType" : "tablebody",
+  "attachableTo" : [
+    "rawtable"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table body",
+  "name" : "Table Body"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "String to render in the table cell"
+    }
+  ],
+  "elementType" : "tablecell",
+  "attachableTo" : [
+    "tablehead",
+    "tablerow"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table cell",
+  "name" : "Table Cell"
+},
+{
+  "category" : "Table",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "String to render in the table cell header"
+    }
+  ],
+  "elementType" : "tablecellheader",
+  "attachableTo" : [
+    "tablehead",
+    "tablerow"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table cell header",
+  "name" : "Table Cell Header"
 },
 {
   "category" : "Advanced",
@@ -827,14 +949,7 @@
     "card"
   ],
   "exampleCode" : [
-    {
-      "arguments" : [
-        {
-          "argumentName" : "dataframe",
-          "argumentValue" : "df"
-        }
-      ]
-    }
+
   ],
   "description" : "Renders a pandas table",
   "name" : "Pandas Table"
@@ -1070,7 +1185,7 @@
       "arguments" : [
         {
           "argumentName" : "url",
-          "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/src\/pycob\/spec.json"
+          "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/LICENSE"
         }
       ]
     }
