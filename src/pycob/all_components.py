@@ -553,7 +553,7 @@ class SidebarComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return '''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-slate-200 p-2 h-screen sticky top-0">
+    return '''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -579,7 +579,7 @@ class SidebarcategoryComponent(Component):
 
   def to_html(self):
     return '''<div class="mb-8">
-    <h2 class="text-lg font-medium text-gray-900 tracking-wider uppercase mb-3">''' + self.title + '''</h2>
+    <h2 class="text-lg font-medium text-gray-500 dark:text-gray-400 tracking-wider uppercase mb-3">''' + self.title + '''</h2>
     <ul class="ml-5 list-none">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </ul>
@@ -603,7 +603,7 @@ class SidebarlinkComponent(Component):
     self.url = url
 
   def to_html(self):
-    return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
+    return '''<li><a href="''' + self.url + '''" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class TextComponent(Component):
   def __init__(self, value: str):    
