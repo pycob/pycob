@@ -145,7 +145,7 @@
       "description" : "Classes to be applied to the link"
     }
   ],
-  "elementType" : "link",
+  "elementType" : "plainlink",
   "attachableTo" : [
     "page",
     "navbar",
@@ -163,8 +163,8 @@
       }
     ]
   ],
-  "description" : "Renders a link",
-  "name" : "Link"
+  "description" : "Renders a link without any styling",
+  "name" : "Unstyled Link"
 },
 {
   "category" : "Basic HTML",
@@ -211,10 +211,10 @@
       "description" : "Text to be rendered"
     },
     {
-      "defaultValue" : "1",
+      "defaultValue" : "5",
       "name" : "size",
       "type" : "Optional Integer",
-      "description" : "Size of the header. Choose 1-6"
+      "description" : "Size of the header. Choose 2-9"
     }
   ],
   "elementType" : "header",
@@ -614,6 +614,96 @@
   ],
   "description" : "Renders a form",
   "name" : "Form Text"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "defaultValue" : "Your E-mail",
+      "name" : "label",
+      "type" : "Optional String",
+      "description" : "Label for the form email"
+    },
+    {
+      "defaultValue" : "email",
+      "name" : "name",
+      "type" : "Optional String",
+      "description" : "Name for the form email"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "placeholder",
+      "type" : "Optional String",
+      "description" : "Placeholder"
+    }
+  ],
+  "elementType" : "formemail",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Email"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "email"
+      },
+      {
+        "argumentName" : "placeholder",
+        "argumentValue" : "test@pycob.com"
+      }
+    ]
+  ],
+  "description" : "Renders a form email",
+  "name" : "Form Email"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "defaultValue" : "Your Message",
+      "name" : "label",
+      "type" : "Optional String",
+      "description" : "Label for the text area"
+    },
+    {
+      "defaultValue" : "message",
+      "name" : "name",
+      "type" : "Optional String",
+      "description" : "Name for the text area"
+    },
+    {
+      "defaultValue" : "Leave a comment...",
+      "name" : "placeholder",
+      "type" : "Optional String",
+      "description" : "Placeholder"
+    }
+  ],
+  "elementType" : "textarea",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    [
+      {
+        "argumentName" : "label",
+        "argumentValue" : "Message"
+      },
+      {
+        "argumentName" : "name",
+        "argumentValue" : "message"
+      },
+      {
+        "argumentName" : "placeholder",
+        "argumentValue" : "Your message"
+      }
+    ]
+  ],
+  "description" : "Renders a text area",
+  "name" : "Text Area"
 },
 {
   "category" : "Form",

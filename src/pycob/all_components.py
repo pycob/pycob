@@ -58,7 +58,7 @@ class CardComponent(Component):
     return self
     
 
-  def add_header(self, text: str, size: int = 1):    
+  def add_header(self, text: str, size: int = 5):    
     self.components.append(HeaderComponent(text, size))
     return self
     
@@ -240,7 +240,7 @@ class FormComponent(Component):
     self.method = method
 
   def to_html(self):
-    return '''<form action="''' + self.action + '''" method="''' + self.method + '''">
+    return '''<form class="max-w-full" style="width: 500px" action="''' + self.action + '''" method="''' + self.method + '''">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </form>'''
 
@@ -266,17 +266,39 @@ class FormComponent(Component):
     return self
     
 
+  def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = ''):    
+    self.components.append(FormemailComponent(label, name, placeholder))
+    return self
+    
+
+  def add_textarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...'):    
+    self.components.append(TextareaComponent(label, name, placeholder))
+    return self
+    
+
   def add_formsubmit(self, label: str = 'Submit'):    
     self.components.append(FormsubmitComponent(label))
     return self
     
+
+class FormemailComponent(Component):
+  def __init__(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = ''):    
+    self.label = label
+    self.name = name
+    self.placeholder = placeholder
+
+  def to_html(self):
+    return '''<div class="mb-6">
+    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
+    <input type="email" name="''' + self.name + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
+</div>'''
 
 class FormsubmitComponent(Component):
   def __init__(self, label: str = 'Submit'):    
     self.label = label
 
   def to_html(self):
-    return '''<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">''' + self.label + '''</button>'''
+    return '''<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
   def __init__(self, label: str, name: str, placeholder: str):    
@@ -285,18 +307,18 @@ class FormtextComponent(Component):
     self.placeholder = placeholder
 
   def to_html(self):
-    return '''<div class="relative mb-4">
-    <label for="''' + self.name + '''" class="leading-7 text-sm text-gray-600">''' + self.label + '''</label>
-    <input name="''' + self.name + '''" type="text" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" id="''' + self.name + '''" placeholder="''' + self.placeholder + '''">
+    return '''<div class="mb-6">
+    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
+    <input type="text" name="''' + self.name + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
 </div>'''
 
 class HeaderComponent(Component):
-  def __init__(self, text: str, size: int = 1):    
+  def __init__(self, text: str, size: int = 5):    
     self.text = text
     self.size = size
 
   def to_html(self):
-    return '''<p class="title-font sm:text-''' + str(self.size) + '''xl text-xl font-medium text-gray-900 mb-3">''' + self.text + '''</p>'''
+    return '''<p class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-''' + str(self.size) + '''xl dark:text-white">''' + self.text + '''</p>'''
 
 class HeroComponent(Component):
   def __init__(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo'):    
@@ -337,7 +359,7 @@ class ImageComponent(Component):
     self.alt = alt
 
   def to_html(self):
-    return '''<img class="max-w-fit" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
+    return '''<img class="max-w-fit h-auto rounded-lg" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
   def __init__(self, text: str, url: str):    
@@ -435,7 +457,7 @@ class Page(Component):
     return self
     
 
-  def add_header(self, text: str, size: int = 1):    
+  def add_header(self, text: str, size: int = 5):    
     self.components.append(HeaderComponent(text, size))
     return self
     
@@ -588,7 +610,19 @@ class TextComponent(Component):
     self.value = value
 
   def to_html(self):
-    return '''<p>''' + self.value + '''</p>'''
+    return '''<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">''' + self.value + '''</p>'''
+
+class TextareaComponent(Component):
+  def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...'):    
+    self.label = label
+    self.name = name
+    self.placeholder = placeholder
+
+  def to_html(self):
+    return '''<div class="mb-6">
+    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
+    <textarea name="''' + self.name + '''" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''"></textarea>
+</div>'''
 
 
 #
