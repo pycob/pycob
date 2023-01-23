@@ -16,14 +16,17 @@ class AlertComponent(Component):
 </div>'''
 
 class CardComponent(Component):
-  def __init__(self, components: list = None, classes: str = ''):    
+  def __init__(self, center_content: bool = False, components: list = None, classes: str = ''):    
+    self.center_content = center_content
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     self.classes = classes
 
   def to_html(self):
-    return '''<div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ''' + self.classes + '''">
-    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+    return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ''' + self.classes + '''">
+    <div class="flex flex-col ">
+        ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+    </div>
 </div>'''
 
   def add(self, component):
@@ -63,8 +66,8 @@ class CardComponent(Component):
     return self
     
 
-  def add_card(self, components: list = None, classes: str = ''):    
-    self.components.append(CardComponent(components, classes))
+  def add_card(self, center_content: bool = False, components: list = None, classes: str = ''):    
+    self.components.append(CardComponent(center_content, components, classes))
     return self
     
 
@@ -88,8 +91,13 @@ class CardComponent(Component):
     return self
     
 
+  def add_table(self, table):    
+    self.components.append(TableComponent(table))
+    return self
+    
 
-  def add_pandastable(self, dataframe: str):
+
+  def add_pandastable(self, dataframe):
     advanced_add_pandastable(self, dataframe)
     return self
     
@@ -391,7 +399,12 @@ class NavbarComponent(Component):
           </button>            
             ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
         </nav>
-        <button class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+        <script>
+            function login() {
+                console.log("login")
+            }
+        </script>
+        <button onclick="login()" id="pycob-login-button" class="inline-flex items-center bg-gray-100 text-black border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Sign In<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
     </div>
 </header>'''
 
@@ -462,8 +475,8 @@ class Page(Component):
     return self
     
 
-  def add_card(self, components: list = None, classes: str = ''):    
-    self.components.append(CardComponent(components, classes))
+  def add_card(self, center_content: bool = False, components: list = None, classes: str = ''):    
+    self.components.append(CardComponent(center_content, components, classes))
     return self
     
 
@@ -497,8 +510,13 @@ class Page(Component):
     return self
     
 
+  def add_table(self, table):    
+    self.components.append(TableComponent(table))
+    return self
+    
 
-  def add_pandastable(self, dataframe: str):
+
+  def add_pandastable(self, dataframe):
     advanced_add_pandastable(self, dataframe)
     return self
     
@@ -553,7 +571,7 @@ class SidebarComponent(Component):
     self.components = components or []
 
   def to_html(self):
-    return '''<aside class="hidden md:block flex w-72 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
+    return '''<aside class="hidden md:block overflow-y-auto flex w-72 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -605,12 +623,19 @@ class SidebarlinkComponent(Component):
   def to_html(self):
     return '''<li><a href="''' + self.url + '''" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
+class TableComponent(Component):
+  def __init__(self, table):    
+    self.table = table
+
+  def to_html(self):
+    return '''TODO: Table'''
+
 class TextComponent(Component):
   def __init__(self, value: str):    
     self.value = value
 
   def to_html(self):
-    return '''<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">''' + self.value + '''</p>'''
+    return '''<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">''' + self.value + '''</p>'''
 
 class TextareaComponent(Component):
   def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...'):    

@@ -29,12 +29,14 @@
 
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "title",
-        "argumentValue" : "My Page"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "title",
+          "argumentValue" : "My Page"
+        }
+      ]
+    }
   ],
   "description" : "A page is the top level component of a website. It contains the navbar, the main content, and the footer.",
   "name" : "Page"
@@ -54,12 +56,14 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "value",
-        "argumentValue" : "<b>here's some html<\/b>"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "<b>here's some html<\/b>"
+        }
+      ]
+    }
   ],
   "description" : "Renders raw HTML",
   "name" : "HTML"
@@ -79,12 +83,14 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "value",
-        "argumentValue" : "Here's some text"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "Here's some text"
+        }
+      ]
+    }
   ],
   "description" : "Renders a paragraph of text",
   "name" : "Text"
@@ -111,16 +117,18 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a link"
-      },
-      {
-        "argumentName" : "url",
-        "argumentValue" : "https:\/\/www.pycob.com"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a link"
+        },
+        {
+          "argumentName" : "url",
+          "argumentValue" : "https:\/\/www.pycob.com"
+        }
+      ]
+    }
   ],
   "description" : "Renders a link",
   "name" : "Link"
@@ -152,16 +160,18 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a link"
-      },
-      {
-        "argumentName" : "url",
-        "argumentValue" : "https:\/\/www.pycob.com"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a link"
+        },
+        {
+          "argumentName" : "url",
+          "argumentValue" : "https:\/\/www.pycob.com"
+        }
+      ]
+    }
   ],
   "description" : "Renders a link without any styling",
   "name" : "Unstyled Link"
@@ -188,16 +198,18 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "url",
-        "argumentValue" : "https:\/\/cdn.pycob.com\/pycob_with_text_256.png"
-      },
-      {
-        "argumentName" : "alt",
-        "argumentValue" : "Pycob logo"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "url",
+          "argumentValue" : "https:\/\/cdn.pycob.com\/pycob_with_text_256.png"
+        },
+        {
+          "argumentName" : "alt",
+          "argumentValue" : "Pycob logo"
+        }
+      ]
+    }
   ],
   "description" : "Renders an image",
   "name" : "Image"
@@ -223,22 +235,26 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a big header"
-      }
-    ],
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a small header"
-      },
-      {
-        "argumentName" : "size",
-        "argumentValue" : 4
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a big header"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a small header"
+        },
+        {
+          "argumentName" : "size",
+          "argumentValue" : 4
+        }
+      ]
+    }
   ],
   "description" : "Renders a header",
   "name" : "Header"
@@ -246,6 +262,12 @@
 {
   "category" : "Basic HTML",
   "arguments" : [
+    {
+      "defaultValue" : "False",
+      "name" : "center_content",
+      "type" : "Optional Boolean",
+      "description" : "Whether the card contents should be centered"
+    },
     {
       "name" : "components",
       "type" : "Components",
@@ -295,40 +317,46 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a success alert"
-      }
-    ],
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's a warning alert"
-      },
-      {
-        "argumentName" : "badge",
-        "argumentValue" : "Warning"
-      },
-      {
-        "argumentName" : "color",
-        "argumentValue" : "orange"
-      }
-    ],
-    [
-      {
-        "argumentName" : "text",
-        "argumentValue" : "Here's an error alert"
-      },
-      {
-        "argumentName" : "badge",
-        "argumentValue" : "Delete?"
-      },
-      {
-        "argumentName" : "color",
-        "argumentValue" : "red"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a success alert"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's a warning alert"
+        },
+        {
+          "argumentName" : "badge",
+          "argumentValue" : "Warning"
+        },
+        {
+          "argumentName" : "color",
+          "argumentValue" : "orange"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "text",
+          "argumentValue" : "Here's an error alert"
+        },
+        {
+          "argumentName" : "badge",
+          "argumentValue" : "Delete?"
+        },
+        {
+          "argumentName" : "color",
+          "argumentValue" : "red"
+        }
+      ]
+    }
   ],
   "description" : "Renders an alert",
   "name" : "Alert"
@@ -364,56 +392,62 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "title",
-        "argumentValue" : "Here's a hero"
-      },
-      {
-        "argumentName" : "subtitle",
-        "argumentValue" : "Here's a subtitle"
-      },
-      {
-        "argumentName" : "image",
-        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-      }
-    ],
-    [
-      {
-        "argumentName" : "title",
-        "argumentValue" : "Here's a hero"
-      },
-      {
-        "argumentName" : "subtitle",
-        "argumentValue" : "Here's a subtitle"
-      },
-      {
-        "argumentName" : "image",
-        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-      },
-      {
-        "argumentName" : "color",
-        "argumentValue" : "yellow"
-      }
-    ],
-    [
-      {
-        "argumentName" : "title",
-        "argumentValue" : "Here's a hero"
-      },
-      {
-        "argumentName" : "subtitle",
-        "argumentValue" : "Here's a subtitle"
-      },
-      {
-        "argumentName" : "image",
-        "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-      },
-      {
-        "argumentName" : "color",
-        "argumentValue" : "red"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "title",
+          "argumentValue" : "Here's a hero"
+        },
+        {
+          "argumentName" : "subtitle",
+          "argumentValue" : "Here's a subtitle"
+        },
+        {
+          "argumentName" : "image",
+          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "title",
+          "argumentValue" : "Here's a hero"
+        },
+        {
+          "argumentName" : "subtitle",
+          "argumentValue" : "Here's a subtitle"
+        },
+        {
+          "argumentName" : "image",
+          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+        },
+        {
+          "argumentName" : "color",
+          "argumentValue" : "yellow"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "title",
+          "argumentValue" : "Here's a hero"
+        },
+        {
+          "argumentName" : "subtitle",
+          "argumentValue" : "Here's a subtitle"
+        },
+        {
+          "argumentName" : "image",
+          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
+        },
+        {
+          "argumentName" : "color",
+          "argumentValue" : "red"
+        }
+      ]
+    }
   ],
   "description" : "Renders a hero",
   "name" : "Hero"
@@ -437,22 +471,26 @@
     "page"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "value",
-        "argumentValue" : "Here's some code"
-      }
-    ],
-    [
-      {
-        "argumentName" : "value",
-        "argumentValue" : "Here's some code with a header"
-      },
-      {
-        "argumentName" : "header",
-        "argumentValue" : "With Header"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "Here's some code"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "Here's some code with a header"
+        },
+        {
+          "argumentName" : "header",
+          "argumentValue" : "With Header"
+        }
+      ]
+    }
   ],
   "description" : "Renders a block of code",
   "name" : "Code"
@@ -468,9 +506,11 @@
     "card"
   ],
   "exampleCode" : [
-    [
+    {
+      "arguments" : [
 
-    ]
+      ]
+    }
   ],
   "description" : "Renders a divider",
   "name" : "Divider"
@@ -500,30 +540,34 @@
     "page"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "id",
-        "argumentValue" : "section1"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "Sample Section 1"
-      }
-    ],
-    [
-      {
-        "argumentName" : "id",
-        "argumentValue" : "section2"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "Sample Section 2"
-      },
-      {
-        "argumentName" : "level",
-        "argumentValue" : 2
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "id",
+          "argumentValue" : "section1"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "Sample Section 1"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "id",
+          "argumentValue" : "section2"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "Sample Section 2"
+        },
+        {
+          "argumentName" : "level",
+          "argumentValue" : 2
+        }
+      ]
+    }
   ],
   "description" : "Creates an invisible element that can be used to link to in the sidebar",
   "name" : "Section"
@@ -583,34 +627,38 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Name"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "name"
-      },
-      {
-        "argumentName" : "placeholder",
-        "argumentValue" : "John Doe"
-      }
-    ],
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Email"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "email"
-      },
-      {
-        "argumentName" : "placeholder",
-        "argumentValue" : "test@test.com"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Name"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "name"
+        },
+        {
+          "argumentName" : "placeholder",
+          "argumentValue" : "John Doe"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Email"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "email"
+        },
+        {
+          "argumentName" : "placeholder",
+          "argumentValue" : "test@test.com"
+        }
+      ]
+    }
   ],
   "description" : "Renders a form",
   "name" : "Form Text"
@@ -642,20 +690,22 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Email"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "email"
-      },
-      {
-        "argumentName" : "placeholder",
-        "argumentValue" : "test@pycob.com"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Email"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "email"
+        },
+        {
+          "argumentName" : "placeholder",
+          "argumentValue" : "test@pycob.com"
+        }
+      ]
+    }
   ],
   "description" : "Renders a form email",
   "name" : "Form Email"
@@ -687,20 +737,22 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Message"
-      },
-      {
-        "argumentName" : "name",
-        "argumentValue" : "message"
-      },
-      {
-        "argumentName" : "placeholder",
-        "argumentValue" : "Your message"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Message"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "message"
+        },
+        {
+          "argumentName" : "placeholder",
+          "argumentValue" : "Your message"
+        }
+      ]
+    }
   ],
   "description" : "Renders a text area",
   "name" : "Text Area"
@@ -720,28 +772,52 @@
     "form"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Submit"
-      }
-    ],
-    [
-      {
-        "argumentName" : "label",
-        "argumentValue" : "Save"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Submit"
+        }
+      ]
+    },
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Save"
+        }
+      ]
+    }
   ],
   "description" : "Renders a form submit button",
   "name" : "Form Submit"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "table",
+      "type" : "Untyped",
+      "description" : "Dataframe to render"
+    }
+  ],
+  "elementType" : "table",
+  "attachableTo" : [
+    "page",
+    "card"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a table",
+  "name" : "Table"
 },
 {
   "category" : "Advanced",
   "arguments" : [
     {
       "name" : "dataframe",
-      "type" : "String",
+      "type" : "Untyped",
       "description" : "Dataframe to render"
     }
   ],
@@ -751,12 +827,14 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "dataframe",
-        "argumentValue" : "df"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "dataframe",
+          "argumentValue" : "df"
+        }
+      ]
+    }
   ],
   "description" : "Renders a pandas table",
   "name" : "Pandas Table"
@@ -961,12 +1039,14 @@
     "page"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "value",
-        "argumentValue" : "Here's some code"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "Here's some code"
+        }
+      ]
+    }
   ],
   "description" : "Renders a code editor",
   "name" : "Code Editor"
@@ -986,12 +1066,14 @@
     "card"
   ],
   "exampleCode" : [
-    [
-      {
-        "argumentName" : "url",
-        "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/src\/pycob\/spec.json"
-      }
-    ]
+    {
+      "arguments" : [
+        {
+          "argumentName" : "url",
+          "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/src\/pycob\/spec.json"
+        }
+      ]
+    }
   ],
   "description" : "Renders a block of code from a github URL",
   "name" : "Github Embed"
