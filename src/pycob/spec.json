@@ -949,7 +949,18 @@
     "card"
   ],
   "exampleCode" : [
-
+    {
+      "setup" : [
+        "data = {\n\"calories\": [420, 380, 390],\n\"duration\": [50, 40, 45],\n\"large_numbers\": [9000, 9000000, 9000000000],\n}",
+        "df = pd.DataFrame(data)"
+      ],
+      "arguments" : [
+        {
+          "argumentName" : "dataframe",
+          "argumentValue" : "df"
+        }
+      ]
+    }
   ],
   "description" : "Renders a pandas table",
   "name" : "Pandas Table"
