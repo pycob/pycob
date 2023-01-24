@@ -407,46 +407,6 @@
           "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
         }
       ]
-    },
-    {
-      "arguments" : [
-        {
-          "argumentName" : "title",
-          "argumentValue" : "Here's a hero"
-        },
-        {
-          "argumentName" : "subtitle",
-          "argumentValue" : "Here's a subtitle"
-        },
-        {
-          "argumentName" : "image",
-          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-        },
-        {
-          "argumentName" : "color",
-          "argumentValue" : "yellow"
-        }
-      ]
-    },
-    {
-      "arguments" : [
-        {
-          "argumentName" : "title",
-          "argumentValue" : "Here's a hero"
-        },
-        {
-          "argumentName" : "subtitle",
-          "argumentValue" : "Here's a subtitle"
-        },
-        {
-          "argumentName" : "image",
-          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-        },
-        {
-          "argumentName" : "color",
-          "argumentValue" : "red"
-        }
-      ]
     }
   ],
   "description" : "Renders a hero",
@@ -534,7 +494,7 @@
       "defaultValue" : "1",
       "name" : "level",
       "type" : "Optional Integer",
-      "description" : "Level of the section. This is the indendation that will appear in the navigation bar"
+      "description" : "Level of the section. This is the indentation that will appear in the navigation bar"
     }
   ],
   "elementType" : "section",
@@ -711,6 +671,86 @@
   ],
   "description" : "Renders a form email",
   "name" : "Form Email"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "name" : "label",
+      "type" : "String",
+      "description" : "Label for the form select"
+    },
+    {
+      "name" : "name",
+      "type" : "String",
+      "description" : "Name for the form select"
+    },
+    {
+      "name" : "options",
+      "type" : "Untyped",
+      "description" : "Options for the form select"
+    }
+  ],
+  "postInitPythonFunc" : "self.components = []\nfor option in self.options:\n    self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))",
+  "elementType" : "formselect",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Select"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "select"
+        },
+        {
+          "argumentName" : "options",
+          "argumentValue" : "[{'value': 'US', 'label': 'United States'}, {'value': 'CA', 'label': 'Canada'}]"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders a form select",
+  "name" : "Form Select"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "label",
+      "type" : "String",
+      "description" : "Label for the select option"
+    },
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Value for the select option"
+    }
+  ],
+  "elementType" : "selectoption",
+  "attachableTo" : [
+    "formselect"
+  ],
+  "exampleCode" : [
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "United States"
+        },
+        {
+          "argumentName" : "value",
+          "argumentValue" : "US"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders a select option",
+  "name" : "Select Option"
 },
 {
   "category" : "Form",
@@ -949,7 +989,18 @@
     "card"
   ],
   "exampleCode" : [
-
+    {
+      "setup" : [
+        "data = {\n\"calories\": [420, 380, 390],\n\"duration\": [50, 40, 45],\n\"large_numbers\": [9000, 9000000, 9000000000],\n}",
+        "df = pd.DataFrame(data)"
+      ],
+      "arguments" : [
+        {
+          "argumentName" : "dataframe",
+          "argumentValue" : "df"
+        }
+      ]
+    }
   ],
   "description" : "Renders a pandas table",
   "name" : "Pandas Table"
