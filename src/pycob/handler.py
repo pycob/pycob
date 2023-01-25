@@ -127,7 +127,7 @@ class PageHandler(object):
         return html
 
 def get_navbar_html(pycob_app):
-    navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_transparent.png")
+    navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_hex.png")
 
     for page_path, page_dict in pycob_app.pages.items():
         if page_dict['show_in_navbar']:
