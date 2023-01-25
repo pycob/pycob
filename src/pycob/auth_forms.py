@@ -17,7 +17,7 @@ def profile(server_request: Request) -> Page:
     card.add_image("https://loremflickr.com/320/240", "User Profile Picture")
     card.add_header(username, size=2)
 
-    form = page.add_form("/auth/logout", "POST")
+    form = page.add_form("/auth/__handle_logout", "POST")
     form.add_formsubmit("Sign Out")
 
     return page
