@@ -17,3 +17,6 @@ class Request:
         #     unsanitized = self.flask_request.json.__getattribute__(key)
 
         return unsanitized.replace('<', '&lt;').replace('>', '&gt;') #.replace("'", "''").replace(";", "")
+
+    def get_username(self) -> str:
+        return flask.session.get('username')

@@ -1,6 +1,6 @@
 # PyCob 
 
-![PyCob Logo on Hexagon](https://cdn.pycob.com/pycob_with_text_256.png)
+![PyCob Logo on Hexagon](https://cdn.pycob.com/android-chrome-192x192.png)
 
 ## Create web apps using just Python
 
@@ -11,19 +11,19 @@ pip install pycob
 
 ### Use PyCob
 ```python
-import pycob as pc
+import pycob as cob
 
-app = pc.App('Test App')
+app = cob.App('Test App')
 
-def test_page(server_request: pc.Request) -> pc.Page:
+def test_page(server_request: cob.Request) -> cob.Page:
     name = server_request.get_query_parameter('name')
-    page = pc.Page('Test Page')
+    page = cob.Page('Test Page')
     page.add_header('Test Header', "2")
     page.add_text('Test Text')
     page.add_alert('Test Alert')
     page.add_hero('Hello ' + name, 'Test Subtitle', 'https://source.unsplash.com/random/800x600')
     
-    form = pc.FormComponent(action="/")
+    form = cob.FormComponent(action="/")
     form.add_formtext('Name', 'name', 'Enter your name')
     form.add_formsubmit('Submit')
 

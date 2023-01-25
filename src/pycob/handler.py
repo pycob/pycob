@@ -3,14 +3,64 @@ from flask import Flask, Response
 import flask
 from .request import Request
 from .all_components import *
+from werkzeug.security import generate_password_hash, check_password_hash
 
-class Handler(object):
-    def __init__(self, pycob_app, action):
+class LoginHandler(object):
+    def __init__(self, pycob_app):
+        self.pycob_app = pycob_app
+    
+    def __call__(self, *args):
+        request = Request(flask.request)
+        username = request.get_query_parameter("username")
+        password = request.get_query_parameter("password")
+        redirect = request.get_query_parameter("redirect")
+
+        if redirect is None or redirect == "":
+            redirect = "/auth/profile"
+
+        user_data = self.pycob_app.retrieve_dict("users", username)
+
+        if user_data is not None and 'password_hash' in user_data and check_password_hash(user_data['password_hash'], password):
+            flask.session['username'] = username
+            return flask.redirect(redirect)
+        else:
+            return flask.redirect("/auth/login_retry?redirect=" + redirect)
+
+class SignupHandler(object):
+    def __init__(self, pycob_app):
+        self.pycob_app = pycob_app
+    
+    def __call__(self, *args):
+        request = Request(flask.request)
+        username = request.get_query_parameter("username")
+        password = request.get_query_parameter("password")
+        email = request.get_query_parameter("email")
+
+        user_data = self.pycob_app.retrieve_dict("users", username)
+
+        if user_data is not None:
+            return flask.redirect("/auth/signup?message=" + "Username already exists. Please try again.")
+
+        user_data = {
+            "username": username,
+            "password_hash": generate_password_hash(password),
+            "email": email
+        }
+
+        self.pycob_app.store_dict("users", username, user_data)
+        flask.session['username'] = username
+
+        return flask.redirect("/auth/profile")
+
+class PageHandler(object):
+    def __init__(self, pycob_app, action, require_login):
         self.action = action
         self.pycob_app = pycob_app
+        self.require_login = require_login
         self.response = Response(status=200, headers={})
 
-    def __call__(self, *args):        
+    def __call__(self, *args):
+        print("Handler.__call__ args = ", str(args))     
         page = self.action(Request(flask.request))
         
         if flask.request.accept_mimetypes['application/json'] and (not flask.request.accept_mimetypes['text/html']):
@@ -58,10 +108,11 @@ def get_footer_html(pycob_app):
     categorized = {}
 
     for page_path, page_dict in pycob_app.pages.items():
-        if page_dict['footer_category'] in categorized:
-            categorized[page_dict['footer_category']].append( FooterlinkComponent(page_dict['page_name'], "/" + page_path) )
-        else:
-            categorized[page_dict['footer_category']] = [ FooterlinkComponent(page_dict['page_name'], "/" + page_path) ]
+        if page_dict['footer_category'] is not None:
+            if page_dict['footer_category'] in categorized:
+                categorized[page_dict['footer_category']].append( FooterlinkComponent(page_dict['page_name'], "/" + page_path) )
+            else:
+                categorized[page_dict['footer_category']] = [ FooterlinkComponent(page_dict['page_name'], "/" + page_path) ]
 
     for category_name, footerlinks in categorized.items():
         footercategory = FootercategoryComponent(category_name, components=footerlinks)
@@ -96,6 +147,14 @@ def _tailwind_header_to_sidebar(title: str) -> str:
     <html>
     <head>
     <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.pycob.com/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.pycob.com/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.pycob.com/favicon-16x16.png">
+    <link rel="mask-icon" href="https://cdn.pycob.com/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="https://cdn.pycob.com/favicon.ico">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="msapplication-config" content="https://cdn.pycob.com/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>''' + title + '''</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -117,6 +176,13 @@ def _tailwind_header_to_sidebar(title: str) -> str:
             } else {
                 document.documentElement.classList.add('dark')
             }
+        }
+
+        function setLoading() {
+            document.querySelectorAll("button[type=submit]").forEach((button) => {
+                button.innerHTML = '<svg aria-hidden="true" role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/></svg>Loading...';
+                button.disabled = true;
+            });
         }
     </script>
     <style>

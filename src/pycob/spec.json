@@ -7,11 +7,6 @@
       "description" : "The title of the page"
     },
     {
-      "name" : "components",
-      "type" : "Components",
-      "description" : "The components to be rendered on the page"
-    },
-    {
       "defaultValue" : "True",
       "name" : "auto_navbar",
       "type" : "Optional Boolean",
@@ -22,6 +17,11 @@
       "name" : "auto_footer",
       "type" : "Optional Boolean",
       "description" : "Whether or not to automatically generate a footer"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "The components to be rendered on the page"
     }
   ],
   "elementType" : "page",
@@ -269,15 +269,15 @@
       "description" : "Whether the card contents should be centered"
     },
     {
-      "name" : "components",
-      "type" : "Components",
-      "description" : "Components to be rendered inside the card"
-    },
-    {
       "defaultValue" : "",
       "name" : "classes",
       "type" : "Optional String",
       "description" : "Classes to be applied to the card"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to be rendered inside the card"
     }
   ],
   "elementType" : "card",
@@ -543,15 +543,15 @@
       "description" : "Action for the form. This is the page that the form will submit to"
     },
     {
-      "name" : "components",
-      "type" : "Components",
-      "description" : "List of Component of the form"
-    },
-    {
       "defaultValue" : "GET",
       "name" : "method",
       "type" : "Optional String",
       "description" : "Method for the form (i.e. GET, POST)"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "List of Component of the form"
     }
   ],
   "elementType" : "form",
@@ -579,8 +579,9 @@
       "description" : "Name for the form text"
     },
     {
+      "defaultValue" : "",
       "name" : "placeholder",
-      "type" : "String",
+      "type" : "Optional String",
       "description" : "Placeholder"
     }
   ],
@@ -641,7 +642,7 @@
       "description" : "Name for the form email"
     },
     {
-      "defaultValue" : "",
+      "defaultValue" : "user@example.com",
       "name" : "placeholder",
       "type" : "Optional String",
       "description" : "Placeholder"
@@ -671,6 +672,53 @@
   ],
   "description" : "Renders a form email",
   "name" : "Form Email"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "defaultValue" : "Password",
+      "name" : "label",
+      "type" : "Optional String",
+      "description" : "Label for the form password"
+    },
+    {
+      "defaultValue" : "password",
+      "name" : "name",
+      "type" : "Optional String",
+      "description" : "Name for the form password"
+    },
+    {
+      "defaultValue" : "password",
+      "name" : "placeholder",
+      "type" : "Optional String",
+      "description" : "Placeholder"
+    }
+  ],
+  "elementType" : "formpassword",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    {
+      "arguments" : [
+        {
+          "argumentName" : "label",
+          "argumentValue" : "Password"
+        },
+        {
+          "argumentName" : "name",
+          "argumentValue" : "password"
+        },
+        {
+          "argumentName" : "placeholder",
+          "argumentValue" : "********"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders a form password",
+  "name" : "Form Password"
 },
 {
   "category" : "Form",
@@ -716,6 +764,41 @@
   ],
   "description" : "Renders a form select",
   "name" : "Form Select"
+},
+{
+  "category" : "Form",
+  "arguments" : [
+    {
+      "name" : "name",
+      "type" : "String",
+      "description" : "Name for the form hidden"
+    },
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Value for the form hidden"
+    }
+  ],
+  "elementType" : "formhidden",
+  "attachableTo" : [
+    "form"
+  ],
+  "exampleCode" : [
+    {
+      "arguments" : [
+        {
+          "argumentName" : "name",
+          "argumentValue" : "hidden"
+        },
+        {
+          "argumentName" : "value",
+          "argumentValue" : "hidden"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders a hidden field on a form. This is useful for carrying state between pages without having to store data in the database.",
+  "name" : "Form Hidden Field"
 },
 {
   "category" : "Internal",

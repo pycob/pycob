@@ -19,11 +19,11 @@ class AlertComponent(Component):
 </div>'''
 
 class CardComponent(Component):
-  def __init__(self, center_content: bool = False, components: list = None, classes: str = ''):    
+  def __init__(self, center_content: bool = False, classes: str = '', components: list = None):    
     self.center_content = center_content
+    self.classes = classes
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
-    self.classes = classes
     
 
   def to_html(self):
@@ -76,8 +76,8 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_card(self, center_content: bool = False, components: list = None, classes: str = '') -> CardComponent:
-    new_component = CardComponent(center_content, components, classes)    
+  def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    new_component = CardComponent(center_content, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -106,8 +106,8 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_form(self, action: str, components: list = None, method: str = 'GET') -> FormComponent:
-    new_component = FormComponent(action, components, method)    
+  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+    new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
     
@@ -271,15 +271,15 @@ class FooterlinkComponent(Component):
     return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class FormComponent(Component):
-  def __init__(self, action: str, components: list = None, method: str = 'GET'):    
+  def __init__(self, action: str, method: str = 'GET', components: list = None):    
     self.action = action
+    self.method = method
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
-    self.method = method
     
 
   def to_html(self):
-    return '''<form class="max-w-full" style="width: 500px" action="''' + self.action + '''" method="''' + self.method + '''">
+    return '''<form class="max-w-full" style="width: 500px" onsubmit="setLoading()" action="''' + self.action + '''" method="''' + self.method + '''">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </form>'''
 
@@ -308,20 +308,32 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_formtext(self, label: str, name: str, placeholder: str) -> FormtextComponent:
+  def add_formtext(self, label: str, name: str, placeholder: str = '') -> FormtextComponent:
     new_component = FormtextComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
-  def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = '') -> FormemailComponent:
+  def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
     new_component = FormemailComponent(label, name, placeholder)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    new_component = FormpasswordComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formselect(self, label: str, name: str, options) -> FormselectComponent:
     new_component = FormselectComponent(label, name, options)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formhidden(self, name: str, value: str) -> FormhiddenComponent:
+    new_component = FormhiddenComponent(name, value)    
     self.components.append(new_component)
     return new_component
     
@@ -345,7 +357,7 @@ class FormComponent(Component):
     
 
 class FormemailComponent(Component):
-  def __init__(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = ''):    
+  def __init__(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com'):    
     self.label = label
     self.name = name
     self.placeholder = placeholder
@@ -355,6 +367,28 @@ class FormemailComponent(Component):
     return '''<div class="mb-6">
     <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
     <input type="email" name="''' + self.name + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
+</div>'''
+
+class FormhiddenComponent(Component):
+  def __init__(self, name: str, value: str):    
+    self.name = name
+    self.value = value
+    
+
+  def to_html(self):
+    return '''<input type="hidden" name="''' + self.name + '''" value="''' + self.value + '''">'''
+
+class FormpasswordComponent(Component):
+  def __init__(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password'):    
+    self.label = label
+    self.name = name
+    self.placeholder = placeholder
+    
+
+  def to_html(self):
+    return '''<div class="mb-6">
+    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
+    <input type="password" name="''' + self.name + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
 </div>'''
 
 class FormselectComponent(Component):
@@ -387,7 +421,7 @@ class FormsubmitComponent(Component):
     return '''<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
-  def __init__(self, label: str, name: str, placeholder: str):    
+  def __init__(self, label: str, name: str, placeholder: str = ''):    
     self.label = label
     self.name = name
     self.placeholder = placeholder
@@ -487,6 +521,7 @@ class NavbarComponent(Component):
         </nav>
         <script>
             function login() {
+                document.location.href = "/auth" + "/login"
                 console.log("login")
             }
         </script>
@@ -514,12 +549,12 @@ class NavbarComponent(Component):
     
 
 class Page(Component):
-  def __init__(self, title: str, components: list = None, auto_navbar: bool = True, auto_footer: bool = True):    
+  def __init__(self, title: str, auto_navbar: bool = True, auto_footer: bool = True, components: list = None):    
     self.title = title
-    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
-    self.components = components or []
     self.auto_navbar = auto_navbar
     self.auto_footer = auto_footer
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
     
 
   def to_html(self):
@@ -570,8 +605,8 @@ class Page(Component):
     return new_component
     
 
-  def add_card(self, center_content: bool = False, components: list = None, classes: str = '') -> CardComponent:
-    new_component = CardComponent(center_content, components, classes)    
+  def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    new_component = CardComponent(center_content, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -606,8 +641,8 @@ class Page(Component):
     return new_component
     
 
-  def add_form(self, action: str, components: list = None, method: str = 'GET') -> FormComponent:
-    new_component = FormComponent(action, components, method)    
+  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+    new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
     
