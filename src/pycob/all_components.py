@@ -27,7 +27,7 @@ class CardComponent(Component):
     
 
   def to_html(self):
-    return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 ''' + self.classes + '''">
+    return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
     <div class="flex flex-col ">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -144,7 +144,7 @@ class CodeComponent(Component):
         <span class="h-3 w-3 rounded-full bg-green-400"></span>
         <code class="pl-5 text-lime-500">''' + self.header + '''</code>
     </div>
-    <div class="w-full border-t-0 bg-gray-700 pb-5 rounded-b-lg">
+    <div class="w-full border-t-0 bg-gray-700 pb-5 rounded-b-lg whitespace-nowrap overflow-x-scroll">
         <code class="text-gray-500">&gt&gt&gt</code>
         <code class="text-white">''' + self.value + '''</code>
     </div>
@@ -543,7 +543,7 @@ class NavbarComponent(Component):
           <svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         </button>
       </div>
-      <div class="w-full items-center justify-between md:order-1 md:flex md:w-auto" id="navbar-sticky">
+      <div class="w-full items-center justify-between md:order-1 md:flex md:w-auto hidden" id="navbar-sticky">
         <ul class="mt-4 flex flex-col rounded-lg border p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:text-sm md:font-medium">
           ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
         </ul>
