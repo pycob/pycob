@@ -131,12 +131,12 @@ def get_navbar_html(pycob_app):
 
     for page_path, page_dict in pycob_app.pages.items():
         if page_dict['show_in_navbar']:
-            navbar.add_plainlink(page_dict['page_name'], "/" + page_path, "mr-5 hover:text-gray-900")
+            navbar.add_plainlink(page_dict['page_name'], "/" + page_path, "block rounded py-2 pl-3 pr-4 text-white hover:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-700 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent")
 
     return navbar.to_html()
 
 def get_footer_html(pycob_app):
-    footer = FooterComponent(pycob_app.name, "Footer Subtitle", "https://cdn.pycob.com/pycob_hex.png")
+    footer = FooterComponent(pycob_app.name, pycob_app.subtitle, "https://cdn.pycob.com/pycob_hex.png")
 
     categorized = {}
 
@@ -206,8 +206,12 @@ def _tailwind_header_to_sidebar(title: str) -> str:
         function toggleDarkMode() {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark')
+                document.getElementById("moon").classList.add("hidden")
+                document.getElementById("sun").classList.remove("hidden")
             } else {
                 document.documentElement.classList.add('dark')
+                document.getElementById("sun").classList.add("hidden")
+                document.getElementById("moon").classList.remove("hidden")
             }
         }
 

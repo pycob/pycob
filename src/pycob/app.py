@@ -14,9 +14,10 @@ demo_page.add_header('Demo Page', "2")
 class App:
     flask_app = None
 
-    def __init__(self, name: str, app_nav=[], api_key=None, use_built_in_auth=True):
+    def __init__(self, name: str, subtitle="", app_nav=[], api_key=None, use_built_in_auth=True):
         self.flask_app = flask.Flask(__name__)
         self.name = name
+        self.subtitle = subtitle
         self.nav = app_nav
         self.pages = {}
         self.api_key = api_key
