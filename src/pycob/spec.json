@@ -53,7 +53,8 @@
   "elementType" : "html",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -80,7 +81,8 @@
   "elementType" : "text",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -114,7 +116,8 @@
     "page",
     "navbar",
     "card",
-    "form"
+    "form",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -157,7 +160,8 @@
   "attachableTo" : [
     "page",
     "navbar",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -195,7 +199,8 @@
   "attachableTo" : [
     "page",
     "card",
-    "form"
+    "form",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -232,7 +237,8 @@
   "elementType" : "header",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -260,7 +266,7 @@
   "name" : "Header"
 },
 {
-  "category" : "Basic HTML",
+  "category" : "Layout",
   "arguments" : [
     {
       "defaultValue" : "False",
@@ -283,13 +289,49 @@
   "elementType" : "card",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
 
   ],
   "description" : "Renders a card",
   "name" : "Card"
+},
+{
+  "category" : "Layout",
+  "arguments" : [
+    {
+      "defaultValue" : "None",
+      "name" : "grid_columns",
+      "type" : "Optional Integer",
+      "description" : "Number of columns (if any) to use. 1-12"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the container"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Components to be rendered inside the container"
+    }
+  ],
+  "postInitPythonFunc" : "if grid_columns is not None:\n    self.classes += \" grid gap-6 grid-cols-\" + str(grid_columns)",
+  "elementType" : "container",
+  "attachableTo" : [
+    "page",
+    "card",
+    "container",
+    "form"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a container to help with layout",
+  "name" : "Container"
 },
 {
   "category" : "Layout",
@@ -314,7 +356,8 @@
   "elementType" : "alert",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -362,57 +405,6 @@
   "name" : "Alert"
 },
 {
-  "category" : "Layout",
-  "arguments" : [
-    {
-      "name" : "title",
-      "type" : "String",
-      "description" : "Title to be rendered"
-    },
-    {
-      "name" : "subtitle",
-      "type" : "Optional String",
-      "description" : "Subtitle to be rendered"
-    },
-    {
-      "name" : "image",
-      "type" : "Optional String",
-      "description" : "Image to be rendered"
-    },
-    {
-      "defaultValue" : "indigo",
-      "name" : "color",
-      "type" : "Optional String",
-      "description" : "Color of the. Choose 'indigo', 'orange', or 'red'"
-    }
-  ],
-  "elementType" : "hero",
-  "attachableTo" : [
-    "page",
-    "card"
-  ],
-  "exampleCode" : [
-    {
-      "arguments" : [
-        {
-          "argumentName" : "title",
-          "argumentValue" : "Here's a hero"
-        },
-        {
-          "argumentName" : "subtitle",
-          "argumentValue" : "Here's a subtitle"
-        },
-        {
-          "argumentName" : "image",
-          "argumentValue" : "https:\/\/loremflickr.com\/300\/300"
-        }
-      ]
-    }
-  ],
-  "description" : "Renders a hero",
-  "name" : "Hero"
-},
-{
   "category" : "Basic HTML",
   "arguments" : [
     {
@@ -430,7 +422,8 @@
   "attachableTo" : [
     "page",
     "form",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -557,7 +550,8 @@
   "elementType" : "form",
   "attachableTo" : [
     "page",
-    "card"
+    "card",
+    "container"
   ],
   "exampleCode" : [
 

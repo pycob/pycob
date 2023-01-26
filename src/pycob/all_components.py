@@ -82,14 +82,14 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
-    new_component = AlertComponent(text, badge, color)    
+  def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
-  def add_hero(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo') -> HeroComponent:
-    new_component = HeroComponent(title, subtitle, image, color)    
+  def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    new_component = AlertComponent(text, badge, color)    
     self.components.append(new_component)
     return new_component
     
@@ -189,6 +189,93 @@ class CodeeditorComponent(Component):
         editor.setValue(savedCode);
     }
 </script>'''
+
+class ContainerComponent(Component):
+  def __init__(self, grid_columns: int = None, classes: str = '', components: list = None):    
+    self.grid_columns = grid_columns
+    self.classes = classes
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+    if grid_columns is not None:
+        self.classes += " grid gap-6 grid-cols-" + str(grid_columns)
+
+  def to_html(self):
+    return '''<div class=" ''' + self.classes + '''">
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</div>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_html(self, value: str) -> HtmlComponent:
+    new_component = HtmlComponent(value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_text(self, value: str) -> TextComponent:
+    new_component = TextComponent(value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_link(self, text: str, url: str) -> LinkComponent:
+    new_component = LinkComponent(text, url)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
+    new_component = PlainlinkComponent(text, url, classes)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_image(self, url: str, alt: str) -> ImageComponent:
+    new_component = ImageComponent(url, alt)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_header(self, text: str, size: int = 5) -> HeaderComponent:
+    new_component = HeaderComponent(text, size)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    new_component = CardComponent(center_content, classes, components)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    new_component = ContainerComponent(grid_columns, classes, components)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    new_component = AlertComponent(text, badge, color)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_code(self, value: str, header: str = '') -> CodeComponent:
+    new_component = CodeComponent(value, header)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+    new_component = FormComponent(action, method, components)    
+    self.components.append(new_component)
+    return new_component
+    
 
 class DividerComponent(Component):
   def __init__(self):    
@@ -298,6 +385,12 @@ class FormComponent(Component):
 
   def add_image(self, url: str, alt: str) -> ImageComponent:
     new_component = ImageComponent(url, alt)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -441,34 +534,6 @@ class HeaderComponent(Component):
 
   def to_html(self):
     return '''<p class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 md:text-lg lg:text-''' + str(self.size) + '''xl dark:text-white">''' + self.text + '''</p>'''
-
-class HeroComponent(Component):
-  def __init__(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo'):    
-    self.title = title
-    self.subtitle = subtitle
-    self.image = image
-    self.color = color
-    
-
-  def to_html(self):
-    return '''<section class="bg-white dark:bg-gray-900">
-    <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-        <div class="mr-auto place-self-center lg:col-span-7">
-            <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">''' + self.title + '''</h1>
-            <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">''' + self.subtitle + '''</p>
-            <a href="#" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
-                Get started
-                <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </a>
-            <a href="#" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                Speak to Sales
-            </a> 
-        </div>
-        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img src="''' + self.image + '''">
-        </div>                
-    </div>
-</section>'''
 
 class HtmlComponent(Component):
   def __init__(self, value: str):    
@@ -633,14 +698,14 @@ class Page(Component):
     return new_component
     
 
-  def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
-    new_component = AlertComponent(text, badge, color)    
+  def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
-  def add_hero(self, title: str, subtitle: str = '', image: str = '', color: str = 'indigo') -> HeroComponent:
-    new_component = HeroComponent(title, subtitle, image, color)    
+  def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    new_component = AlertComponent(text, badge, color)    
     self.components.append(new_component)
     return new_component
     
@@ -800,7 +865,7 @@ class SidebarComponent(Component):
         return true;
     }
 </script>
-<aside class="hidden md:block overflow-y-auto flex w-72 py-24 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
+<aside class="hidden lg:block overflow-y-auto flex w-72 py-24 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
