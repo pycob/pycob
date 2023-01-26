@@ -785,7 +785,22 @@ class SidebarComponent(Component):
     
 
   def to_html(self):
-    return '''<aside class="hidden md:block overflow-y-auto flex w-72 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
+    return '''<script>
+    function smoothScrollTo(link) {
+        console.log(link);
+        var hashUrl = link.href;
+        console.log(hashUrl);
+        var hash = hashUrl.substring(hashUrl.indexOf("#") + 1);
+        console.log(hash);
+        var element = document.getElementById(hash);
+        console.log(element);
+        if (element) {
+            element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"})
+        }
+        return true;
+    }
+</script>
+<aside class="hidden md:block overflow-y-auto flex w-72 py-24 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -839,7 +854,7 @@ class SidebarlinkComponent(Component):
     
 
   def to_html(self):
-    return '''<li><a href="''' + self.url + '''" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
+    return '''<li><a href="''' + self.url + '''" onclick="event.preventDefault(); smoothScrollTo(this)" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class TablebodyComponent(Component):
   def __init__(self, components: list = None):    
