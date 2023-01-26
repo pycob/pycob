@@ -10,6 +10,12 @@ class AlertComponent(Component):
     self.color = color
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<div class="text-center py-4 lg:px-4">
 <div class="p-2 bg-''' + self.color + '''-800 items-center text-''' + self.color + '''-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
@@ -25,6 +31,12 @@ class CardComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
@@ -136,6 +148,12 @@ class CodeComponent(Component):
     self.header = header
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<div class="mx-auto my-10 max-w-3xl">
     <div class="flex h-11 w-full items-center justify-start space-x-1.5 rounded-t-lg bg-gray-900 px-3">
@@ -155,6 +173,12 @@ class CodeeditorComponent(Component):
     self.value = value
     self.language = language
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<style type="text/css" media="screen">
@@ -198,6 +222,12 @@ class ContainerComponent(Component):
     self.components = components or []
     if grid_columns is not None:
         self.classes += " grid gap-6 grid-cols-" + str(grid_columns)
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class=" ''' + self.classes + '''">
@@ -282,6 +312,12 @@ class DividerComponent(Component):
     pass
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<hr class="my-5 border-gray-300 w-full">'''
 
@@ -293,6 +329,12 @@ class FooterComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<footer class="text-gray-600 body-font">
@@ -327,6 +369,12 @@ class FootercategoryComponent(Component):
     self.components = components or []
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<div class="lg:w-1/4 md:w-1/2 w-full px-4">
     <h2 class="title-font font-medium text-gray-900 dark:text-white tracking-widest text-sm mb-3 uppercase">''' + self.title + '''</h2>
@@ -354,6 +402,12 @@ class FooterlinkComponent(Component):
     self.url = url
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800 dark:hover:text-white">''' + self.title + '''</a></li>'''
 
@@ -364,6 +418,12 @@ class FormComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<form class="max-w-full" style="width: 500px" onsubmit="setLoading()" action="''' + self.action + '''" method="''' + self.method + '''">
@@ -456,6 +516,12 @@ class FormemailComponent(Component):
     self.placeholder = placeholder
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<div class="mb-6">
     <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
@@ -468,6 +534,12 @@ class FormhiddenComponent(Component):
     self.value = value
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<input type="hidden" name="''' + self.name + '''" value="''' + self.value + '''">'''
 
@@ -477,6 +549,12 @@ class FormpasswordComponent(Component):
     self.name = name
     self.placeholder = placeholder
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="mb-6">
@@ -492,6 +570,12 @@ class FormselectComponent(Component):
     self.components = []
     for option in self.options:
         self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
@@ -510,6 +594,12 @@ class FormsubmitComponent(Component):
     self.label = label
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">''' + self.label + '''</button>'''
 
@@ -519,6 +609,12 @@ class FormtextComponent(Component):
     self.name = name
     self.placeholder = placeholder
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="mb-6">
@@ -532,6 +628,12 @@ class HeaderComponent(Component):
     self.size = size
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<p class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 md:text-lg lg:text-''' + str(self.size) + '''xl dark:text-white">''' + self.text + '''</p>'''
 
@@ -539,6 +641,12 @@ class HtmlComponent(Component):
   def __init__(self, value: str):    
     self.value = value
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''''' + self.value + ''''''
@@ -549,6 +657,12 @@ class ImageComponent(Component):
     self.alt = alt
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<img class="max-w-fit h-auto rounded-lg" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
@@ -557,6 +671,12 @@ class LinkComponent(Component):
     self.text = text
     self.url = url
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<p class="text-gray-500 dark:text-gray-400">
@@ -573,6 +693,12 @@ class NavbarComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<script>
@@ -643,6 +769,12 @@ class Page(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="container px-5 py-24 mx-auto max-w-fit">
@@ -783,6 +915,12 @@ class PlainlinkComponent(Component):
     self.classes = classes
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
 
@@ -791,6 +929,12 @@ class RawtableComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="relative overflow-x-auto shadow-md mb-5 sm:rounded-lg">
@@ -831,6 +975,12 @@ class SectionComponent(Component):
     self.level = level
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<span id=''' + self.id + '''></span>'''
 
@@ -840,6 +990,12 @@ class SelectoptionComponent(Component):
     self.value = value
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<option value="''' + self.value + '''">''' + self.label + '''</option>'''
 
@@ -848,6 +1004,12 @@ class SidebarComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<script>
@@ -891,6 +1053,12 @@ class SidebarcategoryComponent(Component):
     self.components = components or []
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<div class="mb-8">
     <h2 class="text-lg font-medium text-gray-500 dark:text-gray-400 tracking-wider uppercase mb-3">''' + self.title + '''</h2>
@@ -918,6 +1086,12 @@ class SidebarlinkComponent(Component):
     self.url = url
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<li><a href="''' + self.url + '''" onclick="event.preventDefault(); smoothScrollTo(this)" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
@@ -926,6 +1100,12 @@ class TablebodyComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<tbody>
@@ -950,6 +1130,12 @@ class TablecellComponent(Component):
     self.value = value
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<td class="px-6 py-4 whitespace-nowrap">
     ''' + self.value + '''
@@ -959,6 +1145,12 @@ class TablecellheaderComponent(Component):
   def __init__(self, value: str):    
     self.value = value
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -970,6 +1162,12 @@ class TablecolComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<td class="px-6 py-4 whitespace-nowrap">
@@ -988,6 +1186,12 @@ class TableheadComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<thead class="bg-gray-50 dark:bg-gray-800">
@@ -1033,6 +1237,12 @@ class TablerowComponent(Component):
     self.components = components or []
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<tr class="border-t border-gray-200 dark:border-gray-700">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
@@ -1068,6 +1278,12 @@ class TextComponent(Component):
     self.value = value
     
 
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
   def to_html(self):
     return '''<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">''' + self.value + '''</p>'''
 
@@ -1077,6 +1293,12 @@ class TextareaComponent(Component):
     self.name = name
     self.placeholder = placeholder
     
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
 
   def to_html(self):
     return '''<div class="mb-6">
