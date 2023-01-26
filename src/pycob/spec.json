@@ -109,6 +109,12 @@
       "name" : "url",
       "type" : "String",
       "description" : "URL to link to"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the link"
     }
   ],
   "elementType" : "link",
@@ -179,6 +185,86 @@
   ],
   "description" : "Renders a link without any styling",
   "name" : "Unstyled Link"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "defaultValue" : "True",
+      "name" : "show_dots",
+      "type" : "Optional Boolean",
+      "description" : "Whether or not to show dots"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the list"
+    },
+    {
+      "name" : "components",
+      "type" : "Components",
+      "description" : "Items to be rendered"
+    }
+  ],
+  "postInitPythonFunc" : "if self.show_dots:\n    self.classes += \"list-disc\"\nelse:\n    self.classes += \"list-none\"",
+  "elementType" : "list",
+  "attachableTo" : [
+    "page",
+    "card",
+    "container",
+    "form"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a list of items",
+  "name" : "List"
+},
+{
+  "category" : "Basic HTML",
+  "arguments" : [
+    {
+      "name" : "value",
+      "type" : "String",
+      "description" : "Text to be rendered"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the list item"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "svg",
+      "type" : "Optional String",
+      "description" : "SVG to render inside the list"
+    },
+    {
+      "defaultValue" : "None",
+      "name" : "is_checked",
+      "type" : "Optional Boolean",
+      "description" : "Whether or not the item is checked"
+    }
+  ],
+  "postInitPythonFunc" : "if self.is_checked is not None:\n    if self.is_checked:\n        self.svg = '''<svg class=\"w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0\" fill=\"currentColor\" viewBox=\"0 0 20 20\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z\" clip-rule=\"evenodd\"><\/path><\/svg>'''\n    else:\n        self.svg = '''<svg class=\"w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0\" fill=\"currentColor\" viewBox=\"0 0 20 20\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\"><path fill-rule=\"evenodd\" d=\"M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z\" clip-rule=\"evenodd\"><\/path><\/svg>'''\nelse:\n    self.svg = \"\"",
+  "elementType" : "listitem",
+  "attachableTo" : [
+    "list"
+  ],
+  "exampleCode" : [
+    {
+      "arguments" : [
+        {
+          "argumentName" : "value",
+          "argumentValue" : "Item 1"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders an item in a list",
+  "name" : "List Item"
 },
 {
   "category" : "Basic HTML",
@@ -319,7 +405,7 @@
       "description" : "Components to be rendered inside the container"
     }
   ],
-  "postInitPythonFunc" : "if grid_columns is not None:\n    self.classes += \" grid gap-6 grid-cols-\" + str(grid_columns)",
+  "postInitPythonFunc" : "if grid_columns is not None:\n    self.classes += \" grid gap-6 md:grid-cols-\" + str(grid_columns)",
   "elementType" : "container",
   "attachableTo" : [
     "page",

@@ -40,7 +40,7 @@ class CardComponent(Component):
 
   def to_html(self):
     return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
-    <div class="flex flex-col ">
+    <div class="flex flex-col h-full ">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
 </div>'''
@@ -64,14 +64,20 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_link(self, text: str, url: str) -> LinkComponent:
-    new_component = LinkComponent(text, url)    
+  def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
     new_component = PlainlinkComponent(text, url, classes)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -221,7 +227,7 @@ class ContainerComponent(Component):
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
     if grid_columns is not None:
-        self.classes += " grid gap-6 grid-cols-" + str(grid_columns)
+        self.classes += " grid gap-6 md:grid-cols-" + str(grid_columns)
 
   def __enter__(self):
     return self
@@ -253,14 +259,20 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_link(self, text: str, url: str) -> LinkComponent:
-    new_component = LinkComponent(text, url)    
+  def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
     new_component = PlainlinkComponent(text, url, classes)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -437,8 +449,14 @@ class FormComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
-  def add_link(self, text: str, url: str) -> LinkComponent:
-    new_component = LinkComponent(text, url)    
+  def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    new_component = LinkComponent(text, url, classes)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
@@ -667,9 +685,10 @@ class ImageComponent(Component):
     return '''<img class="max-w-fit h-auto rounded-lg" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
-  def __init__(self, text: str, url: str):    
+  def __init__(self, text: str, url: str, classes: str = ''):    
     self.text = text
     self.url = url
+    self.classes = classes
     
 
   def __enter__(self):
@@ -679,12 +698,73 @@ class LinkComponent(Component):
     pass
 
   def to_html(self):
-    return '''<p class="text-gray-500 dark:text-gray-400">
+    return '''<p class="text-gray-500 dark:text-gray-400 ''' + self.classes + '''">
     <a href="''' + self.url + '''" class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline">
     ''' + self.text + '''
     <svg aria-hidden="true" class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
     </a>
 </p>'''
+
+class ListComponent(Component):
+  def __init__(self, show_dots: bool = True, classes: str = '', components: list = None):    
+    self.show_dots = show_dots
+    self.classes = classes
+    # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
+    self.components = components or []
+    if self.show_dots:
+        self.classes += "list-disc"
+    else:
+        self.classes += "list-none"
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''<ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 ''' + self.classes + '''">
+    ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
+</ul>'''
+
+  def add(self, component):
+    self.components.append(component)
+    return self
+
+  def add_component(self, component):
+    self.components.append(component)
+    return self
+  def add_listitem(self, value: str, classes: str = '', svg: str = '', is_checked: bool = None) -> ListitemComponent:
+    new_component = ListitemComponent(value, classes, svg, is_checked)    
+    self.components.append(new_component)
+    return new_component
+    
+
+class ListitemComponent(Component):
+  def __init__(self, value: str, classes: str = '', svg: str = '', is_checked: bool = None):    
+    self.value = value
+    self.classes = classes
+    self.svg = svg
+    self.is_checked = is_checked
+    if self.is_checked is not None:
+        if self.is_checked:
+            self.svg = '''<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>'''
+        else:
+            self.svg = '''<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>'''
+    else:
+        self.svg = ""
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''<li class="flex items-center">
+    ''' + self.svg + '''
+    ''' + self.value + '''
+</li>'''
 
 class NavbarComponent(Component):
   def __init__(self, title: str, logo: str = '', components: list = None):    
@@ -749,8 +829,8 @@ class NavbarComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
-  def add_link(self, text: str, url: str) -> LinkComponent:
-    new_component = LinkComponent(text, url)    
+  def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -800,14 +880,20 @@ class Page(Component):
     return new_component
     
 
-  def add_link(self, text: str, url: str) -> LinkComponent:
-    new_component = LinkComponent(text, url)    
+  def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
     new_component = PlainlinkComponent(text, url, classes)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
