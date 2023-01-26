@@ -143,6 +143,12 @@ class CardComponent(Component):
     
 
 
+  def add_datagrid(self, dataframe, action_buttons: list = None):
+    advanced_add_datagrid(self, dataframe, action_buttons)
+    return self
+    
+
+
   def add_emgithub(self, url: str):
     advanced_add_emgithub(self, url)
     return self
@@ -964,6 +970,12 @@ class Page(Component):
     return self
     
 
+
+  def add_datagrid(self, dataframe, action_buttons: list = None):
+    advanced_add_datagrid(self, dataframe, action_buttons)
+    return self
+    
+
   def add_navbar(self, title: str, logo: str = '', components: list = None) -> NavbarComponent:
     new_component = NavbarComponent(title, logo, components)    
     self.components.append(new_component)
@@ -1053,6 +1065,23 @@ class RawtableComponent(Component):
     self.components.append(new_component)
     return new_component
     
+
+class Rowaction(Component):
+  def __init__(self, label: str, url: str, classes: str = '', open_in_new_window: bool = True):    
+    self.label = label
+    self.url = url
+    self.classes = classes
+    self.open_in_new_window = open_in_new_window
+    
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''TODO: Internal Component'''
 
 class SectionComponent(Component):
   def __init__(self, id: str, name: str, level: int = 1):    
@@ -1400,6 +1429,7 @@ class TextareaComponent(Component):
 #
 #
 from urllib.parse import quote
+import re
 
 def advanced_add_pandastable(self, df):
     # Pandas dataframe to html
@@ -1505,3 +1535,67 @@ def advanced_add_emgithub(self, url):
     '''
 
     self.components.append(HtmlComponent(emgithub))
+
+def __format_column_header(x: str) -> str:
+    # Insert undersore between camel case
+    x = re.sub(r'(?<=[a-z])(?=[A-Z])', '_', x)
+
+    # Capitalize the beginning of each word
+    x = x.title()
+
+    # Replace underscores with spaces
+    x = x.replace('_', ' ')
+
+    return x
+    
+
+def advanced_add_datagrid(page, dataframe, action_buttons):
+    cols = list(map(lambda x: {'headerName': __format_column_header(x), 'field': x} , dataframe.columns.to_list()))
+
+    datagridHtml = '''
+        <script>
+        var columnDefsasdf = {columns};
+        '''.format(columns = cols)
+
+    datagridHtml += '''
+        var rowDataasdf = {records};
+        '''.format(records = dataframe.to_json(orient='records'))
+
+    print(dataframe.to_json(orient='records'))
+
+    datagridHtml += '''
+        var gridOptionsasdf = {
+            columnDefs: columnDefsasdf,
+            rowData: rowDataasdf,
+            defaultColDef: {
+                sortable: true,
+                filter: true,
+                resizable: true,
+                floatingFilter: true,
+                autoHeight: true,
+                wrapText: true,
+                autoSizePadding: 10,
+                cellStyle: {
+                    'white-space': 'normal'
+                },
+            },
+            pagination: true
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            var gridDivasdf = document.querySelector('#divid_aggrid_asdf');
+            new agGrid.Grid(gridDivasdf, gridOptionsasdf);
+        });
+
+        function expand(e) {
+            e.parentElement.children[1].style.height = 'calc( 100vh )';
+            e.scrollIntoView();
+        }
+        </script>
+        <div>
+            <button onclick="expand(this)" class="mb-4 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Expand</button>
+            <div id="divid_aggrid_asdf" style="height: 500px; max-height: calc( 100vh - 60px ); width: calc( 100vw - 50px );" class="data-grid ag-theme-alpine-dark "></div>
+        </div>
+    '''
+
+    page.components.append(HtmlComponent(datagridHtml))
+

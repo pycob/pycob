@@ -1169,6 +1169,78 @@
   "name" : "Pandas Table"
 },
 {
+  "category" : "Advanced",
+  "arguments" : [
+    {
+      "name" : "dataframe",
+      "type" : "Untyped",
+      "description" : "Dataframe to render"
+    },
+    {
+      "name" : "action_buttons",
+      "type" : "Components",
+      "description" : "Row actions to render"
+    }
+  ],
+  "elementType" : "datagrid",
+  "attachableTo" : [
+    "page",
+    "card"
+  ],
+  "exampleCode" : [
+    {
+      "setup" : [
+        "data = {\n\"calories\": [420, 380, 390],\n\"duration\": [50, 40, 45],\n\"large_numbers\": [9000, 9000000, 9000000000],\n}",
+        "df = pd.DataFrame(data)"
+      ],
+      "arguments" : [
+        {
+          "argumentName" : "dataframe",
+          "argumentValue" : "df"
+        }
+      ]
+    }
+  ],
+  "description" : "Renders a data grid",
+  "name" : "Data Grid"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "label",
+      "type" : "String",
+      "description" : "Label for the button. Use {col_name} to use a column value. If you use just the column value, the button will replace that column. If you use a static string, a column will be added for the button."
+    },
+    {
+      "name" : "url",
+      "type" : "String",
+      "description" : "URL to navigate to when the button is clicked. Use {col_name} to include the column value in the link"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to add to the button"
+    },
+    {
+      "defaultValue" : "True",
+      "name" : "open_in_new_window",
+      "type" : "Optional Boolean",
+      "description" : "Open the link in a new window"
+    }
+  ],
+  "elementType" : "rowaction",
+  "attachableTo" : [
+
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a row action",
+  "name" : "Row Action"
+},
+{
   "category" : "Internal",
   "arguments" : [
     {

@@ -190,6 +190,7 @@ def _tailwind_header_to_sidebar(title: str) -> str:
     <meta name="theme-color" content="#ffffff">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>''' + title + '''</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
