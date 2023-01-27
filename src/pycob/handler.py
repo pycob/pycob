@@ -69,7 +69,6 @@ class PageHandler(object):
         self.response = Response(status=200, headers={})
 
     def __call__(self, *args):
-        print("Handler.__call__ args = ", str(args))    
         request = Request(flask.request)
 
         page = self.action(request)

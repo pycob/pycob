@@ -104,6 +104,16 @@ class App:
         if 'object' in server_response:
             return server_response['object']
 
+    def query_dict(self, table_id: str, field_name: str, field_value) -> list:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("query_objects", {"field_name": field_name, "table_id": table_id, "field_value": field_value}, self.api_key)
+
+        if type(server_response) is list:
+            arr = list(map(lambda x:  x['object'] if 'object' in x else None, server_response))
+            print(arr)
+            return arr
 
     def __set_api_key(self):
         if self.api_key is None:
@@ -146,8 +156,8 @@ class App:
 
         try:
             json_response = response.json()
-            print("API request returned: " + str(json_response))
-            print("Class of json_response: " + str(type(json_response)))
+            # print("API request returned: " + str(json_response))
+            # print("Class of json_response: " + str(type(json_response)))
             return json_response
         except:
             print("API request failed to return valid JSON.")
