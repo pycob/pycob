@@ -131,7 +131,7 @@ def get_navbar_html(pycob_app):
 
     for page_path, page_dict in pycob_app.pages.items():
         if page_dict['show_in_navbar']:
-            navbar.add_plainlink(page_dict['page_name'], "/" + page_path, "block rounded py-2 pl-3 pr-4 text-white hover:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-700 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent")
+            navbar.add_plainlink(page_dict['page_name'], "/" + page_path, "block rounded-lg py-2 pl-3 pr-4 text-white hover:bg-blue-800 md:p-2")
 
     return navbar.to_html()
 
@@ -234,7 +234,7 @@ def _tailwind_header_to_sidebar(title: str) -> str:
     .gradient-background {
         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
         background-size: 400% 400%;
-        animation: gradient 15s ease infinite;
+        animation: gradient 180s ease infinite;
     }
 
     .gradient-text {
@@ -254,6 +254,12 @@ def _tailwind_header_to_sidebar(title: str) -> str:
         }
         100% {
             background-position: 0% 50%;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        #page-container {
+            max-width: calc( 100vw - 320px );
         }
     }
     </style>

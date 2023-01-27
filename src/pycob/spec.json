@@ -82,7 +82,8 @@
   "attachableTo" : [
     "page",
     "card",
-    "container"
+    "container",
+    "form"
   ],
   "exampleCode" : [
     {
@@ -279,6 +280,12 @@
       "name" : "alt",
       "type" : "String",
       "description" : "Alt text for the image"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the image"
     }
   ],
   "elementType" : "image",
@@ -502,8 +509,15 @@
       "name" : "header",
       "type" : "Optional String",
       "description" : "Header to be rendered above the code block"
+    },
+    {
+      "defaultValue" : ">>>",
+      "name" : "prefix",
+      "type" : "Optional String",
+      "description" : "Prefix to be rendered before the code block"
     }
   ],
+  "postInitPythonFunc" : "# Replace < and > in prefix:\nself.prefix = self.prefix.replace(\"<\", \"&lt;\").replace(\">\", \"&gt;\")",
   "elementType" : "code",
   "attachableTo" : [
     "page",
@@ -1188,18 +1202,7 @@
     "card"
   ],
   "exampleCode" : [
-    {
-      "setup" : [
-        "data = {\n\"calories\": [420, 380, 390],\n\"duration\": [50, 40, 45],\n\"large_numbers\": [9000, 9000000, 9000000000],\n}",
-        "df = pd.DataFrame(data)"
-      ],
-      "arguments" : [
-        {
-          "argumentName" : "dataframe",
-          "argumentValue" : "df"
-        }
-      ]
-    }
+
   ],
   "description" : "Renders a data grid",
   "name" : "Data Grid"
@@ -1467,14 +1470,7 @@
     "card"
   ],
   "exampleCode" : [
-    {
-      "arguments" : [
-        {
-          "argumentName" : "url",
-          "argumentValue" : "https:\/\/github.com\/pycob\/pycob\/blob\/main\/LICENSE"
-        }
-      ]
-    }
+
   ],
   "description" : "Renders a block of code from a github URL",
   "name" : "Github Embed"

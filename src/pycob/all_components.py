@@ -39,7 +39,7 @@ class CardComponent(Component):
     pass
 
   def to_html(self):
-    return '''<div class="block p-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
+    return '''<div class="block p-6 mb-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
     <div class="flex flex-col h-full ">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -82,8 +82,8 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_image(self, url: str, alt: str) -> ImageComponent:
-    new_component = ImageComponent(url, alt)    
+  def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -112,8 +112,8 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_code(self, value: str, header: str = '') -> CodeComponent:
-    new_component = CodeComponent(value, header)    
+  def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
@@ -155,10 +155,12 @@ class CardComponent(Component):
     
 
 class CodeComponent(Component):
-  def __init__(self, value: str, header: str = ''):    
+  def __init__(self, value: str, header: str = '', prefix: str = '>>>'):    
     self.value = value
     self.header = header
-    
+    self.prefix = prefix
+    # Replace < and > in prefix:
+    self.prefix = self.prefix.replace("<", "&lt;").replace(">", "&gt;")
 
   def __enter__(self):
     return self
@@ -174,9 +176,9 @@ class CodeComponent(Component):
         <span class="h-3 w-3 rounded-full bg-green-400"></span>
         <code class="pl-5 text-lime-500">''' + self.header + '''</code>
     </div>
-    <div class="w-full border-t-0 bg-gray-700 pb-5 rounded-b-lg whitespace-nowrap overflow-x-scroll">
-        <code class="text-gray-500">&gt&gt&gt</code>
-        <code class="text-white">''' + self.value + '''</code>
+    <div class="w-full border-t-0 bg-gray-700 pb-5 rounded-b-lg whitespace-nowrap overflow-x-scroll p-2">
+        <code class="text-gray-500">''' + self.prefix + '''</code>
+        <code class="text-white" style="white-space: break-spaces">''' + self.value + '''</code>
     </div>
 </div>'''
 
@@ -283,8 +285,8 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_image(self, url: str, alt: str) -> ImageComponent:
-    new_component = ImageComponent(url, alt)    
+  def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -313,8 +315,8 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_code(self, value: str, header: str = '') -> CodeComponent:
-    new_component = CodeComponent(value, header)    
+  def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
@@ -356,7 +358,7 @@ class FooterComponent(Component):
 
   def to_html(self):
     return '''<footer class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+    <div class="container px-5 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
         <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
             <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 dark:text-white"><img class="object-scale-down h-10" src="''' + self.logo + '''"><span class="ml-3 text-xl">''' + self.title + '''</span></a>
             <p class="mt-2 text-sm text-gray-500">''' + self.subtitle + '''</p>
@@ -455,6 +457,12 @@ class FormComponent(Component):
   def add_component(self, component):
     self.components.append(component)
     return self
+  def add_text(self, value: str) -> TextComponent:
+    new_component = TextComponent(value)    
+    self.components.append(new_component)
+    return new_component
+    
+
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
@@ -467,8 +475,8 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_image(self, url: str, alt: str) -> ImageComponent:
-    new_component = ImageComponent(url, alt)    
+  def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -479,8 +487,8 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_code(self, value: str, header: str = '') -> CodeComponent:
-    new_component = CodeComponent(value, header)    
+  def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
@@ -676,9 +684,10 @@ class HtmlComponent(Component):
     return '''''' + self.value + ''''''
 
 class ImageComponent(Component):
-  def __init__(self, url: str, alt: str):    
+  def __init__(self, url: str, alt: str, classes: str = ''):    
     self.url = url
     self.alt = alt
+    self.classes = classes
     
 
   def __enter__(self):
@@ -688,7 +697,7 @@ class ImageComponent(Component):
     pass
 
   def to_html(self):
-    return '''<img class="max-w-fit h-auto rounded-lg" src="''' + self.url + '''" alt="''' + self.alt + '''">'''
+    return '''<img class="max-w-fit h-auto rounded-lg ''' + self.classes + ''' " src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
   def __init__(self, text: str, url: str, classes: str = ''):    
@@ -801,7 +810,7 @@ class NavbarComponent(Component):
         console.log("login")
     }
 </script>
-<nav class="gradient-background fixed top-0 left-0 z-20 w-full bg-white px-2 py-2.5 dark:border-gray-600 sm:px-4">
+<nav class="gradient-background top-0 left-0 z-20 w-full bg-white px-2 py-2.5 dark:border-gray-600 sm:px-4">
     <div class="container mx-auto flex flex-wrap items-center justify-between">
       <a href="/" class="flex items-center">
         <img src="''' + self.logo + '''" class="mr-3 h-6 sm:h-9" style="filter: brightness(0) invert(1);" alt="Logo" />
@@ -811,7 +820,7 @@ class NavbarComponent(Component):
         <button onclick="toggleDarkMode()" type="button" class="mx-3 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500">
             <svg id="sun" data-toggle-icon="sun" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
             <svg id="moon" data-toggle-icon="moon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>        </button>
-        <button type="button" onclick="login()" id="pycob-login-button" class="mr-3 inline-flex items-center rounded-lg bg-blue-700 px-2 py-1 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0">
+        <button type="button" onclick="login()" id="pycob-login-button" class="mr-3 inline-flex items-center rounded-lg bg-blue-700 px-2 py-1 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0">
           Sign In
           <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="ml-1 h-4 w-4" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
         </button>
@@ -821,7 +830,7 @@ class NavbarComponent(Component):
         </button>
       </div>
       <div class="w-full items-center justify-between md:order-1 md:flex md:w-auto hidden" id="navbar-sticky">
-        <ul class="mt-4 flex flex-col rounded-lg border p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:text-sm md:font-medium">
+        <ul class="mt-4 flex flex-col rounded-lg md:mt-0 md:flex-row md:space-x-8 md:border-0 md:text-sm md:font-medium">
           ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
         </ul>
       </div>
@@ -863,7 +872,7 @@ class Page(Component):
     pass
 
   def to_html(self):
-    return '''<div class="container px-5 py-24 mx-auto max-w-fit">
+    return '''<div id="page-container" class="container px-5 my-5 mx-auto max-w-fit">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </div>'''
 
@@ -904,8 +913,8 @@ class Page(Component):
     return new_component
     
 
-  def add_image(self, url: str, alt: str) -> ImageComponent:
-    new_component = ImageComponent(url, alt)    
+  def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -934,8 +943,8 @@ class Page(Component):
     return new_component
     
 
-  def add_code(self, value: str, header: str = '') -> CodeComponent:
-    new_component = CodeComponent(value, header)    
+  def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
@@ -1142,7 +1151,7 @@ class SidebarComponent(Component):
         return true;
     }
 </script>
-<aside class="hidden lg:block overflow-y-auto flex w-72 py-24 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
+<aside style="min-width: 300px" class="hidden lg:block overflow-y-auto flex w-72 flex-col space-y-2 bg-gray-50 dark:bg-gray-800 p-2 h-screen sticky top-0">
     <div class="sticky top-0">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
