@@ -1430,6 +1430,7 @@ class TextareaComponent(Component):
 #
 from urllib.parse import quote
 import re
+import json
 
 def advanced_add_pandastable(self, df):
     # Pandas dataframe to html
@@ -1491,7 +1492,6 @@ Dates should be formatted using ISO-8601. Numbers below 10 should include 2 deci
 
 
 def format_input(input):
-    print("Input Type = ", type(input))
     is_int = "int" in type(input).__name__
     is_float = "float" in type(input).__name__
 
@@ -1526,6 +1526,16 @@ def format_input(input):
     else:
         return str(input)
 
+def __format_python_object_for_json(t):
+    if callable(getattr(t, "isoformat", None)):
+        iso = t.isoformat()
+
+        if "T00:00:00" in iso:
+            return iso[0:10]
+
+        return iso
+    
+    return t
 
 def advanced_add_emgithub(self, url):
     quoted_url = quote(url)
@@ -1547,21 +1557,78 @@ def __format_column_header(x: str) -> str:
     x = x.replace('_', ' ')
 
     return x
+
+def __get_action_buttons_to_add(action_buttons):
+    action_buttons_to_add = []
+
+    for action_button in action_buttons:
+        # If the label is not of the form "{key}", then add it to the list of action buttons to add
+        if action_button.label[0] != '{' or action_button.label[-1] != '}' and '{' not in action_button.label[1:-1]:        
+            action_buttons_to_add.append(action_button)
+
+    return action_buttons_to_add
+
+def __find_key_in_action_buttons(key: str, action_buttons):
+    for action_button in action_buttons:
+        if action_button.label == '{' + key + '}' :
+            return action_button
+
+    return None
+
+def __replace_text_with_button(record: dict, action_buttons) -> dict:
+    new_record = {}
+
+    for key in record.keys():
+        action_button = __find_key_in_action_buttons(key, action_buttons)
+
+        value = __format_python_object_for_json(record[key])
+
+        if action_button is not None:
+            hydrated_label = action_button.label.format(**record)
+            hydrated_url = action_button.url.format(**record)
+            if action_button.open_in_new_window:
+                new_record[key] = """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+            else:
+                new_record[key] = """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+        else:
+            new_record[key] = value
     
+    action_buttons_html = ''
+
+    action_buttons_to_add = __get_action_buttons_to_add(action_buttons)
+    for button_to_add in action_buttons_to_add:
+        hydrated_label = button_to_add.label.format(**record)
+        hydrated_url = button_to_add.url.format(**record)
+
+        if button_to_add.open_in_new_window:
+            action_buttons_html += """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+        else:
+            action_buttons_html += """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+
+    new_record['Actions'] = action_buttons_html
+
+    return new_record
 
 def advanced_add_datagrid(page, dataframe, action_buttons):
     cols = list(map(lambda x: {'headerName': __format_column_header(x), 'field': x} , dataframe.columns.to_list()))
+
+    if len(__get_action_buttons_to_add(action_buttons)) > 0:
+        cols.append({'headerName': 'Actions', 'field': 'Actions'})
 
     datagridHtml = '''
         <script>
         var columnDefsasdf = {columns};
         '''.format(columns = cols)
 
+    records = list (map(lambda x: __replace_text_with_button(x, action_buttons=action_buttons), dataframe.to_dict(orient='records')))
+
+    datagridHtml += '''
+    columnDefsasdf.forEach( (x) => { x.cellRenderer = function(params) { return params.value ? params.value : '' } } )
+    '''
+
     datagridHtml += '''
         var rowDataasdf = {records};
-        '''.format(records = dataframe.to_json(orient='records'))
-
-    print(dataframe.to_json(orient='records'))
+        '''.format(records = json.dumps( records ) )
 
     datagridHtml += '''
         var gridOptionsasdf = {
