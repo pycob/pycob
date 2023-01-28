@@ -2,8 +2,9 @@ import flask
 from typing import Union
 
 class Request:
-    def __init__(self, flask_request: flask.Request):
+    def __init__(self, flask_request: flask.Request, app):
         self.flask_request = flask_request
+        self.app = app
     
     def get_query_parameter(self, key: str) -> str:
         """Deprecated. Use params() instead."""
@@ -14,19 +15,19 @@ class Request:
         """Returns the value of the query parameter with the given key. If no key is given, returns a dictionary of all query parameters."""
         if key == "":
             d = self.flask_request.args.to_dict()
-            print("d = ", d)
+            # print("d = ", d)
 
             if d:
                 return {k: _sanitize(v) for k, v in d.items()}
             
             d = self.flask_request.form.to_dict()
-            print("d = ", d)
+            # print("d = ", d)
 
             if d:
                 return {k: _sanitize(v) for k, v in d.items()}
             
             d = self.flask_request.values.to_dict()
-            print("d = ", d)
+            # print("d = ", d)
 
             if d:
                 return {k: _sanitize(v) for k, v in d.items()}

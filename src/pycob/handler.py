@@ -18,7 +18,7 @@ class LoginHandler(object):
         self.pycob_app = pycob_app
     
     def __call__(self, *args):
-        request = Request(flask.request)
+        request = Request(flask.request, self.pycob_app)
         username = request.get_query_parameter("username")
         password = request.get_query_parameter("password")
         redirect = request.get_query_parameter("redirect")
@@ -39,7 +39,7 @@ class SignupHandler(object):
         self.pycob_app = pycob_app
     
     def __call__(self, *args):
-        request = Request(flask.request)
+        request = Request(flask.request, self.pycob_app)
         username = request.get_query_parameter("username")
         password = request.get_query_parameter("password")
         email = request.get_query_parameter("email")
@@ -69,9 +69,12 @@ class PageHandler(object):
         self.response = Response(status=200, headers={})
 
     def __call__(self, *args):
-        request = Request(flask.request)
+        request = Request(flask.request, self.pycob_app)
 
         page = self.action(request)
+
+        if page is None:
+            raise ValueError(f'Did you forget to return the page at the end of the {self.action.__name__} function?')
 
         if self.redirect_url is not None:
             username = request.get_username()
@@ -226,7 +229,7 @@ def _tailwind_header_to_sidebar(title: str) -> str:
                     button.innerHTML = 'Try Again';
                     button.disabled = false;
                 });
-            }, "5000")
+            }, "10000")
         }
     </script>
     <style>

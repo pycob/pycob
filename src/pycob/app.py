@@ -115,6 +115,32 @@ class App:
             print(arr)
             return arr
 
+    def get_quota_status(self) -> dict:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("get_quota_status", {}, self.api_key)
+
+        return server_response
+
+    def generate_text_from_ai(self, prompt: str) -> str:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("generate_text_from_ai", {"userPrompt": prompt}, self.api_key)
+
+        if 'text' in server_response:
+            return server_response['text']
+
+    def generate_image_from_ai(self, prompt: str) -> str:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("generate_image_from_ai", {"userPrompt": prompt}, self.api_key)
+
+        if 'image' in server_response:
+            return server_response['image']
+
     def __set_api_key(self):
         if self.api_key is None:
             # Check PYCOB_API_KEY environment variable
