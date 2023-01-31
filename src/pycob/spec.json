@@ -324,9 +324,16 @@
       "defaultValue" : "5",
       "name" : "size",
       "type" : "Optional Integer",
-      "description" : "Size of the header. Choose 2-9"
+      "description" : "Size of the header. Choose 1-9"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "classes",
+      "type" : "Optional String",
+      "description" : "Classes to be applied to the header"
     }
   ],
+  "postInitPythonFunc" : "if size == 1:\n    self.classes += \" text-lg sm:text-xl\"\nelif size == 2:\n    self.classes += \" text-lg sm:text-2xl\"\nelif size == 3:\n    self.classes += \" text-lg sm:text-3xl\"\nelif size == 4:\n    self.classes += \" text-lg sm:text-4xl\"\nelif size == 5:\n    self.classes += \" text-xl sm:text-5xl\"\nelif size == 6:\n    self.classes += \" text-2xl sm:text-6xl\"\nelif size == 7:\n    self.classes += \" text-3xl sm:text-7xl\"\nelif size == 8:\n    self.classes += \" text-4xl sm:text-8xl\"\nelif size == 9:\n    self.classes += \" text-5xl sm:text-9xl\"\nelse:\n    raise ValueError(\"Header size must be between 1 and 9\")",
   "elementType" : "header",
   "attachableTo" : [
     "page",

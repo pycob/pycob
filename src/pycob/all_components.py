@@ -39,7 +39,7 @@ class CardComponent(Component):
     pass
 
   def to_html(self):
-    return '''<div class="block p-6 mb-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto ''' + self.classes + '''">
+    return '''<div class="block p-6 mb-6 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 overflow-x-auto max-w-fit mx-auto ''' + self.classes + '''">
     <div class="flex flex-col h-full ">
         ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
     </div>
@@ -88,8 +88,8 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_header(self, text: str, size: int = 5) -> HeaderComponent:
-    new_component = HeaderComponent(text, size)    
+  def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -197,7 +197,7 @@ class CodeeditorComponent(Component):
   def to_html(self):
     return '''<style type="text/css" media="screen">
 #editorContainer {
-    width: calc( 100vw - 40px );
+    // width: calc( 100vw - 40px );
     height: 500px;
     max-height: calc( 80vh - 60px );
     position: relative;
@@ -291,8 +291,8 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_header(self, text: str, size: int = 5) -> HeaderComponent:
-    new_component = HeaderComponent(text, size)    
+  def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -657,10 +657,30 @@ class FormtextComponent(Component):
 </div>'''
 
 class HeaderComponent(Component):
-  def __init__(self, text: str, size: int = 5):    
+  def __init__(self, text: str, size: int = 5, classes: str = ''):    
     self.text = text
     self.size = size
-    
+    self.classes = classes
+    if size == 1:
+        self.classes += " text-lg sm:text-xl"
+    elif size == 2:
+        self.classes += " text-lg sm:text-2xl"
+    elif size == 3:
+        self.classes += " text-lg sm:text-3xl"
+    elif size == 4:
+        self.classes += " text-lg sm:text-4xl"
+    elif size == 5:
+        self.classes += " text-xl sm:text-5xl"
+    elif size == 6:
+        self.classes += " text-2xl sm:text-6xl"
+    elif size == 7:
+        self.classes += " text-3xl sm:text-7xl"
+    elif size == 8:
+        self.classes += " text-4xl sm:text-8xl"
+    elif size == 9:
+        self.classes += " text-5xl sm:text-9xl"
+    else:
+        raise ValueError("Header size must be between 1 and 9")
 
   def __enter__(self):
     return self
@@ -669,7 +689,7 @@ class HeaderComponent(Component):
     pass
 
   def to_html(self):
-    return '''<p class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 md:text-lg lg:text-''' + str(self.size) + '''xl dark:text-white">''' + self.text + '''</p>'''
+    return '''<p class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 dark:text-white ''' + self.classes + ''' ">''' + self.text + '''</p>'''
 
 class HtmlComponent(Component):
   def __init__(self, value: str):    
@@ -872,7 +892,7 @@ class Page(Component):
     pass
 
   def to_html(self):
-    return '''<div id="page-container" class="container px-5 my-5 mx-auto max-w-fit">
+    return '''<div id="page-container" class="container px-5 my-5 mx-auto">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </div>'''
 
@@ -919,8 +939,8 @@ class Page(Component):
     return new_component
     
 
-  def add_header(self, text: str, size: int = 5) -> HeaderComponent:
-    new_component = HeaderComponent(text, size)    
+  def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
@@ -1136,7 +1156,14 @@ class SidebarComponent(Component):
     pass
 
   def to_html(self):
-    return '''<script>
+    return '''<style>
+@media (min-width: 1024px) {
+    #page-container {
+        max-width: calc( 100vw - 320px );
+    }
+}
+</style>
+<script>
     function smoothScrollTo(link) {
         console.log(link);
         var hashUrl = link.href;

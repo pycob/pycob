@@ -9,7 +9,7 @@ from pathlib import Path
 from .auth_forms import *
 
 demo_page = Page('Demo Page')
-demo_page.add_header('Demo Page', "2")
+demo_page.add_header('Demo Page', 2)
 
 class App:
     flask_app = None

@@ -258,12 +258,7 @@ def _tailwind_header_to_sidebar(title: str) -> str:
             background-position: 0% 50%;
         }
     }
-
-    @media (min-width: 1024px) {
-        #page-container {
-            max-width: calc( 100vw - 320px );
-        }
-    }
+    
     </style>
     </head>
     <body class="flex flex-col h-screen dark:bg-gray-900 ">
