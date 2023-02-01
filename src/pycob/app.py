@@ -14,7 +14,7 @@ demo_page.add_header('Demo Page', 2)
 class App:
     flask_app = None
 
-    def __init__(self, name: str, subtitle="", app_nav=[], api_key=None, use_built_in_auth=True):
+    def __init__(self, name: str, subtitle="", app_nav=[], api_key=None, use_built_in_auth=True, profile_page=profile):
         self.flask_app = flask.Flask(__name__)
         self.name = name
         self.subtitle = subtitle
@@ -22,6 +22,7 @@ class App:
         self.pages = {}
         self.api_key = api_key
         self.use_built_in_auth = use_built_in_auth
+        self.profile_page = profile_page
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
 
         if use_built_in_auth:
@@ -37,8 +38,7 @@ class App:
         self.__add_auth_page('/auth/signup', signup)
         self.__add_auth_page('/auth/logout', logout)
         self.__add_auth_page('/auth/reset_password', reset_password)
-        # TODO: Allow developers to use their own profile page
-        self.add_page('/auth/profile', 'auth/profile', profile, show_in_navbar=False, footer_category=None, require_login=True)
+        self.add_page('/auth/profile', 'auth/profile', self.profile_page, show_in_navbar=False, footer_category=None, require_login=True)
 
         self.flask_app.add_url_rule('/auth/__handle_login', "__handle_login", view_func=LoginHandler(self), methods=["POST"])
         self.flask_app.add_url_rule('/auth/__handle_logout', "__handle_logout", view_func=LogoutHandler(self), methods=["POST"])

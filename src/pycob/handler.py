@@ -108,7 +108,7 @@ class PageHandler(object):
         html += _tailwind_header_to_sidebar(page.title)
 
         if page.auto_navbar:
-            html += get_navbar_html(self.pycob_app)
+            html += get_navbar_html(self.pycob_app, request.get_username())
 
         # Add a sidebar here
         sidebar = _get_sidebar(page.components)
@@ -128,8 +128,12 @@ class PageHandler(object):
 
         return html
 
-def get_navbar_html(pycob_app):
-    navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_hex.png")
+def get_navbar_html(pycob_app, username: str):
+    print("Username = ", username)
+    if username == "" or username is None:
+        navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_hex.png")
+    else:
+        navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_hex.png", button_label=username, button_url="/auth/profile")
 
     for page_path, page_dict in pycob_app.pages.items():
         if page_dict['show_in_navbar']:
@@ -258,7 +262,7 @@ def _tailwind_header_to_sidebar(title: str) -> str:
             background-position: 0% 50%;
         }
     }
-    
+
     </style>
     </head>
     <body class="flex flex-col h-screen dark:bg-gray-900 ">
