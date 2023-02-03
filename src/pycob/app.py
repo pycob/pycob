@@ -112,7 +112,8 @@ class App:
 
         if type(server_response) is list:
             arr = list(map(lambda x:  x['object'] if 'object' in x else None, server_response))
-            print(arr)
+            num_items = len(arr)
+            print(f"Got {num_items} items from the database table {table_id} where {field_name} == {field_value}")
             return arr
 
     def get_quota_status(self) -> dict:

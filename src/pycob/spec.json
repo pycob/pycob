@@ -696,6 +696,12 @@
       "name" : "placeholder",
       "type" : "Optional String",
       "description" : "Placeholder"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "value",
+      "type" : "Optional String",
+      "description" : "Value if you want to pre-populate"
     }
   ],
   "elementType" : "formtext",

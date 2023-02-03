@@ -493,8 +493,8 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_formtext(self, label: str, name: str, placeholder: str = '') -> FormtextComponent:
-    new_component = FormtextComponent(label, name, placeholder)    
+  def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    new_component = FormtextComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
@@ -638,10 +638,11 @@ class FormsubmitComponent(Component):
     return '''<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
-  def __init__(self, label: str, name: str, placeholder: str = ''):    
+  def __init__(self, label: str, name: str, placeholder: str = '', value: str = ''):    
     self.label = label
     self.name = name
     self.placeholder = placeholder
+    self.value = value
     
 
   def __enter__(self):
@@ -653,7 +654,7 @@ class FormtextComponent(Component):
   def to_html(self):
     return '''<div class="mb-6">
     <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
-    <input type="text" name="''' + self.name + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
+    <input type="text" name="''' + self.name + '''" value="''' + self.value + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
 </div>'''
 
 class HeaderComponent(Component):

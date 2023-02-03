@@ -129,7 +129,6 @@ class PageHandler(object):
         return html
 
 def get_navbar_html(pycob_app, username: str):
-    print("Username = ", username)
     if username == "" or username is None:
         navbar = NavbarComponent(pycob_app.name, "https://cdn.pycob.com/pycob_hex.png")
     else:
