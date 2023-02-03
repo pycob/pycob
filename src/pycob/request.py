@@ -20,6 +20,9 @@ class Request:
     def query_dict(self, table_id: str, field_name: str, field_value) -> list:
         return self.app.query_dict(table_id, field_name, field_value)
 
+    def list_object_ids(self, table_id: str) -> list:
+        return self.app.list_object_ids(table_id)
+
     def params(self, key: str = "") -> Union[str, dict]:
         """Returns the value of the query parameter with the given key. If no key is given, returns a dictionary of all query parameters."""
         if key == "":

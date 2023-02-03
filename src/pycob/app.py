@@ -116,6 +116,15 @@ class App:
             print(f"Got {num_items} items from the database table {table_id} where {field_name} == {field_value}")
             return arr
 
+    def list_object_ids(self, table_id: str) -> list:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("list_object_ids", {"table_id": table_id}, self.api_key)
+
+        if server_response is not None and 'object_ids' in server_response:
+            return server_response['object_ids']
+
     def get_quota_status(self) -> dict:
         if self.api_key is None:
             self.__set_api_key()
