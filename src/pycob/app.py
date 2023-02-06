@@ -7,6 +7,7 @@ import os
 import requests
 from pathlib import Path
 from .auth_forms import *
+import sys
 
 demo_page = Page('Demo Page')
 demo_page.add_header('Demo Page', 2)
@@ -158,26 +159,16 @@ class App:
 
             if self.api_key is None:
 
-                if Path("api_key.txt").is_file():
+                if Path("pycob_api_key.txt").is_file():
                     # Check for api_key.txt file
-                    f = open("api_key.txt", "r")
+                    f = open("pycob_api_key.txt", "r")
                     self.api_key = f.read()
 
                 if self.api_key is None:
-                    print("No API key found. Generating a temporary one... This will be saved to api_key.txt")
-                    print("Go to https://www.pycob.com to get a permanent API key.")
-                    key_response = self.__generate_api_key()
-
-                    print("API key response: " + str(key_response))
-
-                    if 'error' in key_response:
-                        print("Error generating API key: " + key_response['error'])
-                    if 'key' in key_response:
-                        self.api_key = key_response['key']
-                        f = open("api_key.txt", "w")
-                        f.write(self.api_key)
-                        f.close()
-                        print("API key saved to api_key.txt")
+                    print("No API key found. ")
+                    print("Go to https://www.pycob.com to get an API key.")
+                    # Exit
+                    sys.exit()
 
     def __generate_api_key(self) -> dict:
         return self.__send_api_request("generate_key", {"app_name": self.name}, "")
