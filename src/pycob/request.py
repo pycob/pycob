@@ -11,6 +11,9 @@ class Request:
         print("WARNING: get_query_parameter() is deprecated. Use params() instead.")
         return self.params(key)
 
+    def start_script(self, script_name: str, script_args: dict):
+        return self.app.start_script(script_name, script_args)
+
     def store_dict(self, table_id: str, object_id: str, value: dict):
         return self.app.store_dict(table_id, object_id, value)
     

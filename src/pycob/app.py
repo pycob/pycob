@@ -70,6 +70,21 @@ class App:
         }
         self.__send_api_request("send_email", email, self.api_key)
 
+    def start_script(self, script_name: str, script_args: dict) -> str:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        script = {
+            "script_name": script_name,
+            "args": script_args,
+        }
+        rv = self.__send_api_request("run_job", script, self.api_key)
+
+        if 'job_id' in rv:
+            return rv['job_id']
+        
+        return ""
+
     def store_dict(self, table_id: str, object_id: str, value: dict):
         if self.api_key is None:
             self.__set_api_key()
