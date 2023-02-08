@@ -154,6 +154,12 @@ class CardComponent(Component):
     return self
     
 
+  def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    new_component = ScriptstatusComponent(job_id, redirect_url)    
+    self.components.append(new_component)
+    return new_component
+    
+
 class CodeComponent(Component):
   def __init__(self, value: str, header: str = '', prefix: str = '>>>'):    
     self.value = value
@@ -323,6 +329,12 @@ class ContainerComponent(Component):
 
   def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
     new_component = FormComponent(action, method, components)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    new_component = ScriptstatusComponent(job_id, redirect_url)    
     self.components.append(new_component)
     return new_component
     
@@ -1039,6 +1051,12 @@ class Page(Component):
     return self
     
 
+  def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    new_component = ScriptstatusComponent(job_id, redirect_url)    
+    self.components.append(new_component)
+    return new_component
+    
+
 class PlainlinkComponent(Component):
   def __init__(self, text: str, url: str, classes: str = ''):    
     self.text = text
@@ -1115,6 +1133,49 @@ class Rowaction(Component):
 
   def to_html(self):
     return '''TODO: Internal Component'''
+
+class ScriptstatusComponent(Component):
+  def __init__(self, job_id: str, redirect_url: str):    
+    self.job_id = job_id
+    self.redirect_url = redirect_url
+    
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js'
+        
+    import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js'
+
+    // TODO: Replace the following with your app's Firebase project configuration
+    const firebaseConfig = {
+        projectId: "pycob-prod"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    let db = getFirestore();
+
+    const unsub = onSnapshot(doc(db, "users", "test", "_jobs", "''' + self.job_id + '''"), (doc) => {
+        console.log("Current data: ", doc.data());
+        document.getElementById("''' + self.job_id + '''").innerHTML = doc.data().status;
+
+        if (doc.data().status == "complete") {
+            unsub();
+            window.location.href = "''' + self.redirect_url + '''";
+        }
+    });
+</script>
+<div class="flex items-center justify-center p-5 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+    <div id="''' + self.job_id + '''" class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">waiting...</div>
+</div>'''
 
 class SectionComponent(Component):
   def __init__(self, id: str, name: str, level: int = 1):    

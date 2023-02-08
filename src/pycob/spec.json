@@ -1518,4 +1518,30 @@
   ],
   "description" : "Renders a block of code from a github URL",
   "name" : "Github Embed"
+},
+{
+  "category" : "Internal",
+  "arguments" : [
+    {
+      "name" : "job_id",
+      "type" : "String",
+      "description" : "Job id to check the status of"
+    },
+    {
+      "name" : "redirect_url",
+      "type" : "String",
+      "description" : "URL to redirect to when the script is complete"
+    }
+  ],
+  "elementType" : "scriptstatus",
+  "attachableTo" : [
+    "page",
+    "card",
+    "container"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Shows the status of a script execution and redirects to a new page when complete",
+  "name" : "Script Status"
 }]
