@@ -110,6 +110,14 @@ class App:
         file.close()
 
     def from_cloud_pickle(self, filename: str):
+        try:
+            with open(self.temp_dir + "/" + filename, 'rb') as existing_file:
+                data = pickle.load(existing_file)
+                existing_file.close()
+                return data
+        except:
+            pass
+
         # Get the pickle with the given filename
 
         url = self._url_for_file_retrieval(filename)
