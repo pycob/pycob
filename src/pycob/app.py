@@ -8,6 +8,9 @@ import requests
 from pathlib import Path
 from .auth_forms import *
 import sys
+import string
+import random
+import pickle
 
 demo_page = Page('Demo Page')
 demo_page.add_header('Demo Page', 2)
@@ -25,6 +28,7 @@ class App:
         self.use_built_in_auth = use_built_in_auth
         self.profile_page = profile_page
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
+        self.temp_dir = os.getcwd() + '/tmp/' + ''.join(random.choices(string.ascii_uppercase, k=5))
 
         if use_built_in_auth:
             if self.api_key is None:
@@ -83,6 +87,77 @@ class App:
         if 'job_id' in rv:
             return rv['job_id']
         
+        return ""
+
+    def to_cloud_pickle(self, data, filename: str):
+        # Turn data into a pickle with the given filename
+
+        Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
+
+        file = open(self.temp_dir + "/" + filename, 'wb')    
+        pickle.dump(data, file)
+        file.close()
+
+        url = self._url_for_file_storage(filename)
+
+        if url == "":
+            print("Error: Unable to store file")
+            return
+        
+        # Put file with Content-Type: application/octet-stream
+        file = open(self.temp_dir + "/" + filename, 'rb')
+        requests.put(url, data=file, headers={'Content-Type': 'application/octet-stream'})
+        file.close()
+
+    def from_cloud_pickle(self, filename: str):
+        # Get the pickle with the given filename
+
+        url = self._url_for_file_retrieval(filename)
+
+        if url == "":
+            print("Error: Unable to retrieve file")
+            return
+
+        # Get file with Accept: application/octet-stream
+        rv = requests.get(url, headers={'Accept': 'application/octet-stream'})
+        Path(self.temp_dir).mkdir(parents=True, exist_ok=True)
+        file = open(self.temp_dir + "/" + filename, 'wb')
+        file.write(rv.content)
+        file.close()
+
+        file = open(self.temp_dir + "/" + filename, 'rb')
+        data = pickle.load(file)
+        file.close()
+
+        return data
+
+
+    def _url_for_file_storage(self, file_name: str) -> str:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        file = {
+            "filename": file_name,
+        }
+        rv = self.__send_api_request("store_file", file, self.api_key)
+
+        if 'url' in rv:
+            return rv['url']
+
+        return ""
+    
+    def _url_for_file_retrieval(self, file_name: str) -> str:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        file = {
+            "filename": file_name,
+        }
+        rv = self.__send_api_request("retrieve_file", file, self.api_key)
+
+        if 'url' in rv:
+            return rv['url']
+
         return ""
 
     def store_dict(self, table_id: str, object_id: str, value: dict):
