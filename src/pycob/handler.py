@@ -72,18 +72,25 @@ class PageHandler(object):
     def __call__(self, *args):
         request = Request(flask.request, self.pycob_app)
 
-        try:
-            page = self.action(request)
-        except Exception as e:
+        if self.pycob_app.error is not None:
             page = Page("Error")
             card = page.add_card()
             card.add_header("Error", size=5)
             card.add_text("An error occured while trying to load this page.")
-            card.add_alert(str(e), "Error", color="red")
+            card.add_alert(str(self.pycob_app.error), "Error", color="red")
+        else:            
+            try:
+                page = self.action(request)
+            except Exception as e:
+                page = Page("Error")
+                card = page.add_card()
+                card.add_header("Error", size=5)
+                card.add_text("An error occured while trying to load this page.")
+                card.add_alert(str(e), "Error", color="red")
 
-            for i, x in enumerate(traceback.TracebackException.from_exception(e).format()):
-                if i > 1:
-                    card.add_code(x, header="Traceback", prefix="")
+                for i, x in enumerate(traceback.TracebackException.from_exception(e).format()):
+                    if i > 1:
+                        card.add_code(x, header="Traceback", prefix="")
 
         if page is None:
             raise ValueError(f'Did you forget to return the page at the end of the {self.action.__name__} function?')

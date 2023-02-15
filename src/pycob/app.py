@@ -18,7 +18,7 @@ demo_page.add_header('Demo Page', 2)
 class App:
     flask_app = None
 
-    def __init__(self, name: str, subtitle="", app_nav=[], api_key=None, use_built_in_auth=True, profile_page=profile):
+    def __init__(self, name: str, subtitle="", app_nav=[], api_key=None, use_built_in_auth=False, profile_page=profile):
         self.flask_app = flask.Flask(__name__)
         self.name = name
         self.subtitle = subtitle
@@ -29,6 +29,7 @@ class App:
         self.profile_page = profile_page
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
         self.temp_dir = os.getcwd() + '/tmp/' + ''.join(random.choices(string.ascii_uppercase, k=5))
+        self.error = None
 
         if use_built_in_auth:
             if self.api_key is None:
@@ -266,7 +267,7 @@ class App:
                     print("No API key found. ")
                     print("Go to https://www.pycob.com to get an API key.")
                     # Exit
-                    sys.exit()
+                    self.error = 'No API key found. Go to <a href="https://www.pycob.com">https://www.pycob.com</a> to get an API key.'
 
     def __generate_api_key(self) -> dict:
         return self.__send_api_request("generate_key", {"app_name": self.name}, "")
@@ -294,7 +295,10 @@ class App:
 
         redirect_url = None
         if require_login:
+            if not self.use_built_in_auth:
+                self.error = "You must set use_built_in_auth=True to use the require_login parameter."                
             redirect_url = "/"+endpoint_name
+            
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, PageHandler(self, page_function, redirect_url, protect_with_code), methods=["GET", "POST"])
 
     def run(self, port=8080, force_dev_mode=False):
