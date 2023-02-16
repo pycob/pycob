@@ -124,7 +124,7 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+  def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
@@ -327,7 +327,7 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+  def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
@@ -444,7 +444,7 @@ class FooterlinkComponent(Component):
     return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800 dark:hover:text-white">''' + self.title + '''</a></li>'''
 
 class FormComponent(Component):
-  def __init__(self, action: str, method: str = 'GET', components: list = None):    
+  def __init__(self, action: str = '?', method: str = 'GET', components: list = None):    
     self.action = action
     self.method = method
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
@@ -458,7 +458,7 @@ class FormComponent(Component):
     pass
 
   def to_html(self):
-    return '''<form class="max-w-full" style="width: 500px" onsubmit="setLoading()" action="''' + self.action + '''" method="''' + self.method + '''">
+    return '''<form class="max-w-full" style="width: 500px" onsubmit="setLoading(this)" action="''' + self.action + '''" method="''' + self.method + '''">
     ''' + '\n'.join(map(lambda x: x.to_html(), self.components)) + ''' 
 </form>'''
 
@@ -997,7 +997,7 @@ class Page(Component):
     return new_component
     
 
-  def add_form(self, action: str, method: str = 'GET', components: list = None) -> FormComponent:
+  def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component

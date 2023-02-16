@@ -650,9 +650,10 @@
   "category" : "Form",
   "arguments" : [
     {
+      "defaultValue" : "?",
       "name" : "action",
-      "type" : "String",
-      "description" : "Action for the form. This is the page that the form will submit to"
+      "type" : "Optional String",
+      "description" : "Action for the form. This is the page that the form will submit to. Defaults to the current page"
     },
     {
       "defaultValue" : "GET",
