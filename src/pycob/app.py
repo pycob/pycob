@@ -30,6 +30,7 @@ class App:
         self.flask_app.add_url_rule('/favicon.ico', 'favicon.ico', redirect_to="https://cdn.pycob.com/favicon.ico")
         self.temp_dir = os.getcwd() + '/tmp/' + ''.join(random.choices(string.ascii_uppercase, k=5))
         self.error = None
+        self.home_page_registered = False
 
         if use_built_in_auth:
             if self.api_key is None:
@@ -290,6 +291,7 @@ class App:
             return {"error": "API request failed to return valid JSON."}
 
     def add_page(self, route: str, page_name: str, page_function, show_in_navbar=True, footer_category="All Pages", require_login=False, protect_with_code=None):
+        print("Warning: add_page() is deprecated. Use register_function() instead.")
         endpoint_name = _strip_slashes(route)
         self.pages[endpoint_name] = {"page_name": page_name, "show_in_navbar": show_in_navbar, "footer_category": footer_category}
 
@@ -298,8 +300,24 @@ class App:
             if not self.use_built_in_auth:
                 self.error = "You must set use_built_in_auth=True to use the require_login parameter."                
             redirect_url = "/"+endpoint_name
-            
+
         self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, PageHandler(self, page_function, redirect_url, protect_with_code), methods=["GET", "POST"])
+
+    def register_function(self, function, show_in_navbar=True, footer_category="All Pages", require_login=False, protect_with_code=None):
+        endpoint_name = function.__name__
+        self.pages[endpoint_name] = {"page_name": endpoint_name.replace("_", " ").title(), "show_in_navbar": show_in_navbar, "footer_category": footer_category}
+
+        redirect_url = None
+        if require_login:
+            if not self.use_built_in_auth:
+                self.error = "You must set use_built_in_auth=True to use the require_login parameter."                
+            redirect_url = "/"+endpoint_name
+
+        self.flask_app.add_url_rule("/" + endpoint_name, endpoint_name, PageHandler(self, function, redirect_url, protect_with_code), methods=["GET", "POST"])
+
+        if not self.home_page_registered:
+            self.home_page_registered = True
+            self.flask_app.add_url_rule("/", "_home", PageHandler(self, function, redirect_url, protect_with_code), methods=["GET", "POST"])
 
     def run(self, port=8080, force_dev_mode=False):
         caller = inspect.currentframe().f_back
