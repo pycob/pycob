@@ -3,8 +3,20 @@
   "arguments" : [
     {
       "name" : "title",
-      "type" : "String",
-      "description" : "The title of the page"
+      "type" : "Optional String",
+      "description" : "The SEO title of the page"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "description",
+      "type" : "Optional String",
+      "description" : "The SEO description of the page"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "image",
+      "type" : "Optional String",
+      "description" : "The SEO image of the page"
     },
     {
       "defaultValue" : "True",

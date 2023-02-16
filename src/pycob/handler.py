@@ -124,7 +124,7 @@ class PageHandler(object):
 
         html = ""
 
-        html += _tailwind_header_to_sidebar(page.title)
+        html += _tailwind_header_to_sidebar(page.title, page.description, page.image, flask.request.url)
 
         if page.auto_navbar:
             html += get_navbar_html(self.pycob_app, request.get_username())
@@ -198,7 +198,7 @@ def _get_sidebar(components) -> SidebarComponent:
 
     return sidebar
 
-def _tailwind_header_to_sidebar(title: str) -> str:
+def _tailwind_header_to_sidebar(title: str, description: str, image: str, url: str) -> str:
     html = '''
     <!doctype html>
     <html>
@@ -212,7 +212,12 @@ def _tailwind_header_to_sidebar(title: str) -> str:
     <meta name="msapplication-TileColor" content="#603cba">
     <meta name="msapplication-config" content="https://cdn.pycob.com/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>''' + title + '''</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>''' + title + '''</title>
+    <meta property="og:title" content="''' + title + '''">
+    <meta property="og:description" content="''' + description + '''">
+    <meta property="og:image" content="''' + image + '''">
+    <meta property="og:url" content="''' + url + '''">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
     <script>

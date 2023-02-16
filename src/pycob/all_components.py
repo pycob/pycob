@@ -893,8 +893,10 @@ class NavbarComponent(Component):
     
 
 class Page(Component):
-  def __init__(self, title: str, auto_navbar: bool = True, auto_footer: bool = True, components: list = None):    
+  def __init__(self, title: str = '', description: str = '', image: str = '', auto_navbar: bool = True, auto_footer: bool = True, components: list = None):    
     self.title = title
+    self.description = description
+    self.image = image
     self.auto_navbar = auto_navbar
     self.auto_footer = auto_footer
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
