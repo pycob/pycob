@@ -205,6 +205,12 @@ class App:
         if 'object' in server_response:
             return server_response['object']
 
+    def delete_dict(self, table_id: str, object_id: str):
+        if self.api_key is None:
+            self.__set_api_key()
+
+        self.__send_api_request("delete_object", {"object_id": object_id, "table_id": table_id}, self.api_key)        
+
     def query_dict(self, table_id: str, field_name: str, field_value) -> list:
         if self.api_key is None:
             self.__set_api_key()

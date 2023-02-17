@@ -20,11 +20,17 @@ class Request:
     def retrieve_dict(self, table_id: str, object_id: str) -> dict:
         return self.app.retrieve_dict(table_id, object_id)
     
+    def delete_dict(self, table_id: str, object_id: str):
+        return self.app.delete_dict(table_id, object_id)
+
     def query_dict(self, table_id: str, field_name: str, field_value) -> list:
         return self.app.query_dict(table_id, field_name, field_value)
 
     def list_object_ids(self, table_id: str) -> list:
         return self.app.list_object_ids(table_id)
+    
+    def list_objects(self, table_id: str) -> list:
+        return self.app.list_objects(table_id)    
 
     def params(self, key: str = "") -> Union[str, dict]:
         """Returns the value of the query parameter with the given key. If no key is given, returns a dictionary of all query parameters."""
