@@ -217,6 +217,18 @@ class App:
             print(f"Got {num_items} items from the database table {table_id} where {field_name} == {field_value}")
             return arr
 
+    def list_objects(self, table_id: str) -> list:
+        if self.api_key is None:
+            self.__set_api_key()
+
+        server_response = self.__send_api_request("list_objects", {"table_id": table_id}, self.api_key)
+
+        if type(server_response) is list:
+            arr = list(map(lambda x:  x['object'] if 'object' in x else None, server_response))
+            num_items = len(arr)
+            print(f"Got {num_items} total items from the database table {table_id}")
+            return arr
+
     def list_object_ids(self, table_id: str) -> list:
         if self.api_key is None:
             self.__set_api_key()

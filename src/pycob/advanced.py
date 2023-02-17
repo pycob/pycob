@@ -230,7 +230,7 @@ def advanced_add_datagrid(page, dataframe, action_buttons):
         </script>
         <div>
             <button onclick="expand(this)" class="mb-4 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Expand</button>
-            <div id="divid_aggrid_asdf" style="height: 500px; max-height: calc( 100vh - 60px ); width: calc( 100vw - 50px );" class="data-grid ag-theme-alpine-dark "></div>
+            <div id="divid_aggrid_asdf" style="height: 500px; max-height: calc( 100vh - 60px ); " class="data-grid ag-theme-alpine-dark "></div>
         </div>
     '''
 
