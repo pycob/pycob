@@ -883,7 +883,7 @@
       "description" : "Selected value"
     }
   ],
-  "postInitPythonFunc" : "self.components = []\n\nif value == \"\":\n    self.components.append(HtmlComponent('<option value=\"\" selected disabled hidden>Select an option<\/option>'))\n\nfor option in self.options:\n    if isinstance(option, str):\n        if option == value:\n            self.components.append(SelectoptionComponent(label=option, value=option, selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option, value=option))\n    else:\n        if option == value:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value'], selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))",
+  "postInitPythonFunc" : "self.components = []\n\nif value == \"\":\n    self.components.append(HtmlComponent('<option value=\"\" selected disabled hidden>Select an option<\/option>'))\n\nfor option in self.options:\n    if isinstance(option, str):\n        if option == value:\n            self.components.append(SelectoptionComponent(label=option, value=option, selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option, value=option))\n    else:\n        if option['value'] == value:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value'], selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))",
   "elementType" : "formselect",
   "attachableTo" : [
     "form",

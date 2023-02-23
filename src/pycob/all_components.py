@@ -696,7 +696,7 @@ class FormselectComponent(Component):
             else:
                 self.components.append(SelectoptionComponent(label=option, value=option))
         else:
-            if option == value:
+            if option['value'] == value:
                 self.components.append(SelectoptionComponent(label=option['label'], value=option['value'], selected='selected'))
             else:
                 self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))
