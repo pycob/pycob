@@ -2,7 +2,17 @@ from urllib.parse import quote
 import re
 import json
 
-def advanced_add_pandastable(self, df):
+def advanced_add_pandastable(self, df, hide_fields, action_buttons):
+    cols_to_show = []
+    show_actions = False
+
+    if len(__get_action_buttons_to_add(action_buttons)) > 0:
+        show_actions = True
+
+    for col in df.columns:
+        if col not in hide_fields:
+            cols_to_show.append(col)
+
     # Pandas dataframe to html
     html = '''<div class="p-8">'''
 
@@ -19,8 +29,12 @@ def advanced_add_pandastable(self, df):
     if df.index.name is not None:
         html += '''<th scope="col" class="px-6 py-3">''' + df.index.name +  "</th>"
 
+    if show_actions:
+        html += '''<th scope="col" class="px-6 py-3">Actions</th>'''
+
     for column in df.columns:
-        html += '''<th scope="col" class="px-6 py-3">''' + column + "</th>"
+        if column in cols_to_show:
+            html += '''<th scope="col" class="px-6 py-3">''' + column + "</th>"
 
     html += "</tr>"
 
@@ -30,13 +44,47 @@ def advanced_add_pandastable(self, df):
     html += "<tbody>"
     i = 0
     for index, row in df.iterrows():
+        record = row.to_dict()
+
         if i % 2 == 0:
             html += '''<tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">'''
         else:
             html += '''<tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">'''
 
+        if show_actions:
+            html += '''<td class="px-6 py-4">'''
+        
+            action_buttons_to_add = __get_action_buttons_to_add(action_buttons)
+            
+            for button_to_add in action_buttons_to_add:
+                hydrated_label = button_to_add.label.format(**record)
+                hydrated_url = button_to_add.url.format(**record)
+
+                if button_to_add.open_in_new_window:
+                    html += """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-1">""" + hydrated_label + """</button>"""
+                else:
+                    html += """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-1">""" + hydrated_label + """</button>"""
+
+
+            html += '''</td>'''
+
         for column in df.columns:
-            html += '''<td class="px-6 py-4">''' + format_input(row[column]) + "</td>"
+            key = column
+            if column in cols_to_show:
+                action_button = __find_key_in_action_buttons(key, action_buttons)
+
+                value = __format_python_object_for_json(record[key])
+
+                if action_button is not None:
+                    hydrated_label = action_button.label.format(**record)
+                    hydrated_url = action_button.url.format(**record)
+                    if action_button.open_in_new_window:
+                        html += """<td class="px-6 py-4"><a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap">""" + hydrated_label + """</button></td>"""
+                    else:
+                        html += """<td class="px-6 py-4"><a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap">""" + hydrated_label + """</button></td>"""
+                else:
+                    html += '''<td class="px-6 py-4">''' + format_input(row[column]) + "</td>"
+
         html += "</tr>"
         i += 1
 
@@ -157,9 +205,9 @@ def __replace_text_with_button(record: dict, action_buttons) -> dict:
             hydrated_label = action_button.label.format(**record)
             hydrated_url = action_button.url.format(**record)
             if action_button.open_in_new_window:
-                new_record[key] = """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+                new_record[key] = """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-1">""" + hydrated_label + """</button>"""
             else:
-                new_record[key] = """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+                new_record[key] = """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-1">""" + hydrated_label + """</button>"""
         else:
             new_record[key] = value
     
@@ -171,9 +219,9 @@ def __replace_text_with_button(record: dict, action_buttons) -> dict:
         hydrated_url = button_to_add.url.format(**record)
 
         if button_to_add.open_in_new_window:
-            action_buttons_html += """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+            action_buttons_html += """<a href='""" + hydrated_url + """' target="_blank" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap">""" + hydrated_label + """</button>"""
         else:
-            action_buttons_html += """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">""" + hydrated_label + """</button>"""
+            action_buttons_html += """<a href='""" + hydrated_url + """' class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap">""" + hydrated_label + """</button>"""
 
     new_record['Actions'] = action_buttons_html
 

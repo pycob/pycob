@@ -1226,6 +1226,16 @@
       "name" : "dataframe",
       "type" : "Untyped",
       "description" : "Dataframe to render"
+    },
+    {
+      "name" : "hide_fields",
+      "type" : "List",
+      "description" : "List of fields to hide"
+    },
+    {
+      "name" : "action_buttons",
+      "type" : "Components",
+      "description" : "Row actions to render"
     }
   ],
   "elementType" : "pandastable",

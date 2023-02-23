@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 import gitignore_parser
 import requests
+import re
 
 args = sys.argv[1:]
 print("Args: " + str(args))
@@ -84,6 +85,10 @@ try:
 except:
     matches = None
 
+# Any dotfile in any subdirectory is ignored
+dotfile_pattern = re.compile(r'^\..*', re.IGNORECASE)
+
+
 i = 0
 max_files = 25
 
@@ -93,6 +98,9 @@ for root, dirs, files in os.walk("."):
         if not path.startswith("./."):
             try:
                 if matches and matches(os.path.join(root, file)):
+                    continue
+            
+                if dotfile_pattern.match(file):
                     continue
             except:
                 continue
