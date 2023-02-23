@@ -47,9 +47,9 @@ def login_with_message(message: str):
 
         form.add_formsubmit("Sign In")
 
-        page.add_text("")
-        page.add_link("Don't have an account? Sign Up", "/auth/signup")
-        page.add_link("Forgot password?", "/auth/reset_password")
+        card.add_text("")
+        card.add_link("Don't have an account? Sign Up", "/auth/signup")
+        card.add_link("Forgot password?", "/auth/reset_password")
 
         return page
     
@@ -78,9 +78,9 @@ def signup(server_request: Request) -> Page:
 
     form.add_formsubmit("Sign Up")
 
-    page.add_text("")
-    page.add_text("Already have an account?")
-    page.add_link("Sign In", "/auth/login")
+    card.add_text("")
+    card.add_text("Already have an account?")
+    card.add_link("Sign In", "/auth/login")
 
     return page
 
@@ -107,8 +107,8 @@ def reset_password(server_request: Request) -> Page:
 
     form.add_formsubmit("Reset Password")
 
-    page.add_text("")
-    page.add_link("Sign In", "/auth/login")
+    card.add_text("")
+    card.add_link("Sign In", "/auth/login")
 
     return page
 
