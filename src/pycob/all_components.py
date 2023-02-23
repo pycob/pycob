@@ -130,6 +130,42 @@ class CardComponent(Component):
     return new_component
     
 
+  def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    new_component = FormtextComponent(label, name, placeholder, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
+    new_component = FormemailComponent(label, name, placeholder)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    new_component = FormpasswordComponent(label, name, placeholder)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    new_component = FormselectComponent(label, name, options, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    new_component = FormtextareaComponent(label, name, placeholder, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
+    new_component = FormsubmitComponent(label)    
+    self.components.append(new_component)
+    return new_component
+    
+
   def add_rawtable(self, components: list = None) -> RawtableComponent:
     new_component = RawtableComponent(components)    
     self.components.append(new_component)
@@ -333,6 +369,42 @@ class ContainerComponent(Component):
     return new_component
     
 
+  def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    new_component = FormtextComponent(label, name, placeholder, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
+    new_component = FormemailComponent(label, name, placeholder)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    new_component = FormpasswordComponent(label, name, placeholder)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    new_component = FormselectComponent(label, name, options, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    new_component = FormtextareaComponent(label, name, placeholder, value)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
+    new_component = FormsubmitComponent(label)    
+    self.components.append(new_component)
+    return new_component
+    
+
   def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
     new_component = ScriptstatusComponent(job_id, redirect_url)    
     self.components.append(new_component)
@@ -523,8 +595,8 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_formselect(self, label: str, name: str, options) -> FormselectComponent:
-    new_component = FormselectComponent(label, name, options)    
+  def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    new_component = FormselectComponent(label, name, options, value)    
     self.components.append(new_component)
     return new_component
     
@@ -535,8 +607,8 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_textarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...') -> TextareaComponent:
-    new_component = TextareaComponent(label, name, placeholder)    
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    new_component = FormtextareaComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
@@ -607,13 +679,27 @@ class FormpasswordComponent(Component):
 </div>'''
 
 class FormselectComponent(Component):
-  def __init__(self, label: str, name: str, options):    
+  def __init__(self, label: str, name: str, options, value: str = ''):    
     self.label = label
     self.name = name
     self.options = options
+    self.value = value
     self.components = []
+    
+    if value == "":
+        self.components.append(HtmlComponent('<option value="" selected disabled hidden>Select an option</option>'))
+    
     for option in self.options:
-        self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))
+        if isinstance(option, str):
+            if option == value:
+                self.components.append(SelectoptionComponent(label=option, value=option, selected='selected'))
+            else:
+                self.components.append(SelectoptionComponent(label=option, value=option))
+        else:
+            if option == value:
+                self.components.append(SelectoptionComponent(label=option['label'], value=option['value'], selected='selected'))
+            else:
+                self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))
 
   def __enter__(self):
     return self
@@ -629,8 +715,8 @@ class FormselectComponent(Component):
     </select>
 </div>'''
 
-  def add_selectoption(self, label: str, value: str) -> SelectoptionComponent:
-    new_component = SelectoptionComponent(label, value)    
+  def add_selectoption(self, label: str, value: str, selected: str = '') -> SelectoptionComponent:
+    new_component = SelectoptionComponent(label, value, selected)    
     self.components.append(new_component)
     return new_component
     
@@ -667,6 +753,26 @@ class FormtextComponent(Component):
     return '''<div class="mb-6">
     <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
     <input type="text" name="''' + self.name + '''" value="''' + self.value + '''" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''" required>
+</div>'''
+
+class FormtextareaComponent(Component):
+  def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = ''):    
+    self.label = label
+    self.name = name
+    self.placeholder = placeholder
+    self.value = value
+    
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''<div class="mb-6">
+    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
+    <textarea name="''' + self.name + '''" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''">''' + self.value + '''</textarea>
 </div>'''
 
 class HeaderComponent(Component):
@@ -1196,9 +1302,10 @@ class SectionComponent(Component):
     return '''<span id=''' + self.id + '''></span>'''
 
 class SelectoptionComponent(Component):
-  def __init__(self, label: str, value: str):    
+  def __init__(self, label: str, value: str, selected: str = ''):    
     self.label = label
     self.value = value
+    self.selected = selected
     
 
   def __enter__(self):
@@ -1208,7 +1315,7 @@ class SelectoptionComponent(Component):
     pass
 
   def to_html(self):
-    return '''<option value="''' + self.value + '''">''' + self.label + '''</option>'''
+    return '''<option value="''' + self.value + '''" ''' + self.selected + '''>''' + self.label + '''</option>'''
 
 class SidebarComponent(Component):
   def __init__(self, components: list = None):    
@@ -1504,25 +1611,6 @@ class TextComponent(Component):
 
   def to_html(self):
     return '''<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">''' + self.value + '''</p>'''
-
-class TextareaComponent(Component):
-  def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...'):    
-    self.label = label
-    self.name = name
-    self.placeholder = placeholder
-    
-
-  def __enter__(self):
-    return self
-
-  def __exit__(self, exc_type, exc_value, traceback):
-    pass
-
-  def to_html(self):
-    return '''<div class="mb-6">
-    <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
-    <textarea name="''' + self.name + '''" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''"></textarea>
-</div>'''
 
 
 #

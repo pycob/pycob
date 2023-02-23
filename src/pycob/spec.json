@@ -719,7 +719,9 @@
   ],
   "elementType" : "formtext",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -782,7 +784,9 @@
   ],
   "elementType" : "formemail",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -829,7 +833,9 @@
   ],
   "elementType" : "formpassword",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -869,12 +875,20 @@
       "name" : "options",
       "type" : "Untyped",
       "description" : "Options for the form select"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "value",
+      "type" : "Optional String",
+      "description" : "Selected value"
     }
   ],
-  "postInitPythonFunc" : "self.components = []\nfor option in self.options:\n    self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))",
+  "postInitPythonFunc" : "self.components = []\n\nif value == \"\":\n    self.components.append(HtmlComponent('<option value=\"\" selected disabled hidden>Select an option<\/option>'))\n\nfor option in self.options:\n    if isinstance(option, str):\n        if option == value:\n            self.components.append(SelectoptionComponent(label=option, value=option, selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option, value=option))\n    else:\n        if option == value:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value'], selected='selected'))\n        else:\n            self.components.append(SelectoptionComponent(label=option['label'], value=option['value']))",
   "elementType" : "formselect",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -944,6 +958,12 @@
       "name" : "value",
       "type" : "String",
       "description" : "Value for the select option"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "selected",
+      "type" : "Optional String",
+      "description" : "Use 'selected' if this is selected"
     }
   ],
   "elementType" : "selectoption",
@@ -987,11 +1007,19 @@
       "name" : "placeholder",
       "type" : "Optional String",
       "description" : "Placeholder"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "value",
+      "type" : "Optional String",
+      "description" : "Value if you want to pre-populate"
     }
   ],
-  "elementType" : "textarea",
+  "elementType" : "formtextarea",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
@@ -1026,7 +1054,9 @@
   ],
   "elementType" : "formsubmit",
   "attachableTo" : [
-    "form"
+    "form",
+    "card",
+    "container"
   ],
   "exampleCode" : [
     {
