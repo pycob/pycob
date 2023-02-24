@@ -1,5 +1,6 @@
 from __future__ import annotations
 from .component_interface import *
+import uuid
 
 
 
@@ -176,6 +177,12 @@ class CardComponent(Component):
   def add_pandastable(self, dataframe, hide_fields: list = [], action_buttons: list = None):
     advanced_add_pandastable(self, dataframe, hide_fields, action_buttons)
     return self
+    
+
+  def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    new_component = PlotlyfigureComponent(fig, id)    
+    self.components.append(new_component)
+    return new_component
     
 
 
@@ -401,6 +408,12 @@ class ContainerComponent(Component):
 
   def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
     new_component = FormsubmitComponent(label)    
+    self.components.append(new_component)
+    return new_component
+    
+
+  def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    new_component = PlotlyfigureComponent(fig, id)    
     self.components.append(new_component)
     return new_component
     
@@ -1123,6 +1136,12 @@ class Page(Component):
     return self
     
 
+  def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    new_component = PlotlyfigureComponent(fig, id)    
+    self.components.append(new_component)
+    return new_component
+    
+
 
   def add_datagrid(self, dataframe, action_buttons: list = None):
     advanced_add_datagrid(self, dataframe, action_buttons)
@@ -1180,6 +1199,27 @@ class PlainlinkComponent(Component):
 
   def to_html(self):
     return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
+
+class PlotlyfigureComponent(Component):
+  def __init__(self, fig, id: str = ''):    
+    self.fig = fig
+    self.id = id
+    if id == "":
+        self.id = str(uuid.uuid4())
+    self.fig = fig.to_json()
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_value, traceback):
+    pass
+
+  def to_html(self):
+    return '''<div id="''' + self.id + '''"></div>
+<script>
+    config = ''' + self.fig + '''
+    Plotly.newPlot( document.getElementById("''' + self.id + '''"), config, {responsive: true} );
+</script>'''
 
 class RawtableComponent(Component):
   def __init__(self, components: list = None):    

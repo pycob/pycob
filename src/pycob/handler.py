@@ -220,6 +220,7 @@ def _tailwind_header_to_sidebar(title: str, description: str, image: str, url: s
     <meta property="og:url" content="''' + url + '''">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.18.2.min.js"></script>
     <script>
         tailwind.config = {
             theme: {

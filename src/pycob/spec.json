@@ -1261,6 +1261,34 @@
   "name" : "Pandas Table"
 },
 {
+  "category" : "Charts",
+  "arguments" : [
+    {
+      "name" : "fig",
+      "type" : "Untyped",
+      "description" : "Figure to render"
+    },
+    {
+      "defaultValue" : "",
+      "name" : "id",
+      "type" : "Optional String",
+      "description" : "Unique ID for this element. Will default to a UUID."
+    }
+  ],
+  "postInitPythonFunc" : "if id == \"\":\n    self.id = str(uuid.uuid4())\nself.fig = fig.to_json()",
+  "elementType" : "plotlyfigure",
+  "attachableTo" : [
+    "page",
+    "card",
+    "container"
+  ],
+  "exampleCode" : [
+
+  ],
+  "description" : "Renders a plotly figure",
+  "name" : "Plotly Figure"
+},
+{
   "category" : "Advanced",
   "arguments" : [
     {
