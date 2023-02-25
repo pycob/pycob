@@ -5,6 +5,10 @@ import uuid
 
 
 class AlertComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_alert` method of the parent component.
+  """
   def __init__(self, text: str, badge: str = '', color: str = 'indigo'):    
     self.text = text
     self.badge = badge
@@ -26,6 +30,10 @@ class AlertComponent(Component):
 </div>'''
 
 class CardComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_card` method of the parent component.
+  """
   def __init__(self, center_content: bool = False, classes: str = '', components: list = None):    
     self.center_content = center_content
     self.classes = classes
@@ -54,120 +62,312 @@ class CardComponent(Component):
     self.components.append(component)
     return self
   def add_html(self, value: str) -> HtmlComponent:
+    """Renders raw HTML
+
+    Args:
+        value (str): Raw HTML code to be rendered
+    
+    Returns:
+        HtmlComponent: The new component
+    """
     new_component = HtmlComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_text(self, value: str) -> TextComponent:
+    """Renders a paragraph of text
+
+    Args:
+        value (str): Text to be rendered
+    
+    Returns:
+        TextComponent: The new component
+    """
     new_component = TextComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    """Renders a link
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        LinkComponent: The new component
+    """
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
+    """Renders a link without any styling
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        PlainlinkComponent: The new component
+    """
     new_component = PlainlinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    """Renders a list of items
+
+    Args:
+        show_dots (bool): Optional. Whether or not to show dots
+        classes (str): Optional. Classes to be applied to the list
+        components (list): Items to be rendered
+    
+    Returns:
+        ListComponent: The new component
+    """
     new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    """Renders an image
+
+    Args:
+        url (str): URL of the image
+        alt (str): Alt text for the image
+        classes (str): Optional. Classes to be applied to the image
+    
+    Returns:
+        ImageComponent: The new component
+    """
     new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    """Renders a header
+
+    Args:
+        text (str): Text to be rendered
+        size (int): Optional. Size of the header. Choose 1-9
+        classes (str): Optional. Classes to be applied to the header
+    
+    Returns:
+        HeaderComponent: The new component
+    """
     new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    """Renders a card
+
+    Args:
+        center_content (bool): Optional. Whether the card contents should be centered
+        classes (str): Optional. Classes to be applied to the card
+        components (list): Components to be rendered inside the card
+    
+    Returns:
+        CardComponent: The new component
+    """
     new_component = CardComponent(center_content, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    """Renders a container to help with layout
+
+    Args:
+        grid_columns (int): Optional. Number of columns (if any) to use. 1-12
+        classes (str): Optional. Classes to be applied to the container
+        components (list): Components to be rendered inside the container
+    
+    Returns:
+        ContainerComponent: The new component
+    """
     new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    """Renders an alert
+
+    Args:
+        text (str): Text to be rendered
+        badge (str): Optional. Text to be rendered inside the badge
+        color (str): Optional. Color of the. Choose 'indigo', 'orange', or 'red'
+    
+    Returns:
+        AlertComponent: The new component
+    """
     new_component = AlertComponent(text, badge, color)    
     self.components.append(new_component)
     return new_component
     
 
   def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    """Renders a block of code
+
+    Args:
+        value (str): Code to be rendered
+        header (str): Optional. Header to be rendered above the code block
+        prefix (str): Optional. Prefix to be rendered before the code block
+    
+    Returns:
+        CodeComponent: The new component
+    """
     new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
 
   def add_divider(self) -> DividerComponent:
+    """Renders a divider
+
+    
+    
+    Returns:
+        DividerComponent: The new component
+    """
     new_component = DividerComponent()    
     self.components.append(new_component)
     return new_component
     
 
   def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
+    """Renders a form
+
+    Args:
+        action (str): Optional. Action for the form. This is the page that the form will submit to. Defaults to the current page
+        method (str): Optional. Method for the form (i.e. GET, POST)
+        components (list): List of Component of the form
+    
+    Returns:
+        FormComponent: The new component
+    """
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    """Renders a form
+
+    Args:
+        label (str): Label for the form text
+        name (str): Name for the form text
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextComponent: The new component
+    """
     new_component = FormtextComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
+    """Renders a form email
+
+    Args:
+        label (str): Optional. Label for the form email
+        name (str): Optional. Name for the form email
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormemailComponent: The new component
+    """
     new_component = FormemailComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    """Renders a form password
+
+    Args:
+        label (str): Optional. Label for the form password
+        name (str): Optional. Name for the form password
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormpasswordComponent: The new component
+    """
     new_component = FormpasswordComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    """Renders a form select
+
+    Args:
+        label (str): Label for the form select
+        name (str): Name for the form select
+        options: Options for the form select
+        value (str): Optional. Selected value
+    
+    Returns:
+        FormselectComponent: The new component
+    """
     new_component = FormselectComponent(label, name, options, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    """Renders a text area
+
+    Args:
+        label (str): Optional. Label for the text area
+        name (str): Optional. Name for the text area
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextareaComponent: The new component
+    """
     new_component = FormtextareaComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
+    """Renders a form submit button
+
+    Args:
+        label (str): Optional. Label for the form submit button
+    
+    Returns:
+        FormsubmitComponent: The new component
+    """
     new_component = FormsubmitComponent(label)    
     self.components.append(new_component)
     return new_component
     
 
   def add_rawtable(self, components: list = None) -> RawtableComponent:
+    """Renders a table manually by constructing the table header, body, content, etc.. This is useful if you want to customize the table more than what the other table functions allow. Most of the time you'll use the other table functions instead of this one.
+
+    Args:
+        components (list): Components to render in the table
+    
+    Returns:
+        RawtableComponent: The new component
+    """
     new_component = RawtableComponent(components)    
     self.components.append(new_component)
     return new_component
@@ -175,11 +375,30 @@ class CardComponent(Component):
 
 
   def add_pandastable(self, dataframe, hide_fields: list = [], action_buttons: list = None):
+    """Renders a pandas table
+
+    Args:
+        dataframe: Dataframe to render
+        hide_fields (list): List of fields to hide
+        action_buttons (list): Row actions to render
+    
+    Returns:
+        PandastableComponent: The new component
+    """
     advanced_add_pandastable(self, dataframe, hide_fields, action_buttons)
     return self
     
 
   def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    """Renders a plotly figure
+
+    Args:
+        fig: Figure to render
+        id (str): Optional. Unique ID for this element. Will default to a UUID.
+    
+    Returns:
+        PlotlyfigureComponent: The new component
+    """
     new_component = PlotlyfigureComponent(fig, id)    
     self.components.append(new_component)
     return new_component
@@ -187,23 +406,53 @@ class CardComponent(Component):
 
 
   def add_datagrid(self, dataframe, action_buttons: list = None):
+    """Renders a data grid
+
+    Args:
+        dataframe: Dataframe to render
+        action_buttons (list): Row actions to render
+    
+    Returns:
+        DatagridComponent: The new component
+    """
     advanced_add_datagrid(self, dataframe, action_buttons)
     return self
     
 
 
   def add_emgithub(self, url: str):
+    """Renders a block of code from a github URL
+
+    Args:
+        url (str): URL of the GitHub file to be rendered
+    
+    Returns:
+        EmgithubComponent: The new component
+    """
     advanced_add_emgithub(self, url)
     return self
     
 
   def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    """Shows the status of a script execution and redirects to a new page when complete
+
+    Args:
+        job_id (str): Job id to check the status of
+        redirect_url (str): URL to redirect to when the script is complete
+    
+    Returns:
+        ScriptstatusComponent: The new component
+    """
     new_component = ScriptstatusComponent(job_id, redirect_url)    
     self.components.append(new_component)
     return new_component
     
 
 class CodeComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_code` method of the parent component.
+  """
   def __init__(self, value: str, header: str = '', prefix: str = '>>>'):    
     self.value = value
     self.header = header
@@ -232,6 +481,10 @@ class CodeComponent(Component):
 </div>'''
 
 class CodeeditorComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_codeeditor` method of the parent component.
+  """
   def __init__(self, value: str, language: str = 'python'):    
     self.value = value
     self.language = language
@@ -278,6 +531,10 @@ class CodeeditorComponent(Component):
 </script>'''
 
 class ContainerComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_container` method of the parent component.
+  """
   def __init__(self, grid_columns: int = None, classes: str = '', components: list = None):    
     self.grid_columns = grid_columns
     self.classes = classes
@@ -305,126 +562,325 @@ class ContainerComponent(Component):
     self.components.append(component)
     return self
   def add_html(self, value: str) -> HtmlComponent:
+    """Renders raw HTML
+
+    Args:
+        value (str): Raw HTML code to be rendered
+    
+    Returns:
+        HtmlComponent: The new component
+    """
     new_component = HtmlComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_text(self, value: str) -> TextComponent:
+    """Renders a paragraph of text
+
+    Args:
+        value (str): Text to be rendered
+    
+    Returns:
+        TextComponent: The new component
+    """
     new_component = TextComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    """Renders a link
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        LinkComponent: The new component
+    """
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
+    """Renders a link without any styling
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        PlainlinkComponent: The new component
+    """
     new_component = PlainlinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    """Renders a list of items
+
+    Args:
+        show_dots (bool): Optional. Whether or not to show dots
+        classes (str): Optional. Classes to be applied to the list
+        components (list): Items to be rendered
+    
+    Returns:
+        ListComponent: The new component
+    """
     new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    """Renders an image
+
+    Args:
+        url (str): URL of the image
+        alt (str): Alt text for the image
+        classes (str): Optional. Classes to be applied to the image
+    
+    Returns:
+        ImageComponent: The new component
+    """
     new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    """Renders a header
+
+    Args:
+        text (str): Text to be rendered
+        size (int): Optional. Size of the header. Choose 1-9
+        classes (str): Optional. Classes to be applied to the header
+    
+    Returns:
+        HeaderComponent: The new component
+    """
     new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    """Renders a card
+
+    Args:
+        center_content (bool): Optional. Whether the card contents should be centered
+        classes (str): Optional. Classes to be applied to the card
+        components (list): Components to be rendered inside the card
+    
+    Returns:
+        CardComponent: The new component
+    """
     new_component = CardComponent(center_content, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    """Renders a container to help with layout
+
+    Args:
+        grid_columns (int): Optional. Number of columns (if any) to use. 1-12
+        classes (str): Optional. Classes to be applied to the container
+        components (list): Components to be rendered inside the container
+    
+    Returns:
+        ContainerComponent: The new component
+    """
     new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    """Renders an alert
+
+    Args:
+        text (str): Text to be rendered
+        badge (str): Optional. Text to be rendered inside the badge
+        color (str): Optional. Color of the. Choose 'indigo', 'orange', or 'red'
+    
+    Returns:
+        AlertComponent: The new component
+    """
     new_component = AlertComponent(text, badge, color)    
     self.components.append(new_component)
     return new_component
     
 
   def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    """Renders a block of code
+
+    Args:
+        value (str): Code to be rendered
+        header (str): Optional. Header to be rendered above the code block
+        prefix (str): Optional. Prefix to be rendered before the code block
+    
+    Returns:
+        CodeComponent: The new component
+    """
     new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
 
   def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
+    """Renders a form
+
+    Args:
+        action (str): Optional. Action for the form. This is the page that the form will submit to. Defaults to the current page
+        method (str): Optional. Method for the form (i.e. GET, POST)
+        components (list): List of Component of the form
+    
+    Returns:
+        FormComponent: The new component
+    """
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    """Renders a form
+
+    Args:
+        label (str): Label for the form text
+        name (str): Name for the form text
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextComponent: The new component
+    """
     new_component = FormtextComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
+    """Renders a form email
+
+    Args:
+        label (str): Optional. Label for the form email
+        name (str): Optional. Name for the form email
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormemailComponent: The new component
+    """
     new_component = FormemailComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    """Renders a form password
+
+    Args:
+        label (str): Optional. Label for the form password
+        name (str): Optional. Name for the form password
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormpasswordComponent: The new component
+    """
     new_component = FormpasswordComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    """Renders a form select
+
+    Args:
+        label (str): Label for the form select
+        name (str): Name for the form select
+        options: Options for the form select
+        value (str): Optional. Selected value
+    
+    Returns:
+        FormselectComponent: The new component
+    """
     new_component = FormselectComponent(label, name, options, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    """Renders a text area
+
+    Args:
+        label (str): Optional. Label for the text area
+        name (str): Optional. Name for the text area
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextareaComponent: The new component
+    """
     new_component = FormtextareaComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
+    """Renders a form submit button
+
+    Args:
+        label (str): Optional. Label for the form submit button
+    
+    Returns:
+        FormsubmitComponent: The new component
+    """
     new_component = FormsubmitComponent(label)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    """Renders a plotly figure
+
+    Args:
+        fig: Figure to render
+        id (str): Optional. Unique ID for this element. Will default to a UUID.
+    
+    Returns:
+        PlotlyfigureComponent: The new component
+    """
     new_component = PlotlyfigureComponent(fig, id)    
     self.components.append(new_component)
     return new_component
     
 
   def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    """Shows the status of a script execution and redirects to a new page when complete
+
+    Args:
+        job_id (str): Job id to check the status of
+        redirect_url (str): URL to redirect to when the script is complete
+    
+    Returns:
+        ScriptstatusComponent: The new component
+    """
     new_component = ScriptstatusComponent(job_id, redirect_url)    
     self.components.append(new_component)
     return new_component
     
 
 class DividerComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_divider` method of the parent component.
+  """
   def __init__(self):    
     pass
     
@@ -439,6 +895,10 @@ class DividerComponent(Component):
     return '''<hr class="my-5 border-gray-300 w-full">'''
 
 class FooterComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_footer` method of the parent component.
+  """
   def __init__(self, title: str, subtitle: str = '', logo: str = '', components: list = None):    
     self.title = title
     self.subtitle = subtitle
@@ -474,12 +934,25 @@ class FooterComponent(Component):
     self.components.append(component)
     return self
   def add_footercategory(self, title: str, components: list = None) -> FootercategoryComponent:
+    """Renders a category in the footer
+
+    Args:
+        title (str): Title of the category
+        components (list): List of Footer Link in the category
+    
+    Returns:
+        FootercategoryComponent: The new component
+    """
     new_component = FootercategoryComponent(title, components)    
     self.components.append(new_component)
     return new_component
     
 
 class FootercategoryComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_footercategory` method of the parent component.
+  """
   def __init__(self, title: str, components: list = None):    
     self.title = title
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
@@ -508,12 +981,25 @@ class FootercategoryComponent(Component):
     self.components.append(component)
     return self
   def add_footerlink(self, title: str, url: str) -> FooterlinkComponent:
+    """Renders a link in the footer
+
+    Args:
+        title (str): Title of the link
+        url (str): URL of the link
+    
+    Returns:
+        FooterlinkComponent: The new component
+    """
     new_component = FooterlinkComponent(title, url)    
     self.components.append(new_component)
     return new_component
     
 
 class FooterlinkComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_footerlink` method of the parent component.
+  """
   def __init__(self, title: str, url: str):    
     self.title = title
     self.url = url
@@ -529,6 +1015,10 @@ class FooterlinkComponent(Component):
     return '''<li><a href="''' + self.url + '''" class="text-gray-600 hover:text-gray-800 dark:hover:text-white">''' + self.title + '''</a></li>'''
 
 class FormComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_form` method of the parent component.
+  """
   def __init__(self, action: str = '?', method: str = 'GET', components: list = None):    
     self.action = action
     self.method = method
@@ -555,90 +1045,230 @@ class FormComponent(Component):
     self.components.append(component)
     return self
   def add_text(self, value: str) -> TextComponent:
+    """Renders a paragraph of text
+
+    Args:
+        value (str): Text to be rendered
+    
+    Returns:
+        TextComponent: The new component
+    """
     new_component = TextComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    """Renders a link
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        LinkComponent: The new component
+    """
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    """Renders a list of items
+
+    Args:
+        show_dots (bool): Optional. Whether or not to show dots
+        classes (str): Optional. Classes to be applied to the list
+        components (list): Items to be rendered
+    
+    Returns:
+        ListComponent: The new component
+    """
     new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    """Renders an image
+
+    Args:
+        url (str): URL of the image
+        alt (str): Alt text for the image
+        classes (str): Optional. Classes to be applied to the image
+    
+    Returns:
+        ImageComponent: The new component
+    """
     new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    """Renders a container to help with layout
+
+    Args:
+        grid_columns (int): Optional. Number of columns (if any) to use. 1-12
+        classes (str): Optional. Classes to be applied to the container
+        components (list): Components to be rendered inside the container
+    
+    Returns:
+        ContainerComponent: The new component
+    """
     new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    """Renders a block of code
+
+    Args:
+        value (str): Code to be rendered
+        header (str): Optional. Header to be rendered above the code block
+        prefix (str): Optional. Prefix to be rendered before the code block
+    
+    Returns:
+        CodeComponent: The new component
+    """
     new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtext(self, label: str, name: str, placeholder: str = '', value: str = '') -> FormtextComponent:
+    """Renders a form
+
+    Args:
+        label (str): Label for the form text
+        name (str): Name for the form text
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextComponent: The new component
+    """
     new_component = FormtextComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formemail(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com') -> FormemailComponent:
+    """Renders a form email
+
+    Args:
+        label (str): Optional. Label for the form email
+        name (str): Optional. Name for the form email
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormemailComponent: The new component
+    """
     new_component = FormemailComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formpassword(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password') -> FormpasswordComponent:
+    """Renders a form password
+
+    Args:
+        label (str): Optional. Label for the form password
+        name (str): Optional. Name for the form password
+        placeholder (str): Optional. Placeholder
+    
+    Returns:
+        FormpasswordComponent: The new component
+    """
     new_component = FormpasswordComponent(label, name, placeholder)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formselect(self, label: str, name: str, options, value: str = '') -> FormselectComponent:
+    """Renders a form select
+
+    Args:
+        label (str): Label for the form select
+        name (str): Name for the form select
+        options: Options for the form select
+        value (str): Optional. Selected value
+    
+    Returns:
+        FormselectComponent: The new component
+    """
     new_component = FormselectComponent(label, name, options, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formhidden(self, name: str, value: str) -> FormhiddenComponent:
+    """Renders a hidden field on a form. This is useful for carrying state between pages without having to store data in the database.
+
+    Args:
+        name (str): Name for the form hidden
+        value (str): Value for the form hidden
+    
+    Returns:
+        FormhiddenComponent: The new component
+    """
     new_component = FormhiddenComponent(name, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+    """Renders a text area
+
+    Args:
+        label (str): Optional. Label for the text area
+        name (str): Optional. Name for the text area
+        placeholder (str): Optional. Placeholder
+        value (str): Optional. Value if you want to pre-populate
+    
+    Returns:
+        FormtextareaComponent: The new component
+    """
     new_component = FormtextareaComponent(label, name, placeholder, value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_formsubmit(self, label: str = 'Submit') -> FormsubmitComponent:
+    """Renders a form submit button
+
+    Args:
+        label (str): Optional. Label for the form submit button
+    
+    Returns:
+        FormsubmitComponent: The new component
+    """
     new_component = FormsubmitComponent(label)    
     self.components.append(new_component)
     return new_component
     
 
   def add_rawtable(self, components: list = None) -> RawtableComponent:
+    """Renders a table manually by constructing the table header, body, content, etc.. This is useful if you want to customize the table more than what the other table functions allow. Most of the time you'll use the other table functions instead of this one.
+
+    Args:
+        components (list): Components to render in the table
+    
+    Returns:
+        RawtableComponent: The new component
+    """
     new_component = RawtableComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
 class FormemailComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formemail` method of the parent component.
+  """
   def __init__(self, label: str = 'Your E-mail', name: str = 'email', placeholder: str = 'user@example.com'):    
     self.label = label
     self.name = name
@@ -658,6 +1288,10 @@ class FormemailComponent(Component):
 </div>'''
 
 class FormhiddenComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formhidden` method of the parent component.
+  """
   def __init__(self, name: str, value: str):    
     self.name = name
     self.value = value
@@ -673,6 +1307,10 @@ class FormhiddenComponent(Component):
     return '''<input type="hidden" name="''' + self.name + '''" value="''' + self.value + '''">'''
 
 class FormpasswordComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formpassword` method of the parent component.
+  """
   def __init__(self, label: str = 'Password', name: str = 'password', placeholder: str = 'password'):    
     self.label = label
     self.name = name
@@ -692,6 +1330,10 @@ class FormpasswordComponent(Component):
 </div>'''
 
 class FormselectComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formselect` method of the parent component.
+  """
   def __init__(self, label: str, name: str, options, value: str = ''):    
     self.label = label
     self.name = name
@@ -729,12 +1371,26 @@ class FormselectComponent(Component):
 </div>'''
 
   def add_selectoption(self, label: str, value: str, selected: str = '') -> SelectoptionComponent:
+    """Renders a select option
+
+    Args:
+        label (str): Label for the select option
+        value (str): Value for the select option
+        selected (str): Optional. Use 'selected' if this is selected
+    
+    Returns:
+        SelectoptionComponent: The new component
+    """
     new_component = SelectoptionComponent(label, value, selected)    
     self.components.append(new_component)
     return new_component
     
 
 class FormsubmitComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formsubmit` method of the parent component.
+  """
   def __init__(self, label: str = 'Submit'):    
     self.label = label
     
@@ -749,6 +1405,10 @@ class FormsubmitComponent(Component):
     return '''<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">''' + self.label + '''</button>'''
 
 class FormtextComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formtext` method of the parent component.
+  """
   def __init__(self, label: str, name: str, placeholder: str = '', value: str = ''):    
     self.label = label
     self.name = name
@@ -769,6 +1429,10 @@ class FormtextComponent(Component):
 </div>'''
 
 class FormtextareaComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_formtextarea` method of the parent component.
+  """
   def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = ''):    
     self.label = label
     self.name = name
@@ -789,6 +1453,10 @@ class FormtextareaComponent(Component):
 </div>'''
 
 class HeaderComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_header` method of the parent component.
+  """
   def __init__(self, text: str, size: int = 5, classes: str = ''):    
     self.text = text
     self.size = size
@@ -824,6 +1492,10 @@ class HeaderComponent(Component):
     return '''<p class="mb-4 font-extrabold leading-none tracking-tight text-gray-900 dark:text-white ''' + self.classes + ''' ">''' + self.text + '''</p>'''
 
 class HtmlComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_html` method of the parent component.
+  """
   def __init__(self, value: str):    
     self.value = value
     
@@ -838,6 +1510,10 @@ class HtmlComponent(Component):
     return '''''' + self.value + ''''''
 
 class ImageComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_image` method of the parent component.
+  """
   def __init__(self, url: str, alt: str, classes: str = ''):    
     self.url = url
     self.alt = alt
@@ -854,6 +1530,10 @@ class ImageComponent(Component):
     return '''<img class="max-w-fit h-auto rounded-lg ''' + self.classes + ''' " src="''' + self.url + '''" alt="''' + self.alt + '''">'''
 
 class LinkComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_link` method of the parent component.
+  """
   def __init__(self, text: str, url: str, classes: str = ''):    
     self.text = text
     self.url = url
@@ -875,6 +1555,10 @@ class LinkComponent(Component):
 </p>'''
 
 class ListComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_list` method of the parent component.
+  """
   def __init__(self, show_dots: bool = True, classes: str = '', components: list = None):    
     self.show_dots = show_dots
     self.classes = classes
@@ -904,12 +1588,27 @@ class ListComponent(Component):
     self.components.append(component)
     return self
   def add_listitem(self, value: str, classes: str = '', svg: str = '', is_checked: bool = None) -> ListitemComponent:
+    """Renders an item in a list
+
+    Args:
+        value (str): Text to be rendered
+        classes (str): Optional. Classes to be applied to the list item
+        svg (str): Optional. SVG to render inside the list
+        is_checked (bool): Optional. Whether or not the item is checked
+    
+    Returns:
+        ListitemComponent: The new component
+    """
     new_component = ListitemComponent(value, classes, svg, is_checked)    
     self.components.append(new_component)
     return new_component
     
 
 class ListitemComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_listitem` method of the parent component.
+  """
   def __init__(self, value: str, classes: str = '', svg: str = '', is_checked: bool = None):    
     self.value = value
     self.classes = classes
@@ -934,6 +1633,10 @@ class ListitemComponent(Component):
 </li>'''
 
 class NavbarComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_navbar` method of the parent component.
+  """
   def __init__(self, title: str, logo: str = '', button_label: str = 'Sign In', button_url: str = '/auth/login', button_svg: str = '', components: list = None):    
     self.title = title
     self.logo = logo
@@ -1000,18 +1703,42 @@ class NavbarComponent(Component):
     self.components.append(component)
     return self
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    """Renders a link
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        LinkComponent: The new component
+    """
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
+    """Renders a link without any styling
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        PlainlinkComponent: The new component
+    """
     new_component = PlainlinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
 class Page(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_page` method of the parent component.
+  """
   def __init__(self, title: str = '', description: str = '', image: str = '', auto_navbar: bool = True, auto_footer: bool = True, components: list = None):    
     self.title = title
     self.description = description
@@ -1041,90 +1768,231 @@ class Page(Component):
     self.components.append(component)
     return self
   def add_html(self, value: str) -> HtmlComponent:
+    """Renders raw HTML
+
+    Args:
+        value (str): Raw HTML code to be rendered
+    
+    Returns:
+        HtmlComponent: The new component
+    """
     new_component = HtmlComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_text(self, value: str) -> TextComponent:
+    """Renders a paragraph of text
+
+    Args:
+        value (str): Text to be rendered
+    
+    Returns:
+        TextComponent: The new component
+    """
     new_component = TextComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_link(self, text: str, url: str, classes: str = '') -> LinkComponent:
+    """Renders a link
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        LinkComponent: The new component
+    """
     new_component = LinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_plainlink(self, text: str, url: str, classes: str = '') -> PlainlinkComponent:
+    """Renders a link without any styling
+
+    Args:
+        text (str): Text to be rendered
+        url (str): URL to link to
+        classes (str): Optional. Classes to be applied to the link
+    
+    Returns:
+        PlainlinkComponent: The new component
+    """
     new_component = PlainlinkComponent(text, url, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_list(self, show_dots: bool = True, classes: str = '', components: list = None) -> ListComponent:
+    """Renders a list of items
+
+    Args:
+        show_dots (bool): Optional. Whether or not to show dots
+        classes (str): Optional. Classes to be applied to the list
+        components (list): Items to be rendered
+    
+    Returns:
+        ListComponent: The new component
+    """
     new_component = ListComponent(show_dots, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_image(self, url: str, alt: str, classes: str = '') -> ImageComponent:
+    """Renders an image
+
+    Args:
+        url (str): URL of the image
+        alt (str): Alt text for the image
+        classes (str): Optional. Classes to be applied to the image
+    
+    Returns:
+        ImageComponent: The new component
+    """
     new_component = ImageComponent(url, alt, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_header(self, text: str, size: int = 5, classes: str = '') -> HeaderComponent:
+    """Renders a header
+
+    Args:
+        text (str): Text to be rendered
+        size (int): Optional. Size of the header. Choose 1-9
+        classes (str): Optional. Classes to be applied to the header
+    
+    Returns:
+        HeaderComponent: The new component
+    """
     new_component = HeaderComponent(text, size, classes)    
     self.components.append(new_component)
     return new_component
     
 
   def add_card(self, center_content: bool = False, classes: str = '', components: list = None) -> CardComponent:
+    """Renders a card
+
+    Args:
+        center_content (bool): Optional. Whether the card contents should be centered
+        classes (str): Optional. Classes to be applied to the card
+        components (list): Components to be rendered inside the card
+    
+    Returns:
+        CardComponent: The new component
+    """
     new_component = CardComponent(center_content, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_container(self, grid_columns: int = None, classes: str = '', components: list = None) -> ContainerComponent:
+    """Renders a container to help with layout
+
+    Args:
+        grid_columns (int): Optional. Number of columns (if any) to use. 1-12
+        classes (str): Optional. Classes to be applied to the container
+        components (list): Components to be rendered inside the container
+    
+    Returns:
+        ContainerComponent: The new component
+    """
     new_component = ContainerComponent(grid_columns, classes, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_alert(self, text: str, badge: str = '', color: str = 'indigo') -> AlertComponent:
+    """Renders an alert
+
+    Args:
+        text (str): Text to be rendered
+        badge (str): Optional. Text to be rendered inside the badge
+        color (str): Optional. Color of the. Choose 'indigo', 'orange', or 'red'
+    
+    Returns:
+        AlertComponent: The new component
+    """
     new_component = AlertComponent(text, badge, color)    
     self.components.append(new_component)
     return new_component
     
 
   def add_code(self, value: str, header: str = '', prefix: str = '>>>') -> CodeComponent:
+    """Renders a block of code
+
+    Args:
+        value (str): Code to be rendered
+        header (str): Optional. Header to be rendered above the code block
+        prefix (str): Optional. Prefix to be rendered before the code block
+    
+    Returns:
+        CodeComponent: The new component
+    """
     new_component = CodeComponent(value, header, prefix)    
     self.components.append(new_component)
     return new_component
     
 
   def add_divider(self) -> DividerComponent:
+    """Renders a divider
+
+    
+    
+    Returns:
+        DividerComponent: The new component
+    """
     new_component = DividerComponent()    
     self.components.append(new_component)
     return new_component
     
 
   def add_section(self, id: str, name: str, level: int = 1) -> SectionComponent:
+    """Creates an invisible element that can be used to link to in the sidebar
+
+    Args:
+        id (str): ID for the section. This is what will appear in the link as /page#id
+        name (str): Name of the section. This is what will appear in the navigation bar
+        level (int): Optional. Level of the section. This is the indentation that will appear in the navigation bar
+    
+    Returns:
+        SectionComponent: The new component
+    """
     new_component = SectionComponent(id, name, level)    
     self.components.append(new_component)
     return new_component
     
 
   def add_form(self, action: str = '?', method: str = 'GET', components: list = None) -> FormComponent:
+    """Renders a form
+
+    Args:
+        action (str): Optional. Action for the form. This is the page that the form will submit to. Defaults to the current page
+        method (str): Optional. Method for the form (i.e. GET, POST)
+        components (list): List of Component of the form
+    
+    Returns:
+        FormComponent: The new component
+    """
     new_component = FormComponent(action, method, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_rawtable(self, components: list = None) -> RawtableComponent:
+    """Renders a table manually by constructing the table header, body, content, etc.. This is useful if you want to customize the table more than what the other table functions allow. Most of the time you'll use the other table functions instead of this one.
+
+    Args:
+        components (list): Components to render in the table
+    
+    Returns:
+        RawtableComponent: The new component
+    """
     new_component = RawtableComponent(components)    
     self.components.append(new_component)
     return new_component
@@ -1132,11 +2000,30 @@ class Page(Component):
 
 
   def add_pandastable(self, dataframe, hide_fields: list = [], action_buttons: list = None):
+    """Renders a pandas table
+
+    Args:
+        dataframe: Dataframe to render
+        hide_fields (list): List of fields to hide
+        action_buttons (list): Row actions to render
+    
+    Returns:
+        PandastableComponent: The new component
+    """
     advanced_add_pandastable(self, dataframe, hide_fields, action_buttons)
     return self
     
 
   def add_plotlyfigure(self, fig, id: str = '') -> PlotlyfigureComponent:
+    """Renders a plotly figure
+
+    Args:
+        fig: Figure to render
+        id (str): Optional. Unique ID for this element. Will default to a UUID.
+    
+    Returns:
+        PlotlyfigureComponent: The new component
+    """
     new_component = PlotlyfigureComponent(fig, id)    
     self.components.append(new_component)
     return new_component
@@ -1144,29 +2031,79 @@ class Page(Component):
 
 
   def add_datagrid(self, dataframe, action_buttons: list = None):
+    """Renders a data grid
+
+    Args:
+        dataframe: Dataframe to render
+        action_buttons (list): Row actions to render
+    
+    Returns:
+        DatagridComponent: The new component
+    """
     advanced_add_datagrid(self, dataframe, action_buttons)
     return self
     
 
   def add_navbar(self, title: str, logo: str = '', button_label: str = 'Sign In', button_url: str = '/auth/login', button_svg: str = '', components: list = None) -> NavbarComponent:
+    """Renders a navbar
+
+    Args:
+        title (str): Title of the navbar
+        logo (str): Optional. URL for the logo of the navbar
+        button_label (str): Optional. Label for the button
+        button_url (str): Optional. URL for the button
+        button_svg (str): Optional. SVG for the button
+        components (list): List of links for the navbar
+    
+    Returns:
+        NavbarComponent: The new component
+    """
     new_component = NavbarComponent(title, logo, button_label, button_url, button_svg, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_footer(self, title: str, subtitle: str = '', logo: str = '', components: list = None) -> FooterComponent:
+    """Renders a footer
+
+    Args:
+        title (str): Title of the footer
+        subtitle (str): Optional. Subtitle of the footer
+        logo (str): Optional. URL for the logo of the footer
+        components (list): List of category components for the footer
+    
+    Returns:
+        FooterComponent: The new component
+    """
     new_component = FooterComponent(title, subtitle, logo, components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_sidebar(self, components: list = None) -> SidebarComponent:
+    """Renders a sidebar
+
+    Args:
+        components (list): List of Component of the sidebar
+    
+    Returns:
+        SidebarComponent: The new component
+    """
     new_component = SidebarComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_codeeditor(self, value: str, language: str = 'python') -> CodeeditorComponent:
+    """Renders a code editor
+
+    Args:
+        value (str): Code to be rendered
+        language (str): Optional. Language mode for syntax highlighting
+    
+    Returns:
+        CodeeditorComponent: The new component
+    """
     new_component = CodeeditorComponent(value, language)    
     self.components.append(new_component)
     return new_component
@@ -1174,17 +2111,38 @@ class Page(Component):
 
 
   def add_emgithub(self, url: str):
+    """Renders a block of code from a github URL
+
+    Args:
+        url (str): URL of the GitHub file to be rendered
+    
+    Returns:
+        EmgithubComponent: The new component
+    """
     advanced_add_emgithub(self, url)
     return self
     
 
   def add_scriptstatus(self, job_id: str, redirect_url: str) -> ScriptstatusComponent:
+    """Shows the status of a script execution and redirects to a new page when complete
+
+    Args:
+        job_id (str): Job id to check the status of
+        redirect_url (str): URL to redirect to when the script is complete
+    
+    Returns:
+        ScriptstatusComponent: The new component
+    """
     new_component = ScriptstatusComponent(job_id, redirect_url)    
     self.components.append(new_component)
     return new_component
     
 
 class PlainlinkComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_plainlink` method of the parent component.
+  """
   def __init__(self, text: str, url: str, classes: str = ''):    
     self.text = text
     self.url = url
@@ -1201,6 +2159,10 @@ class PlainlinkComponent(Component):
     return '''<a class="''' + self.classes + '''" href="''' + self.url + '''">''' + self.text + '''</a>'''
 
 class PlotlyfigureComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_plotlyfigure` method of the parent component.
+  """
   def __init__(self, fig, id: str = ''):    
     self.fig = fig
     self.id = id
@@ -1222,6 +2184,10 @@ class PlotlyfigureComponent(Component):
 </script>'''
 
 class RawtableComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_rawtable` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1248,24 +2214,52 @@ class RawtableComponent(Component):
     self.components.append(component)
     return self
   def add_tablehead(self, components: list = None) -> TableheadComponent:
+    """Renders a table head
+
+    Args:
+        components (list): Components to render in the table head
+    
+    Returns:
+        TableheadComponent: The new component
+    """
     new_component = TableheadComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablerow(self, components: list = None) -> TablerowComponent:
+    """Renders a table row
+
+    Args:
+        components (list): Components to render in the table row
+    
+    Returns:
+        TablerowComponent: The new component
+    """
     new_component = TablerowComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablebody(self, components: list = None) -> TablebodyComponent:
+    """Renders a table body
+
+    Args:
+        components (list): Components to render in the table body
+    
+    Returns:
+        TablebodyComponent: The new component
+    """
     new_component = TablebodyComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
 class Rowaction(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_rowaction` method of the parent component.
+  """
   def __init__(self, label: str, url: str, classes: str = '', open_in_new_window: bool = True):    
     self.label = label
     self.url = url
@@ -1283,6 +2277,10 @@ class Rowaction(Component):
     return '''TODO: Internal Component'''
 
 class ScriptstatusComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_scriptstatus` method of the parent component.
+  """
   def __init__(self, job_id: str, redirect_url: str):    
     self.job_id = job_id
     self.redirect_url = redirect_url
@@ -1326,6 +2324,10 @@ class ScriptstatusComponent(Component):
 </div>'''
 
 class SectionComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_section` method of the parent component.
+  """
   def __init__(self, id: str, name: str, level: int = 1):    
     self.id = id
     self.name = name
@@ -1342,6 +2344,10 @@ class SectionComponent(Component):
     return '''<span id=''' + self.id + '''></span>'''
 
 class SelectoptionComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_selectoption` method of the parent component.
+  """
   def __init__(self, label: str, value: str, selected: str = ''):    
     self.label = label
     self.value = value
@@ -1358,6 +2364,10 @@ class SelectoptionComponent(Component):
     return '''<option value="''' + self.value + '''" ''' + self.selected + '''>''' + self.label + '''</option>'''
 
 class SidebarComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_sidebar` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1406,12 +2416,25 @@ class SidebarComponent(Component):
     self.components.append(component)
     return self
   def add_sidebarcategory(self, title: str, components: list = None) -> SidebarcategoryComponent:
+    """Renders a category in the sidebar
+
+    Args:
+        title (str): Title of the category
+        components (list): List of Sidebar Link in the category
+    
+    Returns:
+        SidebarcategoryComponent: The new component
+    """
     new_component = SidebarcategoryComponent(title, components)    
     self.components.append(new_component)
     return new_component
     
 
 class SidebarcategoryComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_sidebarcategory` method of the parent component.
+  """
   def __init__(self, title: str, components: list = None):    
     self.title = title
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
@@ -1440,12 +2463,25 @@ class SidebarcategoryComponent(Component):
     self.components.append(component)
     return self
   def add_sidebarlink(self, title: str, url: str) -> SidebarlinkComponent:
+    """Renders a link in the sidebar
+
+    Args:
+        title (str): Title of the link
+        url (str): URL of the link
+    
+    Returns:
+        SidebarlinkComponent: The new component
+    """
     new_component = SidebarlinkComponent(title, url)    
     self.components.append(new_component)
     return new_component
     
 
 class SidebarlinkComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_sidebarlink` method of the parent component.
+  """
   def __init__(self, title: str, url: str):    
     self.title = title
     self.url = url
@@ -1461,6 +2497,10 @@ class SidebarlinkComponent(Component):
     return '''<li><a href="''' + self.url + '''" onclick="event.preventDefault(); smoothScrollTo(this)" class="text-gray-900 dark:text-white hover:text-gray-800">''' + self.title + '''</a></li>'''
 
 class TablebodyComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablebody` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1485,12 +2525,24 @@ class TablebodyComponent(Component):
     self.components.append(component)
     return self
   def add_tablerow(self, components: list = None) -> TablerowComponent:
+    """Renders a table row
+
+    Args:
+        components (list): Components to render in the table row
+    
+    Returns:
+        TablerowComponent: The new component
+    """
     new_component = TablerowComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
 class TablecellComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablecell` method of the parent component.
+  """
   def __init__(self, value: str):    
     self.value = value
     
@@ -1507,6 +2559,10 @@ class TablecellComponent(Component):
 </td>'''
 
 class TablecellheaderComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablecellheader` method of the parent component.
+  """
   def __init__(self, value: str):    
     self.value = value
     
@@ -1523,6 +2579,10 @@ class TablecellheaderComponent(Component):
 </th>'''
 
 class TablecolComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablecol` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1547,6 +2607,10 @@ class TablecolComponent(Component):
     self.components.append(component)
     return self
 class TableheadComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablehead` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1573,30 +2637,66 @@ class TableheadComponent(Component):
     self.components.append(component)
     return self
   def add_tablerow(self, components: list = None) -> TablerowComponent:
+    """Renders a table row
+
+    Args:
+        components (list): Components to render in the table row
+    
+    Returns:
+        TablerowComponent: The new component
+    """
     new_component = TablerowComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablecol(self, components: list = None) -> TablecolComponent:
+    """Renders a table column
+
+    Args:
+        components (list): Components to render in the table column
+    
+    Returns:
+        TablecolComponent: The new component
+    """
     new_component = TablecolComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablecell(self, value: str) -> TablecellComponent:
+    """Renders a table cell
+
+    Args:
+        value (str): String to render in the table cell
+    
+    Returns:
+        TablecellComponent: The new component
+    """
     new_component = TablecellComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablecellheader(self, value: str) -> TablecellheaderComponent:
+    """Renders a table cell header
+
+    Args:
+        value (str): String to render in the table cell header
+    
+    Returns:
+        TablecellheaderComponent: The new component
+    """
     new_component = TablecellheaderComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
 class TablerowComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_tablerow` method of the parent component.
+  """
   def __init__(self, components: list = None):    
     # https://stackoverflow.com/questions/4841782/python-constructor-and-default-value
     self.components = components or []
@@ -1621,24 +2721,52 @@ class TablerowComponent(Component):
     self.components.append(component)
     return self
   def add_tablecol(self, components: list = None) -> TablecolComponent:
+    """Renders a table column
+
+    Args:
+        components (list): Components to render in the table column
+    
+    Returns:
+        TablecolComponent: The new component
+    """
     new_component = TablecolComponent(components)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablecell(self, value: str) -> TablecellComponent:
+    """Renders a table cell
+
+    Args:
+        value (str): String to render in the table cell
+    
+    Returns:
+        TablecellComponent: The new component
+    """
     new_component = TablecellComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
   def add_tablecellheader(self, value: str) -> TablecellheaderComponent:
+    """Renders a table cell header
+
+    Args:
+        value (str): String to render in the table cell header
+    
+    Returns:
+        TablecellheaderComponent: The new component
+    """
     new_component = TablecellheaderComponent(value)    
     self.components.append(new_component)
     return new_component
     
 
 class TextComponent(Component):
+  """You don't normally need to invoke this constructor directly.
+  
+  Instead, use the `Page.add_text` method of the parent component.
+  """
   def __init__(self, value: str):    
     self.value = value
     
