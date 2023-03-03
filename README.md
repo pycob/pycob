@@ -1,4 +1,5 @@
 # PyCob 
+[![PyPI version](https://badge.fury.io/py/pycob.svg)](https://badge.fury.io/py/pycob)
 
 ![PyCob Logo on Hexagon](https://cdn.pycob.com/android-chrome-192x192.png)
 
