@@ -6,6 +6,9 @@ def advanced_add_pandastable(self, df, hide_fields, action_buttons):
     cols_to_show = []
     show_actions = False
 
+    if action_buttons is None:
+        action_buttons = []
+
     if len(__get_action_buttons_to_add(action_buttons)) > 0:
         show_actions = True
 
@@ -228,6 +231,9 @@ def __replace_text_with_button(record: dict, action_buttons) -> dict:
     return new_record
 
 def advanced_add_datagrid(page, dataframe, action_buttons):
+    if action_buttons is None:
+        action_buttons = []
+
     cols = list(map(lambda x: {'headerName': __format_column_header(x), 'field': x} , dataframe.columns.to_list()))
 
     if len(__get_action_buttons_to_add(action_buttons)) > 0:

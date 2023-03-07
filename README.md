@@ -1,7 +1,7 @@
 # PyCob 
 [![PyPI version](https://badge.fury.io/py/pycob.svg)](https://badge.fury.io/py/pycob)
 
-![PyCob Logo on Hexagon](https://cdn.pycob.com/android-chrome-192x192.png)
+![Screenshot of PyCob Quickstart App](https://cdn.pycob.com/quickstart_screenshot.png)
 
 ## Create web apps using just Python
 
@@ -18,8 +18,8 @@ import pandas as pd
 # Create a PyCob app
 app = cob.App('Sample App')
 
-# Define the page
-def test_page(server_request: cob.Request) -> cob.Page:
+# Define a page
+def sample_page(server_request: cob.Request) -> cob.Page:
     name = server_request.get_query_parameter('name')
     
     page = cob.Page('Sample Page')
@@ -51,11 +51,11 @@ def test_page(server_request: cob.Request) -> cob.Page:
 
     return page
 
-# Give the page a route
-app.add_page('/', "Home", test_page)
+# Register page functions with the app
+app.register_function(sample_page)
 
 # Run the server
-app.run()
+server = app.run()
 ```
 
 ### Quickstart
