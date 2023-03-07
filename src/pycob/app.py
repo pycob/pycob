@@ -244,6 +244,15 @@ class App:
         if server_response is not None and 'object_ids' in server_response:
             return server_response['object_ids']
 
+    def store_secret(self, secret_name: str, secret_value: str):
+        self.store_dict("_secrets", secret_name, {"value": secret_value})
+    
+    def retrieve_secret(self, secret_name: str) -> str:
+        try:
+            return self.retrieve_dict("_secrets", secret_name)['value']
+        except:
+            return None
+
     def get_quota_status(self) -> dict:
         if self.api_key is None:
             self.__set_api_key()

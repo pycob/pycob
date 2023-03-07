@@ -31,6 +31,12 @@ class Request:
     
     def list_objects(self, table_id: str) -> list:
         return self.app.list_objects(table_id)    
+    
+    def store_secret(self, secret_name: str, secret_value: str):
+        return self.app.store_secret(secret_name, secret_value)
+    
+    def retrieve_secret(self, secret_name: str) -> str:
+        return self.app.retrieve_secret(secret_name)
 
     def params(self, key: str = "") -> Union[str, dict]:
         """Returns the value of the query parameter with the given key. If no key is given, returns a dictionary of all query parameters."""
