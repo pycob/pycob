@@ -117,7 +117,13 @@ def format_input(input):
     is_float = "float" in type(input).__name__
 
     if isinstance(input, str):
-        return input
+        formatted_string = str(input)
+
+        if len(formatted_string) > 100:
+            return formatted_string[0:100] + f'... <button data-text-full="{formatted_string}" data-text-truncated="{formatted_string[0:100]}..." onclick="toggleMore(this)" class="text-blue-500">more</button>'
+        else:
+            return formatted_string
+
     elif is_float or is_int:
         if input < 10:
             if is_float:
@@ -135,6 +141,9 @@ def format_input(input):
             return '{:,.0f}'.format(input)
         elif input < 1000000000:
             return '{:.1f} million'.format(input / 1000000)
+        # Check if it's nan
+        elif input != input:
+            return "N/A"
         else:
             return '{:.1f} billion'.format(input / 1000000000)
     elif callable(getattr(input, "isoformat", None)):

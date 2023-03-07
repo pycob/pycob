@@ -259,6 +259,24 @@ def _tailwind_header_to_sidebar(title: str, description: str, image: str, url: s
                 });
             }, "10000")
         }
+
+        function toggleMore(button) {
+            x = button
+
+            if (x.innerHTML === "more") {
+                x.innerHTML = "less";
+                text_full = x.getAttribute("data-text-full")
+                text_truncated = x.getAttribute("data-text-truncated")
+
+                x.parentElement.innerHTML = text_full + ' <button data-text-full="' + text_full + '" data-text-truncated="' + text_truncated + '" onclick="toggleMore(this)" class="text-blue-500">less</button>'
+            } else {
+                x.innerHTML = "more";
+                text_full = x.getAttribute("data-text-full")
+                text_truncated = x.getAttribute("data-text-truncated")
+
+                x.parentElement.innerHTML = text_truncated + ' <button data-text-full="' + text_full + '" data-text-truncated="' + text_truncated + '" onclick="toggleMore(this)" class="text-blue-500">more</button>'
+            }
+        }
     </script>
     <style>
     .gradient-background {
