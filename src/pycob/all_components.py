@@ -2905,25 +2905,17 @@ def format_input(input):
     is_int = "int" in type(input).__name__
     is_float = "float" in type(input).__name__
 
-    if isinstance(input, str):
-        formatted_string = str(input)
-
-        if len(formatted_string) > 100:
-            return formatted_string[0:100] + f'... <button data-text-full="{formatted_string}" data-text-truncated="{formatted_string[0:100]}..." onclick="toggleMore(this)" class="text-blue-500">more</button>'
-        else:
-            return formatted_string
-
-    elif is_float or is_int:
+    if is_float or is_int:
         if input < 10:
             if is_float:
                 return '{:.2f}'.format(input)
             else:
-                return str(input)
+                return string_format_with_more(str(input), 10)
         elif input < 100:
             if is_float:
                 return '{:.1f}'.format(input)
             else:
-                return str(input)
+                return string_format_with_more(str(input), 10)
         elif input < 1000:
             return '{:.0f}'.format(input)
         elif input < 1000000:
@@ -2943,7 +2935,14 @@ def format_input(input):
 
         return iso
     else:
-        return str(input)
+        formatted_string = str(input)
+        return string_format_with_more(formatted_string, 100)
+
+def string_format_with_more(text: str, max_length: int) -> str:
+    if len(text) > max_length:
+        return text[0:max_length] + f'... <button data-text-full="{text}" data-text-truncated="{text[0:max_length]}..." onclick="toggleMore(this)" class="text-blue-500">more</button>'
+    else:
+        return text
 
 def __format_python_object_for_json(t):
     if callable(getattr(t, "isoformat", None)):
