@@ -130,19 +130,19 @@ def store_pickle(data, filename: str):
 
     #### Example
     ```python
-    to_cloud_pickle(
+    cob.store_pickle(
         data=[1,2,3],
         filename='my_data.pkl'
     )
     ```
     ```python
-    to_cloud_pickle(
+    cob.store_pickle(
         data={'key': 'value'},
         filename='my_dict.pkl'
     )
     ```
     ```python
-    to_cloud_pickle(
+    cob.store_pickle(
         data=42,
         filename='my_integer.pkl'
     )
@@ -178,13 +178,13 @@ def fetch_pickle(filename: str):
 
     #### Example
     ```python
-    data = from_cloud_pickle('my_data.pkl')
+    data = cob.fetch_pickle('my_data.pkl')
     ```
     ```python
-    data = from_cloud_pickle('path/to/my_data.pkl')
+    data = cob.fetch_pickle('path/to/my_data.pkl')
     ```
     ```python
-    data = from_cloud_pickle('data/my_data.pkl')
+    data = cob.fetch_pickle('data/my_data.pkl')
     ```
     """
     try:
@@ -240,7 +240,7 @@ def _url_for_file_retrieval(file_name: str) -> str:
     file = {
         "filename": file_name,
     }
-    rv = __send_api_request("fetch_file", file, api_key)
+    rv = __send_api_request("retrieve_file", file, api_key)
 
     if 'url' in rv:
         return rv['url']
@@ -311,7 +311,7 @@ def fetch_dict(table_id: str, object_id: str) -> dict:
     
     #### Example
     ```python
-    data = fetch_dict(
+    data = cob.fetch_dict(
         table_id='table_123',
         object_id='object_456'
     )
@@ -339,7 +339,7 @@ def delete_dict(table_id: str, object_id: str):
 
     #### Example
     ```python
-    delete_dict(table_id='table_1', object_id='obj_1')
+    cob.delete_dict(table_id='table_1', object_id='obj_1')
     ```
     """
     global api_key
@@ -363,7 +363,7 @@ def query_dict(table_id: str, field_name: str, field_value) -> list:
 
     #### Example
     ```python
-    query_dict(
+    cob.query_dict(
         table_id='my_table',
         field_name='name',
         field_value='John'
@@ -395,7 +395,7 @@ def list_objects(table_id: str) -> list:
 
     #### Example
     ```python
-    list_objects(table_id='my_table')
+    cob.list_objects(table_id='my_table')
     ```
     """
     global api_key
@@ -421,7 +421,7 @@ def list_object_ids(table_id: str) -> list:
 
     #### Example
     ```python
-    list_object_ids(table_id='my_table')
+    cob.list_object_ids(table_id='my_table')
     ```
     """
     global api_key
@@ -446,7 +446,7 @@ def store_secret(secret_name: str, secret_value: str):
 
     #### Example
     ```python
-    store_secret(
+    cob.store_secret(
         secret_name='my_secret',
         secret_value='my_secret_value'
     )
@@ -465,7 +465,7 @@ def fetch_secret(secret_name: str) -> str:
 
     #### Example
     ```python
-    fetch_secret("my_secret")
+    cob.fetch_secret("my_secret")
     ``` 
     """
     try:
