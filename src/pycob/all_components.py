@@ -328,7 +328,7 @@ class CardComponent(Component):
     return new_component
     
 
-  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '', rows: int = 4) -> FormtextareaComponent:
     """Renders a text area
 
     Args:
@@ -336,11 +336,12 @@ class CardComponent(Component):
         name (str): Optional. Name for the text area
         placeholder (str): Optional. Placeholder
         value (str): Optional. Value if you want to pre-populate
+        rows (int): Optional. Number of rows
     
     Returns:
         FormtextareaComponent: The new component
     """
-    new_component = FormtextareaComponent(label, name, placeholder, value)    
+    new_component = FormtextareaComponent(label, name, placeholder, value, rows)    
     self.components.append(new_component)
     return new_component
     
@@ -815,7 +816,7 @@ class ContainerComponent(Component):
     return new_component
     
 
-  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '', rows: int = 4) -> FormtextareaComponent:
     """Renders a text area
 
     Args:
@@ -823,11 +824,12 @@ class ContainerComponent(Component):
         name (str): Optional. Name for the text area
         placeholder (str): Optional. Placeholder
         value (str): Optional. Value if you want to pre-populate
+        rows (int): Optional. Number of rows
     
     Returns:
         FormtextareaComponent: The new component
     """
-    new_component = FormtextareaComponent(label, name, placeholder, value)    
+    new_component = FormtextareaComponent(label, name, placeholder, value, rows)    
     self.components.append(new_component)
     return new_component
     
@@ -1219,7 +1221,7 @@ class FormComponent(Component):
     return new_component
     
 
-  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '') -> FormtextareaComponent:
+  def add_formtextarea(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '', rows: int = 4) -> FormtextareaComponent:
     """Renders a text area
 
     Args:
@@ -1227,11 +1229,12 @@ class FormComponent(Component):
         name (str): Optional. Name for the text area
         placeholder (str): Optional. Placeholder
         value (str): Optional. Value if you want to pre-populate
+        rows (int): Optional. Number of rows
     
     Returns:
         FormtextareaComponent: The new component
     """
-    new_component = FormtextareaComponent(label, name, placeholder, value)    
+    new_component = FormtextareaComponent(label, name, placeholder, value, rows)    
     self.components.append(new_component)
     return new_component
     
@@ -1433,11 +1436,12 @@ class FormtextareaComponent(Component):
   
   Instead, use the `Page.add_formtextarea` method of the parent component.
   """
-  def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = ''):    
+  def __init__(self, label: str = 'Your Message', name: str = 'message', placeholder: str = 'Leave a comment...', value: str = '', rows: int = 4):    
     self.label = label
     self.name = name
     self.placeholder = placeholder
     self.value = value
+    self.rows = rows
     
 
   def __enter__(self):
@@ -1449,7 +1453,7 @@ class FormtextareaComponent(Component):
   def to_html(self):
     return '''<div class="mb-6">
     <label for="''' + self.name + '''" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">''' + self.label + '''</label>
-    <textarea name="''' + self.name + '''" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''">''' + self.value + '''</textarea>
+    <textarea name="''' + self.name + '''" rows="''' + str(self.rows) + '''" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="''' + self.placeholder + '''">''' + self.value + '''</textarea>
 </div>'''
 
 class HeaderComponent(Component):

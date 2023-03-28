@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pycob"
-version = "0.1.26"
+version = "0.1.27"
 authors = [
   { name="Zain Hoda", email="zain@pycob.com" },
 ]

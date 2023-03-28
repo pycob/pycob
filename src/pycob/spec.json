@@ -1013,6 +1013,12 @@
       "name" : "value",
       "type" : "Optional String",
       "description" : "Value if you want to pre-populate"
+    },
+    {
+      "defaultValue" : "4",
+      "name" : "rows",
+      "type" : "Optional Integer",
+      "description" : "Number of rows"
     }
   ],
   "elementType" : "formtextarea",
