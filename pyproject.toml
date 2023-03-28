@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pycob"
-version = "0.1.27"
+version = "0.1.28"
 authors = [
   { name="Zain Hoda", email="zain@pycob.com" },
 ]
@@ -18,7 +18,7 @@ classifiers = [
 ]
 keywords = ["pycob", "web", "framework", "python", "crud"]
 dependencies = [
-    "flask", "sqlalchemy", "requests", "gitignore-parser"
+    "flask", "sqlalchemy", "requests", "gitignore-parser", "dataclasses-json"
 ]
 
 [project.urls]

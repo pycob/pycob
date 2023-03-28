@@ -50,9 +50,43 @@ from .app import *
 from .request import *
 from .component_interface import *
 from .all_components import *
+from .user import *
 
 api_key = None
 temp_dir = os.getcwd() + '/tmp/' + ''.join(random.choices(string.ascii_uppercase, k=5))
+
+def get_user(token: str) -> User:
+    """
+    ### Gets the user data for the given token
+
+    :param token: The token of the user
+    :type token: str
+    :return: Returns the user data
+    :rtype: User
+
+    #### Example
+    ```python
+    user = get_user(token='...')
+
+    print(user.id)
+    print(user.email)
+    print(user.picture)
+    ```
+    """
+    global api_key
+    if api_key is None:
+        __set_api_key()
+
+    user = {
+        "token": token,
+    }
+    rv = __send_api_request("token_to_user", user, api_key)
+
+    if 'id' in rv:
+        return User.from_dict(rv)
+    else:
+        print("🛑 Error: Unable to get user")
+        return None
 
 def send_email(from_email: str, to_email: str, subject: str, content: str) -> None:
     """
