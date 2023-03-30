@@ -355,7 +355,7 @@ def fetch_dict(table_id: str, object_id: str) -> dict:
     if api_key is None:
         __set_api_key()
 
-    server_response = __send_api_request("fetch_object", {"object_id": object_id, "table_id": table_id}, api_key)
+    server_response = __send_api_request("retrieve_object", {"object_id": object_id, "table_id": table_id}, api_key)
 
     if 'object' in server_response:
         return server_response['object']
