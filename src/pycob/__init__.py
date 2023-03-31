@@ -1,5 +1,29 @@
 """
+# Deploy to Pycob Cloud
+
+## Interactive
+This will open up a browser window at the end to configure your app for deployment.
+```bash
+pip install pycob
+
+python -m pycob.deploy YOUR_API_KEY
+```
+
+## For CI/CD
+This will not open a browser window at the end.
+```bash
+pip install pycob
+
+python -m pycob.deploy YOUR_API_KEY --no-ui
+```
+
+
 # Services
+
+```python
+import pycob as cob
+```
+
 ## Store Dataframes
 This works for any objects that can be pickled but the most common use case is for storing pandas dataframes.
 
@@ -21,14 +45,13 @@ You can also configure these to run on a schedule on https://www.pycob.com
 
 ## User Authentication
 When using Pycob Cloud, there is a built in user authentication system. You can use this to store and retrieve user data.
-An invisible 'token' is passed as a parameter to your app URL if a user is logged in. You can use this token to retrieve the user's data.
+An invisible 'pycob_id' is passed as a parameter to your app URL if a user is logged in. 
 
-Your app will see URLs like this:
+Your app will see URLs like this (but you won't see the pycob_id in your browser):
 
-`https://my_app.pycob.app/page?my_param=hello&token=...`
+`https://my_app.pycob.app/page?my_param=hello&pycob_id=...`
 
-`store_user_data`
-`fetch_user_data`
+`get_user_from_flask_request`
 
 ## Other
 
@@ -55,18 +78,46 @@ from .user import *
 api_key = None
 temp_dir = os.getcwd() + '/tmp/' + ''.join(random.choices(string.ascii_uppercase, k=5))
 
-def get_user(token: str) -> User:
+def get_user_from_flask_request(request: 'flask.Request') -> User:
     """
-    ### Gets the user data for the given token
+    ### Gets the user data for the given request
 
-    :param token: The token of the user
-    :type token: str
+    :param request: The request object
+    :type request: flask.Request
     :return: Returns the user data
     :rtype: User
 
     #### Example
     ```python
-    user = get_user(token='...')
+    
+    user = cob.get_user_from_flask_request(request)
+
+    print(user.id)
+    print(user.email)
+    print(user.picture)
+    ```
+    """
+    pycob_id = request.args.get('pycob_id')
+    if pycob_id is None:
+        print("🛑 Error: No pycob_id found in request")
+        return None
+    else:
+        return _get_user(pycob_id=pycob_id)
+
+def _get_user(pycob_id: str) -> User:
+    """
+    ### Gets the user data for the given pycob_id
+
+    :param pycob_id: The pycob_id from the query parameter
+    :type pycob_id: str
+    :return: Returns the user data
+    :rtype: User
+
+    #### Example
+    ```python
+    import pycob as cob
+
+    user = cob._get_user(pycob_id='...')
 
     print(user.id)
     print(user.email)
@@ -78,9 +129,9 @@ def get_user(token: str) -> User:
         __set_api_key()
 
     user = {
-        "token": token,
+        "pycob_id": pycob_id,
     }
-    rv = __send_api_request("token_to_user", user, api_key)
+    rv = __send_api_request("id_to_user", user, api_key)
 
     if 'id' in rv:
         return User.from_dict(rv)
@@ -94,7 +145,9 @@ def send_email(from_email: str, to_email: str, subject: str, content: str) -> No
 
     #### Example
     ```python
-    send_email(
+    import pycob as cob
+
+    cob.send_email(
         from_email='user1@example.com', 
         to_email='user2@example.com', 
         subject='Hello', 
@@ -128,7 +181,9 @@ def start_script(script_name: str, script_args: dict) -> str:
 
     #### Example
     ```python
-    start_script(
+    import pycob as cob
+
+    cob.start_script(
         script_name='my_script.py',
         script_args={
             'arg1': 'value1',
@@ -164,6 +219,8 @@ def store_pickle(data, filename: str):
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.store_pickle(
         data=[1,2,3],
         filename='my_data.pkl'
@@ -212,6 +269,8 @@ def fetch_pickle(filename: str):
 
     #### Example
     ```python
+    import pycob as cob
+
     data = cob.fetch_pickle('my_data.pkl')
     ```
     ```python
@@ -295,7 +354,9 @@ def store_dict(table_id: str, object_id: str, value: dict):
 
     #### Example
     ```python
-    store_dict(
+    import pycob as cob
+
+    cob.store_dict(
         table_id='my_table',
         object_id='my_object',
         value={
@@ -345,6 +406,8 @@ def fetch_dict(table_id: str, object_id: str) -> dict:
     
     #### Example
     ```python
+    import pycob as cob
+
     data = cob.fetch_dict(
         table_id='table_123',
         object_id='object_456'
@@ -373,6 +436,8 @@ def delete_dict(table_id: str, object_id: str):
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.delete_dict(table_id='table_1', object_id='obj_1')
     ```
     """
@@ -397,6 +462,8 @@ def query_dict(table_id: str, field_name: str, field_value) -> list:
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.query_dict(
         table_id='my_table',
         field_name='name',
@@ -429,6 +496,8 @@ def list_objects(table_id: str) -> list:
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.list_objects(table_id='my_table')
     ```
     """
@@ -455,6 +524,8 @@ def list_object_ids(table_id: str) -> list:
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.list_object_ids(table_id='my_table')
     ```
     """
@@ -480,6 +551,8 @@ def store_secret(secret_name: str, secret_value: str):
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.store_secret(
         secret_name='my_secret',
         secret_value='my_secret_value'
@@ -499,6 +572,8 @@ def fetch_secret(secret_name: str) -> str:
 
     #### Example
     ```python
+    import pycob as cob
+
     cob.fetch_secret("my_secret")
     ``` 
     """

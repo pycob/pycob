@@ -6,6 +6,8 @@ import requests
 import re
 import uuid
 
+host = "https://api.pycob.com" if os.environ.get("PYCOB_HOST") is None else os.environ.get("PYCOB_HOST")
+
 build_id = str(uuid.uuid4())
 print("----------------------------------------------------------------")
 print(f"🌽 PyCob Deploy ---- ID: {build_id} 🌽")
@@ -14,10 +16,28 @@ print("----------------------------------------------------------------")
 args = sys.argv[1:]
 
 api_key = None
+show_ui = True
+
+current_directory = os.getcwd()
+print(f"Current directory: {current_directory}")
 
 if len(args) > 0:
     print("Checking for API key in args...")
     api_key = args[0]
+
+    for arg in args:
+        if arg == "--no-ui":
+            # Check for requirements.txt in the current directory
+            if not os.path.exists(os.path.join(current_directory, "requirements.txt")):
+                print("🛑 Error: You must have a requirements.txt file to deploy without the UI.")
+                sys.exit(1)
+            if not os.path.exists(os.path.join(current_directory, "Procfile")):
+                print("🛑 Error: You must have a Procfile file to deploy without the UI.")
+                print("Example Procfile contents:")
+                print("web: gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app")
+                sys.exit(1)
+
+            show_ui = False
 
 # Check for API key
 if api_key is None or api_key == "":
@@ -38,7 +58,7 @@ if api_key is None or api_key == "":
             sys.exit(1)
 
 def __send_api_request(endpoint: str, data: dict, api_key: str) -> dict:
-    response = requests.post("https://api.pycob.com/rpc/"+endpoint, json=data, headers={"PYCOB-API-KEY": api_key})
+    response = requests.post(host+"/rpc/"+endpoint, json=data, headers={"PYCOB-API-KEY": api_key})
     
     if response.status_code != 200:
         error_str = f"🛑 API request '{endpoint}' failed with status code " + str(response.status_code)
