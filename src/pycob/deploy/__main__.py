@@ -145,9 +145,14 @@ server_response = __send_api_request("upload_complete", {"build_id": build_id}, 
 if 'app_name' in server_response:
     app_name = server_response['app_name']
 
-print("----------------------------------------------------------------")
-print("🌽         Finish at https://www.pycob.com/deploy            🌽")
-print("----------------------------------------------------------------")
+if show_ui:
+    print("----------------------------------------------------------------")
+    print("🌽         Finish at https://www.pycob.com/deploy            🌽")
+    print("----------------------------------------------------------------")
 
-import webbrowser
-webbrowser.open("https://www.pycob.com/deploy?build_id="+build_id+"&app_name="+app_name)
+    import webbrowser
+    webbrowser.open("https://www.pycob.app/deploy?build_id="+build_id+"&app_name="+app_name)
+else:
+    print("🚀 Deploying...")
+
+    server_response = __send_api_request("begin_build", {"build_id": build_id}, api_key)
